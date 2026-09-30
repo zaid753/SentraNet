@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Activity, Shield, Target, AlertTriangle, Clock, 
   BarChart2, FileSearch, Database, Cpu, Settings, 
-  Menu, X, ChevronLeft, ChevronRight 
+  Menu, X, ChevronLeft, ChevronRight, Server
 } from 'lucide-react';
 import { cn } from '../../utils/formatters';
 import { TopCommandHeader } from './TopCommandHeader';
@@ -15,22 +15,34 @@ interface SOCLayoutProps {
 }
 
 const navItems = [
-  { id: 'dashboard', label: 'Overview', icon: Activity, group: 'Operations' },
-  { id: 'telemetry', label: 'Live Telemetry', icon: Database, group: 'Operations' },
-  { id: 'incidents', label: 'Incidents', icon: Shield, group: 'Intelligence' },
-  { id: 'alerts', label: 'Alerts', icon: AlertTriangle, group: 'Intelligence' },
-  { id: 'timeline', label: 'Attack Timeline', icon: Clock, group: 'Intelligence' },
-  { id: 'explainability', label: 'Explainability', icon: FileSearch, group: 'Analysis' },
-  { id: 'forecast', label: 'Forecasting', icon: Target, group: 'Analysis' },
-  { id: 'evaluation', label: 'Evaluation', icon: BarChart2, group: 'System' },
-  { id: 'architecture', label: 'Architecture', icon: Cpu, group: 'System' },
-  { id: 'settings', label: 'Settings', icon: Settings, group: 'System' },
+  { id: 'dashboard', label: 'Overview', icon: Activity, group: 'OVERVIEW' },
+  
+  { id: 'telemetry', label: 'Live Telemetry', icon: Database, group: 'MONITOR' },
+  { id: 'traffic', label: 'Traffic Analysis', icon: Activity, group: 'MONITOR' },
+  { id: 'threats', label: 'Threats', icon: Shield, group: 'MONITOR' },
+
+  { id: 'incidents', label: 'Incidents', icon: Shield, group: 'INVESTIGATE' },
+  { id: 'alerts', label: 'Alerts', icon: AlertTriangle, group: 'INVESTIGATE' },
+  { id: 'timeline', label: 'Attack Timeline', icon: Clock, group: 'INVESTIGATE' },
+  { id: 'explainability', label: 'Evidence', icon: FileSearch, group: 'INVESTIGATE' },
+
+  { id: 'forecast', label: 'Forecasting', icon: Target, group: 'INTELLIGENCE' },
+  { id: 'analytics', label: 'Analytics', icon: BarChart2, group: 'INTELLIGENCE' },
+  { id: 'evaluation', label: 'Evaluation', icon: BarChart2, group: 'INTELLIGENCE' },
+
+  { id: 'integrations', label: 'Integrations', icon: Cpu, group: 'PLATFORM' },
+  { id: 'api', label: 'API', icon: Server, group: 'PLATFORM' },
+  { id: 'team', label: 'Team', icon: Shield, group: 'PLATFORM' },
+  { id: 'audit', label: 'Audit Logs', icon: FileSearch, group: 'PLATFORM' },
+
+  { id: 'health', label: 'System Health', icon: Activity, group: 'SYSTEM' },
+  { id: 'settings', label: 'Settings', icon: Settings, group: 'SYSTEM' },
 ];
 
 export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onViewChange }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { systemStatus, connectionState } = useSystemStatus(10000);
+  const { systemStatus, connectionState } = useSystemStatus();
 
   // Group navigation items
   const groupedNav = navItems.reduce((acc, item) => {

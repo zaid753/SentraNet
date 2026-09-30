@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { AnalyzeResponse } from '../types';
 import { getCurrentRisk } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useCurrentRisk(isReplayActive: boolean) {
   const [risk, setRisk] = useState<AnalyzeResponse | null>(null);
@@ -24,7 +25,8 @@ export function useCurrentRisk(isReplayActive: boolean) {
   useEffect(() => {
     fetchRisk();
 
-    const intervalMs = isReplayActive ? 1500 : 5000;
+    // Still keep a slow fallback poll for safety (e.g. 30s)
+    const intervalMs = 30000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -54,6 +56,27 @@ export function useCurrentRisk(isReplayActive: boolean) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchRisk, isReplayActive]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    const unsubscribe = subscribe('risk.updated', (payload: any) => {
+      setRisk((prev) => {
+        // If there's an existing risk, keep its fields but override with the event payload
+        if (prev) {
+            return {
+                ...prev,
+                ...payload
+            };
+        }
+        return payload;
+      });
+      setIsLoading(false);
+    });
+    return () => {
+        unsubscribe();
+    };
+  }, [subscribe]);
 
   return {
     risk,

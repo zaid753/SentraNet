@@ -1,8 +1,8 @@
 {
   "total_windows_evaluated": 10,
   "total_inference_time_seconds": 0.126,
-  "throughput_windows_per_second": 79.4,
-  "latency_ms_mean": 12.53,
-  "latency_ms_median": 12.48,
-  "latency_ms_p95": 13.23
+  "throughput_windows_per_second": 79.1,
+  "latency_ms_mean": 12.58,
+  "latency_ms_median": 12.6,
+  "latency_ms_p95": 12.89
 }

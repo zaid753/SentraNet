@@ -9,6 +9,7 @@ import {
   stepReplay,
   resetStream,
 } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useReplay() {
   const [status, setStatus] = useState<ReplayStatusResponse | null>(null);
@@ -123,7 +124,8 @@ export function useReplay() {
   useEffect(() => {
     fetchStatus();
 
-    const intervalMs = status?.running ? 1000 : 3000;
+    // Slower fallback interval
+    const intervalMs = 15000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -152,7 +154,20 @@ export function useReplay() {
       if (timerRef.current) window.clearInterval(timerRef.current);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [fetchStatus, status?.running]);
+  }, [fetchStatus]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    const unsub = subscribe('replay.status.changed', () => {
+        // Fetch full status on status change
+        fetchStatus();
+    });
+
+    return () => {
+        unsub();
+    };
+  }, [subscribe, fetchStatus]);
 
   return {
     status,

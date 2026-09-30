@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { AlertItemResponse, CurrentAlertResponse } from '../types';
 import { getAlerts, getCurrentAlert } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useAlerts(isReplayActive: boolean, limit: number = 20) {
   const [alerts, setAlerts] = useState<AlertItemResponse[]>([]);
@@ -29,7 +30,8 @@ export function useAlerts(isReplayActive: boolean, limit: number = 20) {
   useEffect(() => {
     fetchAlerts();
 
-    const intervalMs = isReplayActive ? 2500 : 6000;
+    // Slower fallback interval (e.g. 30s)
+    const intervalMs = 30000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -59,6 +61,26 @@ export function useAlerts(isReplayActive: boolean, limit: number = 20) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchAlerts, isReplayActive]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    const handleAlertEvent = (_payload: any) => {
+        // Just trigger a refetch of the alerts API to keep things simple for now
+        // since alerts state merges can be complex.
+        fetchAlerts();
+    };
+
+    const unsubCreated = subscribe('alert.created', handleAlertEvent);
+    const unsubUpdated = subscribe('alert.updated', handleAlertEvent);
+    const unsubResolved = subscribe('incident.resolved', handleAlertEvent);
+
+    return () => {
+        unsubCreated();
+        unsubUpdated();
+        unsubResolved();
+    };
+  }, [subscribe, fetchAlerts]);
 
   return {
     alerts,

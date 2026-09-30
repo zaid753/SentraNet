@@ -114,9 +114,23 @@ export const IntelligenceRow: React.FC<IntelligenceRowProps> = ({ risk }) => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col justify-center h-full">
-            <span className="text-[10px] text-slate-400 font-mono text-center">AWAITING TEMPORAL EVIDENCE</span>
-            <span className="text-[9px] text-slate-500 font-mono text-center mt-0.5">Quiet</span>
+          <div className="flex flex-col h-full justify-center">
+            <span className="text-[10px] font-bold text-slate-400 font-mono mb-2">AWAITING TEMPORAL EVIDENCE</span>
+            <div className="flex justify-between items-center text-[9px] mb-1">
+              <span className="text-slate-500">Temporal history:</span>
+              <span className="font-mono text-slate-300">Accumulating</span>
+            </div>
+            <div className="flex justify-between items-center text-[9px] mb-1">
+              <span className="text-slate-500">Current trend:</span>
+              <span className="font-mono text-slate-300 uppercase">{risk.risk_trend}</span>
+            </div>
+            <div className="flex justify-between items-center text-[9px] mb-2">
+              <span className="text-slate-500">Current class:</span>
+              <span className="font-mono text-slate-300 uppercase">{formatAttackClass(risk.attack_class)}</span>
+            </div>
+            <span className="text-[8px] text-slate-500 italic leading-tight">
+              "Additional temporal evidence is required before an emergence signal can be issued."
+            </span>
           </div>
         )}
       </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { IncidentItemResponse } from '../types';
 import { getIncidents } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useIncidents(isReplayActive: boolean) {
   const [incidents, setIncidents] = useState<IncidentItemResponse[]>([]);
@@ -24,7 +25,8 @@ export function useIncidents(isReplayActive: boolean) {
   useEffect(() => {
     fetchIncidents();
 
-    const intervalMs = isReplayActive ? 3000 : 8000;
+    // Slower fallback interval (e.g. 30s)
+    const intervalMs = 30000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -54,6 +56,24 @@ export function useIncidents(isReplayActive: boolean) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchIncidents, isReplayActive]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    const handleEvent = (_payload: any) => {
+        fetchIncidents();
+    };
+
+    const unsubCreated = subscribe('alert.created', handleEvent);
+    const unsubUpdated = subscribe('alert.updated', handleEvent);
+    const unsubResolved = subscribe('incident.resolved', handleEvent);
+
+    return () => {
+        unsubCreated();
+        unsubUpdated();
+        unsubResolved();
+    };
+  }, [subscribe, fetchIncidents]);
 
   const activeIncident = incidents.find(
     (inc) => inc.status.toUpperCase() === 'ACTIVE'

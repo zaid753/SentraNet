@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Server, Activity, Clock } from 'lucide-react';
+import { Search, Server, Activity, Clock, Wifi, WifiOff, RefreshCw } from 'lucide-react';
 import type { SystemStatus } from '../../types';
+import { useRealtime } from '../../context/RealtimeContext';
 
 interface TopCommandHeaderProps {
   status: SystemStatus | null;
@@ -11,6 +12,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
   const isReady = status?.status === 'ready' || status?.status === 'ok';
   
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { status: wsStatus } = useRealtime();
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -32,7 +34,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
         <div className="hidden sm:flex items-center gap-2 pl-6 border-l border-[var(--color-border)]">
           <div className={`w-2 h-2 rounded-full ${isReady ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]'}`} />
           <span className="text-xs font-mono font-medium text-[var(--color-text-secondary)]">
-            {isLoading && !status ? 'CONNECTING...' : isReady ? 'API CONNECTED' : 'API OFFLINE'}
+            {isLoading && !status ? 'CONNECTING...' : isReady ? 'SYSTEM OPERATIONAL' : 'SYSTEM DEGRADED'}
           </span>
         </div>
       </div>
@@ -57,7 +59,32 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
         <div className="hidden md:flex flex-col items-end">
           <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]">
             <Server className="w-3.5 h-3.5" />
-            <span className="font-mono">{status?.simulation ? 'SIMULATION MODE' : 'LIVE NETWORK'}</span>
+            <span className="font-mono text-blue-400 mr-2">{status?.simulation ? 'SYNTHETIC STREAM // SIMULATION' : 'LIVE NETWORK'}</span>
+            
+            {wsStatus === 'connected' && (
+               <div className="flex items-center gap-1 text-emerald-400">
+                  <Wifi className="w-3.5 h-3.5" />
+                  <span className="font-mono">CONNECTED</span>
+               </div>
+            )}
+            {(wsStatus === 'connecting' || wsStatus === 'reconnecting') && (
+               <div className="flex items-center gap-1 text-amber-400">
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  <span className="font-mono">{wsStatus.toUpperCase()}</span>
+               </div>
+            )}
+            {wsStatus === 'disconnected' && (
+               <div className="flex items-center gap-1 text-red-400">
+                  <WifiOff className="w-3.5 h-3.5" />
+                  <span className="font-mono">DISCONNECTED</span>
+               </div>
+            )}
+            {wsStatus === 'error' && (
+               <div className="flex items-center gap-1 text-red-500">
+                  <WifiOff className="w-3.5 h-3.5" />
+                  <span className="font-mono">WS ERROR</span>
+               </div>
+            )}
           </div>
           <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)] mt-0.5">
             <Activity className="w-3.5 h-3.5" />

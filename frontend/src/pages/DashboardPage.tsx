@@ -13,11 +13,10 @@ import { IntelligenceRow } from '../components/dashboard/IntelligenceRow';
 import { RiskHeroCard } from '../components/dashboard/RiskHeroCard';
 import { RiskTimelineChart } from '../components/charts/RiskTimelineChart';
 import { ActiveIncidentCard } from '../components/dashboard/ActiveIncidentCard';
-import { AttackTimeline } from '../components/dashboard/AttackTimeline';
+import { ThreatEvolution } from '../components/dashboard/ThreatEvolution';
 import { ReplayControls } from '../components/replay/ReplayControls';
 import { AlertFeed } from '../components/alerts/AlertFeed';
 import { IncidentTable } from '../components/incidents/IncidentTable';
-import { IncidentDetailModal } from '../components/incidents/IncidentDetailModal';
 import { ExplanationPanel } from '../components/explainability/ExplanationPanel';
 import { DataSourceSelector } from '../components/telemetry/DataSourceSelector';
 import { SyntheticStreamControls } from '../components/telemetry/SyntheticStreamControls';
@@ -25,13 +24,15 @@ import { useSyntheticStream } from '../hooks/useSyntheticStream';
 import type { TelemetrySource } from '../types';
 
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const DashboardPage: React.FC = () => {
+  const navigate = useNavigate();
   // Data source mode
   const [activeDataSource, setActiveDataSource] = useState<TelemetrySource>('historical');
 
   // Global hooks
-  const { connectionState, refresh: refreshSystem } = useSystemStatus(10000);
+  const { connectionState, refresh: refreshSystem } = useSystemStatus();
   const replay = useReplay();
   const synthetic = useSyntheticStream();
 
@@ -44,9 +45,6 @@ export const DashboardPage: React.FC = () => {
 
   // Notification toasts
   const { toasts, dismissToast } = useNotifications(alerts, risk);
-
-  // Modal state
-  const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
 
   const handleRefreshAll = () => {
     refreshSystem();
@@ -114,7 +112,7 @@ export const DashboardPage: React.FC = () => {
       <RiskTimelineChart points={timelinePoints} isLoading={isTimelineLoading} />
 
       {/* 4. Threat Evolution */}
-      <AttackTimeline alerts={alerts} />
+      <ThreatEvolution risk={risk} />
 
       {/* 5. Active Incident & 6. Alert Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -122,14 +120,14 @@ export const DashboardPage: React.FC = () => {
           <ActiveIncidentCard
             activeIncident={activeIncident}
             currentAlert={currentAlert}
-            onViewDetails={(id) => setSelectedIncidentId(id)}
+            onViewDetails={(id) => navigate(`/app/incidents/${id}`)}
           />
         </div>
         <div className="lg:col-span-8">
           <AlertFeed
             alerts={alerts}
             isLoading={isAlertsLoading}
-            onSelectIncident={(id) => setSelectedIncidentId(id)}
+            onSelectIncident={(id) => navigate(`/app/incidents/${id}`)}
           />
         </div>
       </div>
@@ -176,16 +174,10 @@ export const DashboardPage: React.FC = () => {
           <IncidentTable
             incidents={incidents}
             isLoading={isIncidentsLoading}
-            onSelectIncident={(id) => setSelectedIncidentId(id)}
+            onSelectIncident={(id) => navigate(`/app/incidents/${id}`)}
           />
         </div>
       </div>
-
-      {/* Incident Detail Modal */}
-      <IncidentDetailModal
-        incidentId={selectedIncidentId}
-        onClose={() => setSelectedIncidentId(null)}
-      />
 
       {/* Real-time Notification Toasts */}
       <NotificationToastContainer

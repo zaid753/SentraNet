@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { TimelineResponse, TimelinePointResponse } from '../types';
 import { getTimeline } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useTimeline(isReplayActive: boolean, limit: number = 50) {
   const [timeline, setTimeline] = useState<TimelineResponse | null>(null);
@@ -24,7 +25,8 @@ export function useTimeline(isReplayActive: boolean, limit: number = 50) {
   useEffect(() => {
     fetchTimeline();
 
-    const intervalMs = isReplayActive ? 2000 : 5000;
+    // Slower fallback interval (e.g. 30s)
+    const intervalMs = 30000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -54,6 +56,19 @@ export function useTimeline(isReplayActive: boolean, limit: number = 50) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [fetchTimeline, isReplayActive]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    const unsub = subscribe('risk.updated', () => {
+        // Timeline updates whenever there's a new window/risk state
+        fetchTimeline();
+    });
+
+    return () => {
+        unsub();
+    };
+  }, [subscribe, fetchTimeline]);
 
   const points: TimelinePointResponse[] = timeline?.points || [];
 

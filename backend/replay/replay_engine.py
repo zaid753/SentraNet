@@ -17,6 +17,7 @@ from backend.replay.replay_clock import ReplayClock
 from backend.replay.replay_event import ReplayEvent, AlertEvent
 from backend.replay.incident_manager import IncidentManager
 from backend.replay.alert_state_machine import AlertStateMachine
+from backend.api.events import event_bus, EventEnvelope, EventTypes
 
 class ReplayEngine:
     """
@@ -61,6 +62,11 @@ class ReplayEngine:
         self.replay_events = []
         self.alert_events = []
         self.runtime_records = []
+
+        event_bus.publish(EventEnvelope(
+            event_type=EventTypes.REPLAY_STATUS_CHANGED,
+            payload={"status": "RESET"}
+        ))
 
     def load_dataset(self, dataset_path: str) -> pd.DataFrame:
         """
@@ -152,6 +158,27 @@ class ReplayEngine:
                 replay_mode=self.mode,
             )
 
+            # Publish Risk Updated Event
+            event_bus.publish(EventEnvelope(
+                event_type=EventTypes.RISK_UPDATED,
+                payload=decision
+            ))
+
+            # Publish newly emitted alerts
+            for alert in newly_emitted_alerts:
+                # Map AlertEvent's event_type to canonical EventTypes where possible
+                # e.g., "ALERT_CREATED" -> "alert.created", "ALERT_UPDATED" -> "alert.updated", "ALERT_RESOLVED" -> "incident.resolved"
+                evt_type = EventTypes.ALERT_CREATED
+                if alert.event_type == "ALERT_UPDATED" or alert.event_type == "ALERT_ESCALATED":
+                    evt_type = EventTypes.ALERT_UPDATED
+                elif alert.event_type == "ALERT_RESOLVED":
+                    evt_type = EventTypes.INCIDENT_RESOLVED
+
+                event_bus.publish(EventEnvelope(
+                    event_type=evt_type,
+                    payload={"alert": alert.to_dict()}
+                ))
+
             self.replay_events.append(replay_event)
             self.alert_events.extend(newly_emitted_alerts)
 
@@ -177,6 +204,16 @@ class ReplayEngine:
             final_ts = str(df_sorted.iloc[-1].get("window_start", df_sorted.iloc[-1].get("timestamp")))
             final_events = self.incident_manager.force_resolve_all(final_ts)
             self.alert_events.extend(final_events)
+            for alert in final_events:
+                event_bus.publish(EventEnvelope(
+                    event_type=EventTypes.INCIDENT_RESOLVED,
+                    payload={"alert": alert.to_dict()}
+                ))
+
+        event_bus.publish(EventEnvelope(
+            event_type=EventTypes.REPLAY_STATUS_CHANGED,
+            payload={"status": "COMPLETED"}
+        ))
 
     def get_summary(self, dataset_identifier: str = "synthetic_fixture") -> Dict[str, Any]:
         """Compiles comprehensive replay summary statistics."""

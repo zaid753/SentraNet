@@ -131,9 +131,17 @@ export const ActiveIncidentCard: React.FC<ActiveIncidentCardProps> = ({
         </div>
       </div>
 
-      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-500">
-        <span>Created: {formatTimestamp(activeIncident.created_at)}</span>
-        <span>Events: {activeIncident.event_count}</span>
+      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-500 mt-2">
+        <div className="flex flex-col">
+          <span>Created: {formatTimestamp(activeIncident.created_at)}</span>
+          <span>Events: {activeIncident.event_count}</span>
+        </div>
+        <button
+          onClick={() => onViewDetails && onViewDetails(activeIncident.incident_id)}
+          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold transition-colors cursor-pointer border border-slate-700 hover:border-slate-600"
+        >
+          VIEW INCIDENT
+        </button>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { RiskBreakdownCard } from './RiskBreakdownCard';
 import { TopSignalsCard } from './TopSignalsCard';
 import { ForecastEvidenceCard } from './ForecastEvidenceCard';
 import { Loader2, RefreshCw, Info } from 'lucide-react';
+import { useRealtime } from '../../context/RealtimeContext';
 
 export const ExplanationPanel: React.FC = () => {
   const [explanation, setExplanation] = useState<ExplanationResponse | null>(null);
@@ -30,9 +31,19 @@ export const ExplanationPanel: React.FC = () => {
 
   useEffect(() => {
     fetchExplanation();
-    const interval = setInterval(fetchExplanation, 5000); // refresh every 5s
+    const interval = setInterval(fetchExplanation, 60000); // Slower fallback interval (1m)
     return () => clearInterval(interval);
   }, []);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    // Whenever risk updates, explanations also update
+    const unsub = subscribe('risk.updated', () => {
+        fetchExplanation();
+    });
+    return () => unsub();
+  }, [subscribe]);
 
   if (loading && !explanation) {
     return (

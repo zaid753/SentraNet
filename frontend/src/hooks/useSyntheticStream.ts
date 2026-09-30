@@ -14,6 +14,7 @@ import {
   flushTelemetry,
   resetTelemetry,
 } from '../services/api';
+import { useRealtime } from '../context/RealtimeContext';
 
 export function useSyntheticStream() {
   const [telemetryStatus, setTelemetryStatus] = useState<TelemetryStatusResponse | null>(null);
@@ -132,8 +133,8 @@ export function useSyntheticStream() {
   useEffect(() => {
     fetchStatus();
 
-    const isRunning = Boolean(syntheticStatus?.running);
-    const intervalMs = isRunning ? 1000 : 3000;
+    // Slower fallback polling
+    const intervalMs = 15000;
 
     const setupTimer = () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
@@ -162,7 +163,20 @@ export function useSyntheticStream() {
       if (timerRef.current) window.clearInterval(timerRef.current);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [fetchStatus, syntheticStatus?.running]);
+  }, [fetchStatus]);
+
+  const { subscribe } = useRealtime();
+
+  useEffect(() => {
+    // If the window updates, the telemetry state updates
+    const unsub = subscribe('telemetry.window.created', () => {
+        fetchStatus();
+    });
+
+    return () => {
+        unsub();
+    };
+  }, [subscribe, fetchStatus]);
 
   return {
     telemetryStatus,

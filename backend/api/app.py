@@ -15,6 +15,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.routes import api_router
+from backend.api.routes.realtime import router as realtime_router
 from backend.api.errors import APIException
 from backend.api.services.sentranet_service import SentranetService
 from backend.api.services.replay_service import ReplayService
@@ -165,6 +166,9 @@ def create_app() -> FastAPI:
 
     # Mount API router
     app.include_router(api_router, prefix="/api")
+
+    # Mount WebSocket router
+    app.include_router(realtime_router, prefix="/ws", tags=["realtime"])
 
     return app
 
