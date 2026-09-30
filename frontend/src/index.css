@@ -1,15 +1,34 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: #070B14;
+  --color-surface: #0C1220;
+  --color-elevated: #111827;
+  --color-border: #1E293B;
+  
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+
+  --color-status-low: #10b981; /* muted green */
+  --color-status-guarded: #3b82f6; /* blue */
+  --color-status-elevated: #f59e0b; /* amber */
+  --color-status-high: #ef4444; /* red */
+  --color-status-forecast: #8b5cf6; /* violet accent */
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
 @layer base {
   :root {
-    --font-mono: 'JetBrains Mono', monospace;
-    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'Inter', sans-serif;
   }
 
   body {
-    background-color: #030712; /* Slate-950 deep dark */
-    color: #f1f5f9;
-    font-family: var(--font-display);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
   }
 
   code, pre, .font-mono {
@@ -17,27 +36,18 @@
   }
 }
 
-/* Custom cybersecurity styling utilities */
+/* Premium SOC styling utilities */
 .soc-panel {
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(51, 65, 85, 0.8);
-  backdrop-filter: blur(12px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
 }
 
 .soc-panel-subtle {
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(30, 41, 59, 0.7);
+  background: rgba(12, 18, 32, 0.4);
+  border: 1px solid rgba(30, 41, 59, 0.4);
 }
 
 .soc-grid-bg {
   background-image: radial-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 0);
   background-size: 24px 24px;
-}
-
-.glow-cyan-sm {
-  box-shadow: 0 0 15px -3px rgba(6, 182, 212, 0.15);
-}
-
-.glow-emerald-sm {
-  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.15);
 }

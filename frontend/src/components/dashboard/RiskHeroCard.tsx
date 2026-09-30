@@ -7,7 +7,6 @@ import {
   getRiskStateConfig,
   getTrendIcon,
 } from '../../utils/formatters';
-import { RiskGauge } from '../common/RiskGauge';
 import { Shield, Activity } from 'lucide-react';
 
 interface RiskHeroCardProps {
@@ -16,37 +15,25 @@ interface RiskHeroCardProps {
 }
 
 export const RiskHeroCard: React.FC<RiskHeroCardProps> = ({ risk, isLoading = false }) => {
-  // If no risk or empty state
   if (!risk) {
     return (
-      <div className="soc-panel rounded-xl p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between min-h-[280px]">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="soc-panel rounded-xl p-6 sm:p-7 relative overflow-hidden flex flex-col justify-center min-h-[200px] border border-[var(--color-border)] shadow-md">
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-cyan-400" />
             <h2 className="text-sm font-semibold tracking-wider font-mono uppercase text-slate-200">
-              Network Threat Risk
+              Security Posture
             </h2>
           </div>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">
             Awaiting Stream
           </span>
         </div>
-
-        <div className="my-8 text-center flex flex-col items-center justify-center">
-          <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 mb-3">
-            <Activity className="w-6 h-6 animate-pulse" />
-          </div>
-          <h3 className="text-base font-bold font-mono text-slate-300">
+        <div className="text-center flex flex-col items-center justify-center py-4">
+          <Activity className="w-6 h-6 text-slate-500 animate-pulse mb-3" />
+          <h3 className="text-sm font-bold font-mono text-slate-300">
             {isLoading ? 'Connecting Telemetry Stream...' : 'NO ACTIVE TELEMETRY'}
           </h3>
-          <p className="text-xs text-slate-500 max-w-sm mt-1 font-sans">
-            Start a historical replay simulation to feed chronological network flow telemetry into the XGBoost & Isolation Forest engines.
-          </p>
-        </div>
-
-        <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-500">
-          <span>Signal: DUAL ML ENGINE</span>
-          <span>Zero Fabricated Data</span>
         </div>
       </div>
     );
@@ -56,101 +43,72 @@ export const RiskHeroCard: React.FC<RiskHeroCardProps> = ({ risk, isLoading = fa
   const trend = getTrendIcon(risk.risk_trend);
 
   return (
-    <div
-      className={`soc-panel rounded-xl p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between min-h-[280px] transition-all duration-300 ${config.glow}`}
-    >
+    <div className={`soc-panel rounded-xl p-6 relative overflow-hidden flex flex-col justify-between min-h-[200px] transition-all duration-300 border border-[var(--color-border)] shadow-md ${config.glow}`}>
       {/* Top Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-4">
         <div className="flex items-center gap-2">
           <Shield className={`w-5 h-5 ${config.text}`} />
           <h2 className="text-sm font-semibold tracking-wider font-mono uppercase text-slate-200">
-            Network Threat Risk
+            Security Posture
           </h2>
         </div>
-
-        <div className="flex items-center gap-2">
-          <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded border font-mono text-xs font-bold uppercase tracking-wider ${config.badgeBg} ${config.badgeBorder} ${config.text}`}
-          >
-            <span className={`w-2 h-2 rounded-full ${config.dotBg}`} />
-            <span>{formatRiskState(risk.risk_state)}</span>
-          </span>
+        <div className="flex items-center gap-3 text-[10px] font-mono">
+          <span className="text-slate-400">{risk.timestamp}</span>
+          {risk.incident_id && (
+            <span className="px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-400">
+              {risk.incident_id}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Main Score & Classification Grid */}
-      <div className="my-6 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-        <div>
-          <div className="text-xs font-mono uppercase text-slate-400 tracking-wider mb-1">
-            Fused Composite Risk
-          </div>
-          <div className="flex items-baseline gap-3">
-            <span className={`text-5xl sm:text-6xl font-bold font-mono tracking-tight ${config.text}`}>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 w-full">
+        <div className="flex flex-col flex-1">
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-1">Current Threat Level</span>
+          <div className="flex items-baseline gap-4">
+            <span className={`text-6xl font-bold font-mono tracking-tighter ${config.text}`}>
               {formatRiskScore(risk.risk_score)}
             </span>
-          </div>
-
-          <div className="mt-3 flex items-center gap-2 font-mono text-xs text-slate-400">
-            <span>Trend:</span>
-            <span className={`font-semibold flex items-center gap-1 ${trend.color}`}>
-              <span>{trend.symbol}</span>
-              <span>{trend.text}</span>
-            </span>
-            {risk.risk_velocity !== null && risk.risk_velocity !== undefined && (
-              <span className="text-[11px] text-slate-500">
-                (v: {risk.risk_velocity > 0 ? '+' : ''}{risk.risk_velocity.toFixed(3)})
+            <div className="flex flex-col">
+              <span className={`text-xl font-bold uppercase tracking-wider ${config.text}`}>
+                {formatRiskState(risk.risk_state)}
               </span>
-            )}
+              <span className="flex items-center gap-1.5 text-xs font-mono text-slate-400 mt-1">
+                <span className={trend.color}>{trend.symbol}</span>
+                {risk.risk_velocity !== null && risk.risk_velocity !== undefined && (
+                  <span>
+                    Delta: {risk.risk_velocity > 0 ? '+' : ''}{risk.risk_velocity.toFixed(3)}
+                  </span>
+                )}
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Classification & Sub-signals */}
-        <div className="flex flex-col gap-3 font-mono text-xs bg-slate-900/60 p-4 rounded-lg border border-slate-800/80">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-            <span className="text-slate-400">Classified Threat:</span>
-            <span className="text-white font-bold tracking-wide">
-              {formatAttackClass(risk.attack_class)}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-slate-400">Attack Likelihood:</span>
-            <span className="text-cyan-400 font-semibold">
-              {formatRiskScore(risk.attack_likelihood)}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-slate-400">Anomaly Signal:</span>
-            <span
-              className={`font-semibold ${
-                risk.is_anomalous ? 'text-amber-400' : 'text-emerald-400'
-              }`}
-            >
-              {formatRiskScore(risk.anomaly_score)}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between text-[11px]">
-            <span className="text-slate-500">Confidence:</span>
-            <span className="text-slate-300">
-              {formatRiskScore(risk.class_probability)}
-            </span>
+        <div className="flex-1 w-full max-w-sm">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-xs">
+            <div className="flex flex-col">
+              <span className="text-slate-500 text-[10px] uppercase">Threat Class</span>
+              <span className="text-slate-200 font-bold uppercase tracking-wide">{formatAttackClass(risk.attack_class)}</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-slate-500 text-[10px] uppercase">Forecast State</span>
+              <span className={risk.forecast_active ? 'text-[var(--color-status-forecast)] font-bold' : 'text-slate-400'}>
+                {risk.forecast_active ? 'ACTIVE SIGNAL' : 'QUIET'}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-slate-500 text-[10px] uppercase">Anomaly Score</span>
+              <span className={`font-bold ${risk.is_anomalous ? 'text-amber-400' : 'text-emerald-400'}`}>
+                {formatRiskScore(risk.anomaly_score)}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-slate-500 text-[10px] uppercase">Network Status</span>
+              <span className="text-slate-200">{risk.is_anomalous || risk.risk_score > 50 ? 'INVESTIGATE' : 'NOMINAL'}</span>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Visual Risk Gauge */}
-      <div className="pt-2">
-        <RiskGauge score={risk.risk_score} />
-      </div>
-
-      {/* Footer Timestamp */}
-      <div className="pt-4 mt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-500 gap-2">
-        <span>Window TS: {risk.timestamp}</span>
-        {risk.incident_id && (
-          <span className="text-cyan-400">Active Incident: {risk.incident_id}</span>
-        )}
       </div>
     </div>
   );

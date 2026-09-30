@@ -3,6 +3,10 @@
  * Centralizes all data presentation logic without fabricating or rounding falsified values.
  */
 
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
+
 export function formatRiskScore(score: number | null | undefined): string {
   if (score === null || score === undefined || isNaN(score)) return '—';
   return `${(score * 100).toFixed(1)}%`;

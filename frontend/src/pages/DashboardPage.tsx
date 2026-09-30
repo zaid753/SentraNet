@@ -9,16 +9,12 @@ import { useNotifications } from '../hooks/useNotifications';
 
 import { SimulationBanner } from '../components/common/SimulationBanner';
 import { NotificationToastContainer } from '../components/common/NotificationToast';
-import { SystemStatusBar } from '../components/dashboard/SystemStatusBar';
+import { IntelligenceRow } from '../components/dashboard/IntelligenceRow';
 import { RiskHeroCard } from '../components/dashboard/RiskHeroCard';
-import { ForecastCard } from '../components/dashboard/ForecastCard';
 import { RiskTimelineChart } from '../components/charts/RiskTimelineChart';
-import { AttackClassificationCard } from '../components/dashboard/AttackClassificationCard';
-import { AnomalyCard } from '../components/dashboard/AnomalyCard';
 import { ActiveIncidentCard } from '../components/dashboard/ActiveIncidentCard';
 import { AttackTimeline } from '../components/dashboard/AttackTimeline';
 import { ReplayControls } from '../components/replay/ReplayControls';
-import { ReplayStatusCard } from '../components/replay/ReplayStatusCard';
 import { AlertFeed } from '../components/alerts/AlertFeed';
 import { IncidentTable } from '../components/incidents/IncidentTable';
 import { IncidentDetailModal } from '../components/incidents/IncidentDetailModal';
@@ -35,7 +31,7 @@ export const DashboardPage: React.FC = () => {
   const [activeDataSource, setActiveDataSource] = useState<TelemetrySource>('historical');
 
   // Global hooks
-  const { systemStatus, connectionState, refresh: refreshSystem } = useSystemStatus(10000);
+  const { connectionState, refresh: refreshSystem } = useSystemStatus(10000);
   const replay = useReplay();
   const synthetic = useSyntheticStream();
 
@@ -108,55 +104,43 @@ export const DashboardPage: React.FC = () => {
         isSyntheticRunning={synthetic.isRunning}
       />
 
-      {/* 1. Top Status Bar */}
-      <SystemStatusBar
-        status={systemStatus}
-        isLoading={connectionState === 'LOADING'}
-      />
+      {/* 1. Security Posture Hero */}
+      <RiskHeroCard risk={risk} isLoading={isRiskLoading} />
 
-      {/* 2 & 5. Hero Risk Card & AI Forecast Card */}
+      {/* 2. Intelligence Row (Risk / Threat / Anomaly / Forecast) */}
+      <IntelligenceRow risk={risk} />
+
+      {/* 3. Risk Trajectory */}
+      <RiskTimelineChart points={timelinePoints} isLoading={isTimelineLoading} />
+
+      {/* 4. Threat Evolution */}
+      <AttackTimeline alerts={alerts} />
+
+      {/* 5. Active Incident & 6. Alert Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7">
-          <RiskHeroCard risk={risk} isLoading={isRiskLoading} />
+        <div className="lg:col-span-4">
+          <ActiveIncidentCard
+            activeIncident={activeIncident}
+            currentAlert={currentAlert}
+            onViewDetails={(id) => setSelectedIncidentId(id)}
+          />
         </div>
-        <div className="lg:col-span-5">
-          <ForecastCard risk={risk} />
+        <div className="lg:col-span-8">
+          <AlertFeed
+            alerts={alerts}
+            isLoading={isAlertsLoading}
+            onSelectIncident={(id) => setSelectedIncidentId(id)}
+          />
         </div>
       </div>
 
-      {/* 4. Risk Timeline Time-series Chart */}
-      <div>
-        <RiskTimelineChart
-          points={timelinePoints}
-          isLoading={isTimelineLoading}
-        />
-      </div>
+      {/* 7. Evidence / Top Signals */}
+      <ExplanationPanel />
 
-      {/* Phase 11: AI Decision Explainability */}
-      <div>
-        <ExplanationPanel />
-      </div>
-
-      {/* 6, 7, 8. Classification, Anomaly Detection, Active Incident */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <AttackClassificationCard risk={risk} />
-        <AnomalyCard risk={risk} />
-        <ActiveIncidentCard
-          activeIncident={activeIncident}
-          currentAlert={currentAlert}
-          onViewDetails={(id) => setSelectedIncidentId(id)}
-        />
-      </div>
-
-      {/* 11. Threat Evolution & Attack Vector Transitions */}
-      <div>
-        <AttackTimeline alerts={alerts} />
-      </div>
-
-      {/* 12 & 13. Telemetry Stream Controls (Historical Replay or Synthetic Stream) */}
-      {activeDataSource === 'historical' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8">
+      {/* 8. Replay Controls & Incident History */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-6">
+          {activeDataSource === 'historical' ? (
             <ReplayControls
               status={replay.status}
               isRunning={replay.isRunning}
@@ -169,41 +153,26 @@ export const DashboardPage: React.FC = () => {
               onResume={replay.resume}
               onStep={replay.step}
               onReset={replay.reset}
+              currentAttackClass={risk?.attack_class}
             />
-          </div>
-          <div className="lg:col-span-4">
-            <ReplayStatusCard status={replay.status} />
-          </div>
+          ) : (
+            <SyntheticStreamControls
+              telemetryStatus={synthetic.telemetryStatus}
+              syntheticStatus={synthetic.syntheticStatus}
+              isRunning={synthetic.isRunning}
+              isPaused={synthetic.isPaused}
+              isLoading={synthetic.isLoading}
+              actionError={synthetic.actionError}
+              onStart={synthetic.start}
+              onStop={synthetic.stop}
+              onPause={synthetic.pause}
+              onResume={synthetic.resume}
+              onFlush={synthetic.flush}
+              onReset={synthetic.reset}
+            />
+          )}
         </div>
-      ) : (
-        <div className="w-full">
-          <SyntheticStreamControls
-            telemetryStatus={synthetic.telemetryStatus}
-            syntheticStatus={synthetic.syntheticStatus}
-            isRunning={synthetic.isRunning}
-            isPaused={synthetic.isPaused}
-            isLoading={synthetic.isLoading}
-            actionError={synthetic.actionError}
-            onStart={synthetic.start}
-            onStop={synthetic.stop}
-            onPause={synthetic.pause}
-            onResume={synthetic.resume}
-            onFlush={synthetic.flush}
-            onReset={synthetic.reset}
-          />
-        </div>
-      )}
-
-      {/* 9 & 10. Alert Feed & Incident Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-5">
-          <AlertFeed
-            alerts={alerts}
-            isLoading={isAlertsLoading}
-            onSelectIncident={(id) => setSelectedIncidentId(id)}
-          />
-        </div>
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-6">
           <IncidentTable
             incidents={incidents}
             isLoading={isIncidentsLoading}
