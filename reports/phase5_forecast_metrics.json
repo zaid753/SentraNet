@@ -1,0 +1,104 @@
+{
+  "evaluation_timestamp": "2026-09-30T07:23:58.802168+00:00",
+  "total_windows_evaluated": 204,
+  "total_forecast_events_emitted": 51,
+  "attack_onsets_identified": [
+    {
+      "timestamp": "2026-09-30T08:42:00",
+      "attack_class": "SCANNING",
+      "transition": "BENIGN_TO_SCANNING"
+    },
+    {
+      "timestamp": "2026-09-30T09:06:00",
+      "attack_class": "DDOS",
+      "transition": "SCANNING_TO_DDOS"
+    },
+    {
+      "timestamp": "2026-09-30T10:42:00",
+      "attack_class": "SCANNING",
+      "transition": "BENIGN_TO_SCANNING"
+    },
+    {
+      "timestamp": "2026-09-30T11:06:00",
+      "attack_class": "DDOS",
+      "transition": "SCANNING_TO_DDOS"
+    }
+  ],
+  "horizon_metrics": {
+    "1m": {
+      "horizon_minutes": 1,
+      "status": "EVALUATED",
+      "valid_onsets": 4,
+      "tp_onsets": 0,
+      "fp_forecasts": 0,
+      "fn_onsets": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "mean_lead_time_seconds": null,
+      "median_lead_time_seconds": null,
+      "mean_eta_error_seconds": null,
+      "median_eta_error_seconds": null
+    },
+    "2m": {
+      "horizon_minutes": 2,
+      "status": "EVALUATED",
+      "valid_onsets": 4,
+      "tp_onsets": 0,
+      "fp_forecasts": 0,
+      "fn_onsets": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "mean_lead_time_seconds": null,
+      "median_lead_time_seconds": null,
+      "mean_eta_error_seconds": null,
+      "median_eta_error_seconds": null
+    },
+    "5m": {
+      "horizon_minutes": 5,
+      "status": "EVALUATED",
+      "valid_onsets": 4,
+      "tp_onsets": 0,
+      "fp_forecasts": 0,
+      "fn_onsets": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "mean_lead_time_seconds": null,
+      "median_lead_time_seconds": null,
+      "mean_eta_error_seconds": null,
+      "median_eta_error_seconds": null
+    },
+    "10m": {
+      "horizon_minutes": 10,
+      "status": "EVALUATED",
+      "valid_onsets": 4,
+      "tp_onsets": 0,
+      "fp_forecasts": 0,
+      "fn_onsets": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "mean_lead_time_seconds": null,
+      "median_lead_time_seconds": null,
+      "mean_eta_error_seconds": null,
+      "median_eta_error_seconds": null
+    },
+    "15m": {
+      "horizon_minutes": 15,
+      "status": "EVALUATED",
+      "valid_onsets": 4,
+      "tp_onsets": 0,
+      "fp_forecasts": 0,
+      "fn_onsets": 4,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "mean_lead_time_seconds": null,
+      "median_lead_time_seconds": null,
+      "mean_eta_error_seconds": null,
+      "median_eta_error_seconds": null
+    }
+  }
+}

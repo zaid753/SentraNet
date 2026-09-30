@@ -1,0 +1,25 @@
+{
+  "dataset": "sample",
+  "loaded_from": "data/processed/sample/test.parquet",
+  "window_count": 31,
+  "features_present": [
+    "flow_count",
+    "total_packets",
+    "total_bytes",
+    "avg_packet_rate",
+    "avg_byte_rate",
+    "unique_sources",
+    "unique_destinations",
+    "avg_packet_size",
+    "avg_flow_duration",
+    "syn_flag_count",
+    "ack_flag_count",
+    "privileged_port_ratio",
+    "rolling_5_flow_count",
+    "rolling_5_total_packets",
+    "rolling_5_total_bytes",
+    "rolling_5_avg_byte_rate",
+    "rolling_5_unique_sources"
+  ],
+  "cleaned": true
+}

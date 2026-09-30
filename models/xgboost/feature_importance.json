@@ -1,0 +1,70 @@
+[
+  {
+    "feature": "rolling_5_total_bytes",
+    "importance": 11.134845733642578
+  },
+  {
+    "feature": "avg_byte_rate",
+    "importance": 10.465091705322266
+  },
+  {
+    "feature": "total_bytes",
+    "importance": 10.164121627807617
+  },
+  {
+    "feature": "avg_packet_size",
+    "importance": 10.096735954284668
+  },
+  {
+    "feature": "total_packets",
+    "importance": 10.084240913391113
+  },
+  {
+    "feature": "avg_flow_duration",
+    "importance": 6.222819805145264
+  },
+  {
+    "feature": "avg_packet_rate",
+    "importance": 3.2142245769500732
+  },
+  {
+    "feature": "rolling_5_avg_byte_rate",
+    "importance": 1.1505159139633179
+  },
+  {
+    "feature": "rolling_5_total_packets",
+    "importance": 0.934456467628479
+  },
+  {
+    "feature": "syn_flag_count",
+    "importance": 0.6264382600784302
+  },
+  {
+    "feature": "rolling_5_flow_count",
+    "importance": 0.4178503751754761
+  },
+  {
+    "feature": "ack_flag_count",
+    "importance": 0.08605301380157471
+  },
+  {
+    "feature": "rolling_5_unique_sources",
+    "importance": 0.056372977793216705
+  },
+  {
+    "feature": "flow_count",
+    "importance": 0.0
+  },
+  {
+    "feature": "unique_sources",
+    "importance": 0.0
+  },
+  {
+    "feature": "unique_destinations",
+    "importance": 0.0
+  },
+  {
+    "feature": "privileged_port_ratio",
+    "importance": 0.0
+  }
+]

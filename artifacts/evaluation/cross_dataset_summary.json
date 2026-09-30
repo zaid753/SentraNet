@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-09-30T09:39:50.159130+00:00",
+  "evaluation_type": "FROZEN_MODEL",
+  "model_provenance": "Phase 2-5 Frozen Models (Category B Synthetic-Trained)",
+  "datasets": {
+    "sample": {
+      "name": "Synthetic Development Fixture (sample)",
+      "category": "Category B \u2014 Synthetic Development Fixture",
+      "status": "completed",
+      "evaluation_mode": "FULL EVALUATION",
+      "windows": 31,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "accuracy": 1.0,
+      "false_alarms_per_hour": 0.0,
+      "attack_detection_rate": 1.0,
+      "forecast_mean_lead_time_seconds": null,
+      "throughput_windows_sec": 65.5
+    },
+    "cicids2017": {
+      "name": "CICIDS2017",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "status": "not_available",
+      "windows": 0,
+      "macro_f1": null,
+      "weighted_f1": null,
+      "accuracy": null,
+      "false_alarms_per_hour": null,
+      "attack_detection_rate": null,
+      "forecast_mean_lead_time_seconds": null,
+      "throughput_windows_sec": null,
+      "message": "Dataset 'cicids2017' is not available locally. Raw benchmark files are missing from 'data/raw/cicids2017'."
+    },
+    "unsw_nb15": {
+      "name": "UNSW-NB15",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "status": "not_available",
+      "windows": 0,
+      "macro_f1": null,
+      "weighted_f1": null,
+      "accuracy": null,
+      "false_alarms_per_hour": null,
+      "attack_detection_rate": null,
+      "forecast_mean_lead_time_seconds": null,
+      "throughput_windows_sec": null,
+      "message": "Dataset 'unsw_nb15' is not available locally. Raw benchmark files are missing from 'data/raw/unsw_nb15'."
+    },
+    "cic_ddos2019": {
+      "name": "CIC-DDoS2019",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "status": "not_available",
+      "windows": 0,
+      "macro_f1": null,
+      "weighted_f1": null,
+      "accuracy": null,
+      "false_alarms_per_hour": null,
+      "attack_detection_rate": null,
+      "forecast_mean_lead_time_seconds": null,
+      "throughput_windows_sec": null,
+      "message": "Dataset 'cic_ddos2019' is not available locally. Raw benchmark files are missing from 'data/raw/cic_ddos2019'."
+    }
+  }
+}

@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Space Grotesk', sans-serif;
+  }
+
+  body {
+    background-color: #030712; /* Slate-950 deep dark */
+    color: #f1f5f9;
+    font-family: var(--font-display);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Custom cybersecurity styling utilities */
+.soc-panel {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.soc-panel-subtle {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(30, 41, 59, 0.7);
+}
+
+.soc-grid-bg {
+  background-image: radial-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.glow-cyan-sm {
+  box-shadow: 0 0 15px -3px rgba(6, 182, 212, 0.15);
+}
+
+.glow-emerald-sm {
+  box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.15);
+}

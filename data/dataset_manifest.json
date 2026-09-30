@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-09-30T09:39:49.415544+00:00",
+  "project": "SENTRANET",
+  "phase": "Phase 10 \u2014 Benchmark Evaluation & Empirical Validation",
+  "datasets": {
+    "sample": {
+      "dataset_id": "sample",
+      "name": "Synthetic Development Fixture (sample)",
+      "category": "Category B \u2014 Synthetic Development Fixture",
+      "official_source": "SENTRANET internal fixture generator (scripts/generate_sample_data.py)",
+      "expected_path": "data/samples/sample_network_traffic.csv",
+      "available": true,
+      "status": "AVAILABLE",
+      "file_count": 1,
+      "available_files": [
+        "sample_network_traffic.csv"
+      ],
+      "missing_files": [],
+      "total_bytes": 413296,
+      "total_rows": 3502,
+      "timestamp_available": true,
+      "labels_available": true,
+      "attack_categories": [
+        "BENIGN",
+        "PortScan",
+        "DDoS",
+        "Bot",
+        "SSH-Patator"
+      ],
+      "download_instructions": "Download raw benchmark files from SENTRANET internal fixture generator (scripts/generate_sample_data.py) into 'data/samples/sample_network_traffic.csv/'."
+    },
+    "cicids2017": {
+      "dataset_id": "cicids2017",
+      "name": "CICIDS2017",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "official_source": "Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ids-2017.html",
+      "expected_path": "data/raw/cicids2017",
+      "available": false,
+      "status": "NOT_AVAILABLE",
+      "file_count": 0,
+      "available_files": [],
+      "missing_files": [
+        "Monday-WorkingHours.pcap_ISCX.csv",
+        "Tuesday-WorkingHours.pcap_ISCX.csv",
+        "Wednesday-workingHours.pcap_ISCX.csv",
+        "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+        "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+        "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+        "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+        "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
+      ],
+      "total_bytes": 0,
+      "total_rows": 0,
+      "timestamp_available": true,
+      "labels_available": true,
+      "attack_categories": [
+        "BENIGN",
+        "DDoS",
+        "PortScan",
+        "Bot",
+        "DoS Hulk",
+        "DoS GoldenEye",
+        "FTP-Patator",
+        "SSH-Patator"
+      ],
+      "download_instructions": "Download raw benchmark files from Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ids-2017.html into 'data/raw/cicids2017/'."
+    },
+    "unsw_nb15": {
+      "dataset_id": "unsw_nb15",
+      "name": "UNSW-NB15",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "official_source": "Cyber Range Lab of the Australian Centre for Cyber Security (UNSW Canberra) \u2014 https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+      "expected_path": "data/raw/unsw_nb15",
+      "available": false,
+      "status": "NOT_AVAILABLE",
+      "file_count": 0,
+      "available_files": [],
+      "missing_files": [
+        "UNSW-NB15_1.csv",
+        "UNSW-NB15_2.csv",
+        "UNSW-NB15_3.csv",
+        "UNSW-NB15_4.csv"
+      ],
+      "total_bytes": 0,
+      "total_rows": 0,
+      "timestamp_available": true,
+      "labels_available": true,
+      "attack_categories": [
+        "Normal",
+        "Fuzzers",
+        "Analysis",
+        "Backdoors",
+        "DoS",
+        "Exploits",
+        "Generic",
+        "Reconnaissance",
+        "Shellcode",
+        "Worms"
+      ],
+      "download_instructions": "Download raw benchmark files from Cyber Range Lab of the Australian Centre for Cyber Security (UNSW Canberra) \u2014 https://research.unsw.edu.au/projects/unsw-nb15-dataset into 'data/raw/unsw_nb15/'."
+    },
+    "cic_ddos2019": {
+      "dataset_id": "cic_ddos2019",
+      "name": "CIC-DDoS2019",
+      "category": "Category A \u2014 Real Benchmark Capture",
+      "official_source": "Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ddos-2019.html",
+      "expected_path": "data/raw/cic_ddos2019",
+      "available": false,
+      "status": "NOT_AVAILABLE",
+      "file_count": 0,
+      "available_files": [],
+      "missing_files": [
+        "DrDoS_DNS.csv",
+        "DrDoS_LDAP.csv",
+        "DrDoS_MSSQL.csv",
+        "DrDoS_NetBIOS.csv",
+        "DrDoS_NTP.csv",
+        "DrDoS_SNMP.csv",
+        "DrDoS_SSDP.csv",
+        "DrDoS_UDP.csv",
+        "Syn.csv",
+        "TFTP.csv",
+        "UDPLag.csv"
+      ],
+      "total_bytes": 0,
+      "total_rows": 0,
+      "timestamp_available": true,
+      "labels_available": true,
+      "attack_categories": [
+        "BENIGN",
+        "DrDoS_DNS",
+        "DrDoS_LDAP",
+        "DrDoS_MSSQL",
+        "DrDoS_NetBIOS",
+        "Syn",
+        "TFTP",
+        "UDP-lag",
+        "PortScan"
+      ],
+      "download_instructions": "Download raw benchmark files from Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ddos-2019.html into 'data/raw/cic_ddos2019/'."
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "BENIGN": {
+    "class_index": 0,
+    "ground_truth_count": 0,
+    "predicted_count": 0,
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "status": "class_absent_in_ground_truth"
+  },
+  "BOTNET": {
+    "class_index": 1,
+    "ground_truth_count": 0,
+    "predicted_count": 0,
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "status": "class_absent_in_ground_truth"
+  },
+  "DDOS": {
+    "class_index": 2,
+    "ground_truth_count": 18,
+    "predicted_count": 18,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "status": "evaluated"
+  },
+  "OTHER_ATTACK": {
+    "class_index": 3,
+    "ground_truth_count": 0,
+    "predicted_count": 0,
+    "precision": null,
+    "recall": null,
+    "f1_score": null,
+    "status": "class_absent_in_ground_truth"
+  },
+  "SCANNING": {
+    "class_index": 4,
+    "ground_truth_count": 13,
+    "predicted_count": 13,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "status": "evaluated"
+  }
+}

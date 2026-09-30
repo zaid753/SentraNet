@@ -1,0 +1,22 @@
+{
+  "dataset_id": "cicids2017",
+  "name": "CICIDS2017",
+  "category": "Category A \u2014 Real Benchmark Capture",
+  "status": "NOT_AVAILABLE",
+  "evaluation_type": "FROZEN_MODEL",
+  "evaluated_at": "2026-09-30T11:34:51.866084+00:00",
+  "message": "Dataset 'cicids2017' is not available locally. Raw benchmark files are missing from 'data/raw/cicids2017'.",
+  "expected_path": "data/raw/cicids2017",
+  "missing_files": [
+    "Monday-WorkingHours.pcap_ISCX.csv",
+    "Tuesday-WorkingHours.pcap_ISCX.csv",
+    "Wednesday-workingHours.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv",
+    "Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv",
+    "Friday-WorkingHours-Morning.pcap_ISCX.csv",
+    "Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv",
+    "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
+  ],
+  "download_instructions": "Download raw benchmark files from Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ids-2017.html into 'data/raw/cicids2017/'.",
+  "metrics": null
+}

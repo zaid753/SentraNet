@@ -1,0 +1,36 @@
+# SENTRANET Data Pipeline Configuration (Phase 2)
+
+dataset: cicids2017
+
+# Paths
+input_path: data/raw/cicids2017
+output_path: data/processed/cicids2017
+sample_path: data/samples/sample_network_traffic.csv
+
+# Temporal Windowing Settings
+windowing:
+  enabled: true
+  window_size_seconds: 60
+  rolling_window_count: 5
+
+# Split Configuration (Chronological)
+split:
+  train_ratio: 0.70
+  validation_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42
+
+# Preprocessing & Scaling
+preprocessing:
+  scaler: standard  # options: standard, robust, minmax
+  handle_infinite: true
+  drop_duplicates: true
+  safe_division_epsilon: 1e-6
+
+# Target Classes
+canonical_classes:
+  - BENIGN
+  - DDOS
+  - SCANNING
+  - BOTNET
+  - OTHER_ATTACK

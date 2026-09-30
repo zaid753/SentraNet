@@ -1,0 +1,25 @@
+{
+  "dataset_id": "cic_ddos2019",
+  "name": "CIC-DDoS2019",
+  "category": "Category A \u2014 Real Benchmark Capture",
+  "status": "NOT_AVAILABLE",
+  "evaluation_type": "FROZEN_MODEL",
+  "evaluated_at": "2026-09-30T11:34:51.939895+00:00",
+  "message": "Dataset 'cic_ddos2019' is not available locally. Raw benchmark files are missing from 'data/raw/cic_ddos2019'.",
+  "expected_path": "data/raw/cic_ddos2019",
+  "missing_files": [
+    "DrDoS_DNS.csv",
+    "DrDoS_LDAP.csv",
+    "DrDoS_MSSQL.csv",
+    "DrDoS_NetBIOS.csv",
+    "DrDoS_NTP.csv",
+    "DrDoS_SNMP.csv",
+    "DrDoS_SSDP.csv",
+    "DrDoS_UDP.csv",
+    "Syn.csv",
+    "TFTP.csv",
+    "UDPLag.csv"
+  ],
+  "download_instructions": "Download raw benchmark files from Canadian Institute for Cybersecurity (University of New Brunswick) \u2014 https://www.unb.ca/cic/datasets/ddos-2019.html into 'data/raw/cic_ddos2019/'.",
+  "metrics": null
+}

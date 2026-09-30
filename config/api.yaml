@@ -1,0 +1,18 @@
+# SENTRANET — API Server & CORS Configuration (Phase 7)
+
+api:
+  title: "SENTRANET API"
+  description: "AI-based network attack detection and forecasting service (Simulation Replay)."
+  version: "0.7.0"
+  host: "127.0.0.1"
+  port: 8000
+  simulation: true
+
+  cors_origins:
+    - "http://localhost:5173"
+    - "http://127.0.0.1:5173"
+
+limits:
+  max_alerts_limit: 100
+  default_timeline_limit: 50
+  max_timeline_limit: 200

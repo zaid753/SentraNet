@@ -1,0 +1,135 @@
+{
+  "benign_reference": {
+    "count": 76,
+    "raw_decision_min": -0.071667,
+    "raw_decision_p05": -0.054839,
+    "raw_decision_median": 0.057926,
+    "raw_decision_p95": 0.096336,
+    "raw_decision_p99": 0.102053,
+    "raw_decision_max": 0.105608,
+    "normalized_score_min": 0.0,
+    "normalized_score_median": 0.134488,
+    "normalized_score_p95": 0.452539,
+    "normalized_score_p99": 0.497787,
+    "normalized_score_max": 0.5
+  },
+  "splits": {
+    "train": {
+      "total_samples": 142,
+      "roc_auc": 0.9211,
+      "pr_auc": 0.9253,
+      "threshold": 0.4978,
+      "tp": 46,
+      "fp": 1,
+      "tn": 75,
+      "fn": 20,
+      "precision": 0.9787,
+      "recall": 0.697,
+      "false_positive_rate": 0.0132,
+      "class_breakdown": {
+        "BENIGN": {
+          "count": 76,
+          "mean_score": 0.1819,
+          "median_score": 0.1345,
+          "p95_score": 0.4525,
+          "min_score": 0.0,
+          "max_score": 0.5,
+          "anomalous_flag_rate": 0.0132
+        },
+        "BOTNET": {
+          "count": 18,
+          "mean_score": 0.2524,
+          "median_score": 0.2351,
+          "p95_score": 0.3529,
+          "min_score": 0.1753,
+          "max_score": 0.4209,
+          "anomalous_flag_rate": 0.0
+        },
+        "DDOS": {
+          "count": 24,
+          "mean_score": 0.5916,
+          "median_score": 0.5993,
+          "p95_score": 0.679,
+          "min_score": 0.4251,
+          "max_score": 0.6836,
+          "anomalous_flag_rate": 0.9167
+        },
+        "SCANNING": {
+          "count": 24,
+          "mean_score": 0.7942,
+          "median_score": 0.8007,
+          "p95_score": 0.863,
+          "min_score": 0.7145,
+          "max_score": 0.8839,
+          "anomalous_flag_rate": 1.0
+        }
+      }
+    },
+    "validation": {
+      "total_samples": 31,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "threshold": 0.4978,
+      "tp": 11,
+      "fp": 0,
+      "tn": 20,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "class_breakdown": {
+        "BENIGN": {
+          "count": 20,
+          "mean_score": 0.2123,
+          "median_score": 0.2046,
+          "p95_score": 0.3863,
+          "min_score": 0.0,
+          "max_score": 0.4735,
+          "anomalous_flag_rate": 0.0
+        },
+        "SCANNING": {
+          "count": 11,
+          "mean_score": 0.7862,
+          "median_score": 0.7945,
+          "p95_score": 0.8475,
+          "min_score": 0.7388,
+          "max_score": 0.849,
+          "anomalous_flag_rate": 1.0
+        }
+      }
+    },
+    "test": {
+      "total_samples": 31,
+      "roc_auc": null,
+      "pr_auc": null,
+      "threshold": 0.4978,
+      "tp": 31,
+      "fp": 0,
+      "tn": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "class_breakdown": {
+        "DDOS": {
+          "count": 18,
+          "mean_score": 0.6049,
+          "median_score": 0.5922,
+          "p95_score": 0.7052,
+          "min_score": 0.5235,
+          "max_score": 0.7783,
+          "anomalous_flag_rate": 1.0
+        },
+        "SCANNING": {
+          "count": 13,
+          "mean_score": 0.7624,
+          "median_score": 0.7966,
+          "p95_score": 0.8258,
+          "min_score": 0.5743,
+          "max_score": 0.8305,
+          "anomalous_flag_rate": 1.0
+        }
+      }
+    }
+  }
+}

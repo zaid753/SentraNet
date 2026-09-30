@@ -1,0 +1,23 @@
+{
+  "simulation": true,
+  "evaluation_status": "historical_replay_only",
+  "replay_mode": "batch",
+  "speed_multiplier": 10.0,
+  "dataset_identifier": "full_synthetic_fixture",
+  "replay_start": "2026-09-30 08:00:00",
+  "replay_end": "2026-09-30 11:23:00",
+  "number_of_windows": 204,
+  "number_of_watch_events": 20,
+  "number_of_alerts": 5,
+  "number_of_forecasts": 33,
+  "number_of_incidents": 5,
+  "number_of_resolved_incidents": 5,
+  "highest_risk": 0.9437,
+  "highest_anomaly": 0.8839,
+  "attack_classes_seen": [
+    "BENIGN",
+    "BOTNET",
+    "DDOS",
+    "SCANNING"
+  ]
+}

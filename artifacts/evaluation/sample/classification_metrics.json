@@ -1,0 +1,126 @@
+{
+  "split": "sample_quick",
+  "sample_count": 10,
+  "macro_f1": 1.0,
+  "weighted_f1": 1.0,
+  "multiclass_log_loss": 0.1163,
+  "macro_pr_auc": null,
+  "pr_auc_valid_class_count": 0,
+  "total_class_count": 5,
+  "accuracy_reference": 1.0,
+  "per_class": {
+    "BENIGN": {
+      "class_index": 0,
+      "ground_truth_count": 0,
+      "predicted_count": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "status": "class_absent_in_ground_truth"
+    },
+    "DDOS": {
+      "class_index": 1,
+      "ground_truth_count": 0,
+      "predicted_count": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "status": "class_absent_in_ground_truth"
+    },
+    "SCANNING": {
+      "class_index": 2,
+      "ground_truth_count": 10,
+      "predicted_count": 10,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "status": "evaluated"
+    },
+    "BOTNET": {
+      "class_index": 3,
+      "ground_truth_count": 0,
+      "predicted_count": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "status": "class_absent_in_ground_truth"
+    },
+    "OTHER_ATTACK": {
+      "class_index": 4,
+      "ground_truth_count": 0,
+      "predicted_count": 0,
+      "precision": null,
+      "recall": null,
+      "f1_score": null,
+      "status": "class_absent_in_ground_truth"
+    }
+  },
+  "pr_auc_per_class": {
+    "BENIGN": {
+      "pr_auc": null,
+      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+    },
+    "DDOS": {
+      "pr_auc": null,
+      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+    },
+    "SCANNING": {
+      "pr_auc": null,
+      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+    },
+    "BOTNET": {
+      "pr_auc": null,
+      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+    },
+    "OTHER_ATTACK": {
+      "pr_auc": null,
+      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+    }
+  },
+  "confusion_matrix": {
+    "labels": [
+      "BENIGN",
+      "DDOS",
+      "SCANNING",
+      "BOTNET",
+      "OTHER_ATTACK"
+    ],
+    "matrix": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        10,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
+}

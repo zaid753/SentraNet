@@ -1,0 +1,31 @@
+{
+  "dataset_name": "sample",
+  "processing_timestamp": "2026-09-30T06:42:35.536975+00:00",
+  "pipeline_version": "0.2.0",
+  "is_windowed": true,
+  "window_size_seconds": 60,
+  "train_rows": 142,
+  "validation_rows": 31,
+  "test_rows": 31,
+  "feature_count": 17,
+  "classes": [
+    "BENIGN",
+    "BOTNET",
+    "DDOS",
+    "OTHER_ATTACK",
+    "SCANNING"
+  ],
+  "class_distribution": {
+    "BENIGN": 96,
+    "SCANNING": 48,
+    "DDOS": 42,
+    "BOTNET": 18
+  },
+  "class_percentages": {
+    "BENIGN": 47.06,
+    "SCANNING": 23.53,
+    "DDOS": 20.59,
+    "BOTNET": 8.82
+  },
+  "runtime_seconds": 0.1646
+}

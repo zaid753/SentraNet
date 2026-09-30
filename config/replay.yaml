@@ -1,0 +1,17 @@
+# SENTRANET — Historical Dataset Replay & Alerting Configuration (Phase 6)
+
+replay:
+  default_mode: batch       # batch, realtime, step
+  default_speed: 10         # Multiplier for realtime simulation (e.g., 10x speed)
+  step_pause: true          # Prompt on every window in step mode
+  default_dataset: "data/processed/sample/validation.parquet"
+
+alerts:
+  resolution_consecutive_windows: 2   # Consecutive non-HIGH windows required to resolve incident
+  cooldown_seconds: 120               # Cooldown for duplicate new incident creation
+
+output:
+  output_dir: "reports/replay"
+  save_events: true
+  save_alerts: true
+  save_summary: true

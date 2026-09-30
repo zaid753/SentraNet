@@ -1,0 +1,23 @@
+{
+  "window_start": "datetime64[us]",
+  "window_end": "datetime64[us]",
+  "flow_count": "int64",
+  "total_packets": "float64",
+  "total_bytes": "int64",
+  "avg_packet_rate": "float64",
+  "avg_byte_rate": "float64",
+  "unique_sources": "int64",
+  "unique_destinations": "int64",
+  "avg_packet_size": "float64",
+  "avg_flow_duration": "float64",
+  "syn_flag_count": "int64",
+  "ack_flag_count": "int64",
+  "privileged_port_ratio": "float64",
+  "label": "str",
+  "window_id": "int64",
+  "rolling_5_flow_count": "float64",
+  "rolling_5_total_packets": "float64",
+  "rolling_5_total_bytes": "float64",
+  "rolling_5_avg_byte_rate": "float64",
+  "rolling_5_unique_sources": "float64"
+}

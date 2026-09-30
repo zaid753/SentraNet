@@ -1,0 +1,16 @@
+{
+  "dataset_name": "sample",
+  "input_rows": 3502,
+  "output_rows": 3500,
+  "removed_rows": 2,
+  "missing_value_count": 2,
+  "infinite_value_count": 1,
+  "duplicate_count": 2,
+  "feature_count": 17,
+  "label_count": 5,
+  "timestamp_available": true,
+  "processing_time_seconds": 0.0082,
+  "warnings": [
+    "Removed 2 duplicate flow records"
+  ]
+}

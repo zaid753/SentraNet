@@ -1,0 +1,73 @@
+{
+  "attack_onsets_count": 1,
+  "forecasted_onsets_count": 0,
+  "episodes": [
+    {
+      "attack_class": "SCANNING",
+      "onset": "2026-09-30T10:53:00",
+      "forecast_raised": false,
+      "first_forecast": null,
+      "lead_time_seconds": null,
+      "confidence": null,
+      "risk_at_forecast": null,
+      "eta_error_seconds": null
+    }
+  ],
+  "lead_times": {
+    "mean": null,
+    "median": null,
+    "min": null,
+    "max": null
+  },
+  "eta_accuracy": {
+    "mean_eta_error_seconds": null,
+    "median_eta_error_seconds": null
+  },
+  "horizon_metrics": {
+    "1m": {
+      "horizon_minutes": 1,
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "2m": {
+      "horizon_minutes": 2,
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "5m": {
+      "horizon_minutes": 5,
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "10m": {
+      "horizon_minutes": 10,
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "15m": {
+      "horizon_minutes": 15,
+      "tp": 0,
+      "fp": 3,
+      "fn": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  }
+}

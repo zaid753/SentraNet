@@ -1,0 +1,72 @@
+{
+  "model_name": "SENTRANET_XGBoost_Classifier",
+  "phase": "Phase 3 Supervised Engine",
+  "python_version": "3.13.7",
+  "xgboost_version": "3.4.1",
+  "training_timestamp": "2026-09-30T06:55:09.751560+00:00",
+  "dataset_used": "data/processed/sample",
+  "dataset_provenance": "Category B \u2014 Synthetic Development Fixture (Not real CICIDS2017)",
+  "hyperparameters": {
+    "objective": "multi:softprob",
+    "num_class": 5,
+    "eval_metric": "mlogloss",
+    "max_depth": 5,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 3,
+    "reg_alpha": 0.1,
+    "reg_lambda": 1.0,
+    "random_state": 42,
+    "best_iteration": 217,
+    "n_estimators": 300
+  },
+  "sample_weights": {
+    "BENIGN": 0.4671,
+    "BOTNET": 1.9722,
+    "DDOS": 1.4792,
+    "SCANNING": 1.4792
+  },
+  "feature_count": 17,
+  "features": [
+    "flow_count",
+    "total_packets",
+    "total_bytes",
+    "avg_packet_rate",
+    "avg_byte_rate",
+    "unique_sources",
+    "unique_destinations",
+    "avg_packet_size",
+    "avg_flow_duration",
+    "syn_flag_count",
+    "ack_flag_count",
+    "privileged_port_ratio",
+    "rolling_5_flow_count",
+    "rolling_5_total_packets",
+    "rolling_5_total_bytes",
+    "rolling_5_avg_byte_rate",
+    "rolling_5_unique_sources"
+  ],
+  "class_mapping": {
+    "BENIGN": 0,
+    "BOTNET": 1,
+    "DDOS": 2,
+    "OTHER_ATTACK": 3,
+    "SCANNING": 4
+  },
+  "training_rows": 142,
+  "validation_rows": 31,
+  "test_rows": 31,
+  "validation_metrics": {
+    "macro_f1": 0.9654,
+    "weighted_f1": 0.968,
+    "log_loss": 0.0981
+  },
+  "test_metrics": {
+    "macro_f1": 1.0,
+    "weighted_f1": 1.0,
+    "log_loss": 0.073,
+    "macro_pr_auc": 1.0
+  },
+  "training_duration_seconds": 0.922
+}

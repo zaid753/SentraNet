@@ -1,0 +1,25 @@
+# SENTRANET SIH 2026 - Demo Configuration
+# This file centralizes configuration overrides for the deterministic demo scenario.
+
+demo:
+  # The default profile to use when starting the synthetic stream in demo mode
+  default_profile: "scenario_1"
+  
+  # The fixed random seed to ensure reproducible ML decisions and telemetry generation
+  seed: 42
+  
+  # Stream speed multiplier (1.0 = real-time, 10.0 = 10x faster)
+  speed: 1.0
+
+  # Startup delays
+  backend_startup_wait: 3
+  frontend_startup_wait: 2
+  
+  # Features to force enable during the demo
+  flags:
+    force_scientific_honesty_banner: true
+    allow_reset: true
+
+ui:
+  theme: "dark"
+  polling_interval_ms: 1000
