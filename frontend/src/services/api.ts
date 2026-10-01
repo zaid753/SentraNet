@@ -258,6 +258,15 @@ class ApiService {
   async getIncidentExplanation(incidentId: string): Promise<IncidentExplanation> {
     return this.fetchJson<IncidentExplanation>(`/api/incidents/${incidentId}/explanation`);
   }
+
+  // Phase 7: Analytics
+  async getAnalyticsOverview(timeRange: string = 'all'): Promise<any> {
+    return this.fetchJson<any>(`/api/analytics/overview?time_range=${timeRange}`);
+  }
+
+  async getAnalyticsSystemHealth(): Promise<any> {
+    return this.fetchJson<any>('/api/system/health');
+  }
 }
 
 export const api = new ApiService(API_BASE_URL);
@@ -298,4 +307,8 @@ export const getDatasetEvaluation = (dataset: string) => api.getDatasetEvaluatio
 // Phase 11: Explainability Exports
 export const getCurrentExplanation = () => api.getCurrentExplanation();
 export const getIncidentExplanation = (id: string) => api.getIncidentExplanation(id);
+
+// Phase 7: Analytics Exports
+export const getAnalyticsOverview = (timeRange?: string) => api.getAnalyticsOverview(timeRange);
+export const getAnalyticsSystemHealth = () => api.getAnalyticsSystemHealth();
 

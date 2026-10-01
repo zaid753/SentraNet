@@ -1,14 +1,19 @@
 """
-SENTRANET — Incidents Routes (Phase 7)
+SENTRANET — Incidents Routes (Phase 6 Auth-Aware)
 """
 
 from typing import List
-from fastapi import APIRouter, Depends, Path
+from fastapi import APIRouter, Depends, Path, HTTPException
+from sqlalchemy.orm import Session
+
 from backend.api.schemas.incidents import IncidentItemResponse, IncidentDetailResponse
 from backend.explainability.incident_explainer import IncidentExplanation, build_incident_explanation
 from backend.api.services.sentranet_service import SentranetService
 from backend.api.dependencies import get_sentranet_service
-from fastapi import HTTPException
+from backend.api.database import get_db
+from backend.api.auth import get_current_workspace
+from backend.api.models import Workspace
+from backend.api.repositories.incident_repository import IncidentRepository
 
 router = APIRouter(tags=["Incidents"])
 
@@ -16,12 +21,31 @@ router = APIRouter(tags=["Incidents"])
     "/incidents",
     response_model=List[IncidentItemResponse],
     summary="Get incident history",
-    description="Returns summaries of all security incidents correlated by the in-memory IncidentManager."
+    description="Returns summaries of all security incidents for the authenticated workspace."
 )
 def get_incidents(
-    service: SentranetService = Depends(get_sentranet_service)
+    db: Session = Depends(get_db),
+    workspace: Workspace = Depends(get_current_workspace)
 ) -> List[IncidentItemResponse]:
-    return service.get_incidents()
+    repo = IncidentRepository(db)
+    db_incidents = repo.get_incidents_by_workspace(workspace.id)
+    
+    return [
+        IncidentItemResponse(
+            incident_id=inc.id,
+            status=inc.status,
+            attack_class=inc.attack_class,
+            severity=inc.severity,
+            created_at=inc.created_at.isoformat(),
+            updated_at=inc.updated_at.isoformat(),
+            resolved_at=inc.resolved_at.isoformat() if inc.resolved_at else None,
+            peak_risk=inc.peak_risk_score,
+            max_anomaly=inc.max_anomaly_score,
+            forecast_triggered=inc.forecast_triggered,
+            event_count=len(inc.alerts)
+        )
+        for inc in db_incidents
+    ]
 
 @router.get(
     "/incidents/{incident_id}",
@@ -30,10 +54,30 @@ def get_incidents(
     description="Returns comprehensive timeline, metrics, and event log for a specific incident."
 )
 def get_incident(
-    incident_id: str = Path(..., description="Unique incident identifier (e.g. INC-0001)"),
-    service: SentranetService = Depends(get_sentranet_service),
+    incident_id: str = Path(..., description="Unique incident identifier"),
+    db: Session = Depends(get_db),
+    workspace: Workspace = Depends(get_current_workspace)
 ) -> IncidentDetailResponse:
-    return service.get_incident(incident_id=incident_id)
+    repo = IncidentRepository(db)
+    inc = repo.get_incident(incident_id, workspace.id)
+    if not inc:
+        raise HTTPException(status_code=404, detail="Incident not found in your workspace.")
+        
+    return IncidentDetailResponse(
+        incident_id=inc.id,
+        status=inc.status,
+        attack_class=inc.attack_class,
+        severity=inc.severity,
+        created_at=inc.created_at.isoformat(),
+        updated_at=inc.updated_at.isoformat(),
+        resolution_timestamp=inc.resolved_at.isoformat() if inc.resolved_at else None,
+        first_risk_score=inc.first_risk_score,
+        current_risk_score=inc.current_risk_score,
+        peak_risk_score=inc.peak_risk_score,
+        max_anomaly_score=inc.max_anomaly_score,
+        forecast_triggered=inc.forecast_triggered,
+        estimated_eta_seconds=inc.estimated_eta_seconds
+    )
 
 @router.get(
     "/incidents/{incident_id}/explanation",
@@ -43,14 +87,15 @@ def get_incident(
 )
 def get_incident_explanation(
     incident_id: str = Path(..., description="Unique incident identifier"),
-    service: SentranetService = Depends(get_sentranet_service),
+    db: Session = Depends(get_db),
+    workspace: Workspace = Depends(get_current_workspace)
 ) -> IncidentExplanation:
-    with service.lock:
-        if not service.incident_manager:
-            raise HTTPException(status_code=404, detail="Incident manager not initialized.")
+    repo = IncidentRepository(db)
+    inc = repo.get_incident(incident_id, workspace.id)
+    if not inc:
+        raise HTTPException(status_code=404, detail="Incident not found in your workspace.")
         
-        match = next((inc for inc in service.incident_manager.incidents if inc.incident_id == incident_id), None)
-        if not match:
-            raise HTTPException(status_code=404, detail=f"Incident '{incident_id}' not found.")
-        
-        return build_incident_explanation(match, service.alert_history)
+    alerts = repo.get_incident_alerts(incident_id, workspace.id)
+    domain_inc = repo.to_domain_incident(inc, alerts)
+    
+    return build_incident_explanation(domain_inc, domain_inc.alerts)

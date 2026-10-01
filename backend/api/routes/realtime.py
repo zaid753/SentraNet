@@ -1,21 +1,56 @@
 import logging
+import json
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from backend.api.realtime import ws_manager
+from jose import jwt, JWTError
+from backend.api.realtime.websocket_manager import ws_manager
+from backend.api.auth import SECRET_KEY, ALGORITHM
+from backend.api.database import SessionLocal
+from backend.api.models import Workspace
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 @router.websocket("/events")
 async def websocket_endpoint(websocket: WebSocket):
-    await ws_manager.connect(websocket)
+    await websocket.accept()
     try:
+        # Wait for the first message to be authentication
+        auth_msg_text = await websocket.receive_text()
+        auth_msg = json.loads(auth_msg_text)
+        if auth_msg.get("type") != "authenticate":
+            await websocket.close(code=1008, reason="Authentication required")
+            return
+            
+        token = auth_msg.get("token")
+        if not token:
+            await websocket.close(code=1008, reason="Token required")
+            return
+            
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id: str = payload.get("sub")
+            if not user_id:
+                raise ValueError("Invalid token subject")
+        except (JWTError, ValueError):
+            await websocket.close(code=1008, reason="Invalid token")
+            return
+            
+        # Resolve workspace
+        with SessionLocal() as db:
+            workspace = db.query(Workspace).filter(Workspace.owner_id == user_id).first()
+            if not workspace:
+                await websocket.close(code=1008, reason="No workspace found")
+                return
+            workspace_id = workspace.id
+
+        await ws_manager.connect(websocket, workspace_id)
+        
         while True:
-            # We don't really expect client to send us data in Phase 4, but we must keep the connection open
-            # and receive messages to know if they disconnect.
             data = await websocket.receive_text()
-            # We can just ignore incoming messages for now
+            # Ignore further incoming messages
     except WebSocketDisconnect:
         ws_manager.disconnect(websocket)
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
         ws_manager.disconnect(websocket)
+

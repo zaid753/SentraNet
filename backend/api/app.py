@@ -14,6 +14,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.api.database import engine, Base
+from backend.api.models import User, Workspace, Incident, Alert
+from backend.api.persistence_subscriber import setup_persistence_subscriptions
+
 from backend.api.routes import api_router
 from backend.api.routes.realtime import router as realtime_router
 from backend.api.errors import APIException
@@ -41,6 +45,12 @@ async def lifespan(app: FastAPI):
     # Startup sequence
     logger.info("Initializing SENTRANET API service...")
     try:
+        # Initialize Database
+        logger.info("Initializing database schema...")
+        Base.metadata.create_all(bind=engine)
+        
+        setup_persistence_subscriptions()
+        
         sentranet_service = SentranetService.get_instance()
         logger.info(f"Model engines loaded successfully (Feature count: 17).")
         ReplayService.get_instance(sentranet_service=sentranet_service)

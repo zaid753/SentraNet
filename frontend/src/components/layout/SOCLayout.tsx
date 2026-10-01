@@ -114,7 +114,7 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
                     <li key={item.id}>
                       <button
                         onClick={() => {
-                          onViewChange(item.id === 'architecture' ? 'foundation' : item.id === 'evaluation' ? 'evaluation' : 'dashboard');
+                          onViewChange(item.id);
                           setIsMobileMenuOpen(false);
                         }}
                         className={cn(
