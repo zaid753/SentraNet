@@ -24,6 +24,18 @@ DATASET_SPECS = {
         "labels_available": True,
         "classes": ["BENIGN", "PortScan", "DDoS", "Bot", "SSH-Patator"],
     },
+    "forecast_scenario": {
+        "name": "Forecastable Synthetic Escalation",
+        "category": "Category B — Synthetic Development Fixture",
+        "official_source": "SENTRANET internal fixture generator (scripts/generate_forecast_scenario.py)",
+        "expected_path": "data/samples/forecast_scenario.csv",
+        "description": "Deterministic scenario containing gradual temporal precursors.",
+        "required_files": ["forecast_scenario.csv"],
+        "schema_type": "CICIDS2017-like NetFlow features",
+        "timestamp_available": True,
+        "labels_available": True,
+        "classes": ["BENIGN", "PortScan", "DDoS"],
+    },
     "cicids2017": {
         "name": "CICIDS2017",
         "category": "Category A — Real Benchmark Capture",

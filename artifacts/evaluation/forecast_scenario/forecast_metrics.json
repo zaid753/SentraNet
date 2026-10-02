@@ -1,0 +1,75 @@
+{
+  "attack_onsets_count": 1,
+  "forecasted_onsets_count": 1,
+  "early_forecast_count": 6,
+  "onset_forecast_count": 0,
+  "post_onset_forecast_count": 4,
+  "false_forecast_count": 1,
+  "episodes": [
+    {
+      "attack_class": "SCANNING",
+      "onset": "2026-09-30T10:20:00+00:00",
+      "forecast_raised": true,
+      "first_forecast": "2026-09-30T10:06:00+00:00",
+      "lead_time_seconds": 840.0
+    }
+  ],
+  "lead_times": {
+    "mean": 840.0,
+    "median": 840.0,
+    "min": 840.0,
+    "max": 840.0
+  },
+  "horizon_metrics": {
+    "1m": {
+      "horizon_minutes": 1,
+      "valid_episodes": 1,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 1,
+      "false_forecasts": 10,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "2m": {
+      "horizon_minutes": 2,
+      "valid_episodes": 1,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 1,
+      "false_forecasts": 10,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "5m": {
+      "horizon_minutes": 5,
+      "valid_episodes": 1,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 1,
+      "false_forecasts": 8,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "10m": {
+      "horizon_minutes": 10,
+      "valid_episodes": 1,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 1,
+      "false_forecasts": 7,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "15m": {
+      "horizon_minutes": 15,
+      "valid_episodes": 1,
+      "successful_early_forecasts": 1,
+      "missed_episodes": 0,
+      "false_forecasts": 5,
+      "precision": 0.1667,
+      "recall": 1.0,
+      "f1": 0.2857
+    }
+  }
+}

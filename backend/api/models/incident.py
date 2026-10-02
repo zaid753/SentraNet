@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Float, Integer, Boolean, ForeignKey
+from sqlalchemy import Column, String, DateTime, Float, Integer, Boolean
 from sqlalchemy.orm import relationship
 import uuid
 from datetime import datetime, timezone
@@ -8,7 +8,6 @@ class Incident(Base):
     __tablename__ = "incidents"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    workspace_id = Column(String, ForeignKey("workspaces.id"), nullable=False)
     status = Column(String, nullable=False, default="ACTIVE")
     attack_class = Column(String, nullable=False)
     severity = Column(String, nullable=False)
@@ -22,5 +21,4 @@ class Incident(Base):
     forecast_triggered = Column(Boolean, default=False)
     estimated_eta_seconds = Column(Integer, nullable=True)
 
-    workspace = relationship("Workspace", back_populates="incidents")
     alerts = relationship("Alert", back_populates="incident")

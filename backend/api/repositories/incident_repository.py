@@ -8,14 +8,14 @@ class IncidentRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_incidents_by_workspace(self, workspace_id: str) -> List[Incident]:
-        return self.db.query(Incident).filter(Incident.workspace_id == workspace_id).order_by(Incident.created_at.desc()).all()
+    def get_incidents_all(self) -> List[Incident]:
+        return self.db.query(Incident).order_by(Incident.created_at.desc()).all()
 
-    def get_incident(self, incident_id: str, workspace_id: str) -> Optional[Incident]:
-        return self.db.query(Incident).filter(Incident.id == incident_id, Incident.workspace_id == workspace_id).first()
+    def get_incident(self, incident_id: str) -> Optional[Incident]:
+        return self.db.query(Incident).filter(Incident.id == incident_id).first()
 
-    def get_incident_alerts(self, incident_id: str, workspace_id: str) -> List[Alert]:
-        return self.db.query(Alert).filter(Alert.incident_id == incident_id, Alert.workspace_id == workspace_id).order_by(Alert.created_at.asc()).all()
+    def get_incident_alerts(self, incident_id: str) -> List[Alert]:
+        return self.db.query(Alert).filter(Alert.incident_id == incident_id).order_by(Alert.created_at.asc()).all()
 
     def to_domain_incident(self, inc: Incident, alerts: List[Alert]) -> DomainIncident:
         # Reconstruct the DomainIncident from the DB row for explanation builder

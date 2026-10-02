@@ -2,7 +2,7 @@ import logging
 from backend.api.events.bus import event_bus
 from backend.api.events.models import EventEnvelope, EventTypes
 from backend.api.database import SessionLocal
-from backend.api.models import Incident, Alert, Workspace
+from backend.api.models import Incident, Alert
 import asyncio
 
 logger = logging.getLogger(__name__)
@@ -10,16 +10,7 @@ logger = logging.getLogger(__name__)
 # Basic persistence for Phase 6
 # Listens to domain events and persists them to SQLite
 
-def get_active_workspace_id(db):
-    # Try to get active workspace from replay service
-    from backend.api.services.replay_service import ReplayService
-    replay = ReplayService.get_instance()
-    if replay.active_workspace_id:
-        return replay.active_workspace_id
-    
-    # Fallback to first workspace if none active (e.g., tests)
-    ws = db.query(Workspace).first()
-    return ws.id if ws else "default"
+
 
 def handle_incident_created(event: EventEnvelope):
     payload = event.payload
@@ -28,14 +19,11 @@ def handle_incident_created(event: EventEnvelope):
         return
 
     with SessionLocal() as db:
-        workspace_id = get_active_workspace_id(db)
-        
         # Check if exists
         inc = db.query(Incident).filter(Incident.id == incident_id).first()
         if not inc:
             inc = Incident(
                 id=incident_id,
-                workspace_id=workspace_id,
                 status=payload.get("status", "ACTIVE"),
                 attack_class=payload.get("attack_class", "UNKNOWN"),
                 severity=payload.get("severity", "LOW"),
@@ -86,13 +74,11 @@ def handle_alert_created(event: EventEnvelope):
         return
         
     with SessionLocal() as db:
-        workspace_id = get_active_workspace_id(db)
         alert = db.query(Alert).filter(Alert.id == alert_id).first()
         if not alert:
             alert = Alert(
                 id=alert_id,
                 incident_id=incident_id,
-                workspace_id=workspace_id,
                 alert_type=payload.get("alert_type", "ANOMALY"),
                 status=payload.get("status", "NEW"),
                 risk_score=payload.get("risk_score"),

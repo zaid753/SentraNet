@@ -1,7 +1,7 @@
 {
   "dataset": "sample",
-  "loaded_from": "data/processed/sample/test.parquet",
-  "window_count": 31,
+  "loaded_from": "data/processed/sample",
+  "window_count": 204,
   "features_present": [
     "flow_count",
     "total_packets",

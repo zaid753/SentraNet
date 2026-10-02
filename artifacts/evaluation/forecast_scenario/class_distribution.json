@@ -1,0 +1,13 @@
+{
+  "total_windows": 34,
+  "counts": {
+    "BENIGN": 24,
+    "SCANNING": 5,
+    "DDOS": 5
+  },
+  "percentages": {
+    "BENIGN": 70.59,
+    "SCANNING": 14.71,
+    "DDOS": 14.71
+  }
+}

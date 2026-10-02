@@ -54,7 +54,6 @@ class ReplayService:
         self.windows_processed: int = 0
         self.windows_processed: int = 0
         self.total_windows: int = 0
-        self.active_workspace_id: Optional[str] = None
 
         self.replay_events_history: List[ReplayEvent] = []
 
@@ -86,7 +85,6 @@ class ReplayService:
             self.current_timestamp = None
             self.windows_processed = 0
             self.total_windows = 0
-            self.active_workspace_id = None
             self.replay_events_history.clear()
             self._generator = None
             self._engine = None

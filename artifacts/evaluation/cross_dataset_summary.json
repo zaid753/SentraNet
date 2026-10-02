@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T09:39:50.159130+00:00",
+  "generated_at": "2026-10-01T14:15:57.226655+00:00",
   "evaluation_type": "FROZEN_MODEL",
   "model_provenance": "Phase 2-5 Frozen Models (Category B Synthetic-Trained)",
   "datasets": {
@@ -7,15 +7,29 @@
       "name": "Synthetic Development Fixture (sample)",
       "category": "Category B \u2014 Synthetic Development Fixture",
       "status": "completed",
-      "evaluation_mode": "FULL EVALUATION",
-      "windows": 31,
+      "evaluation_mode": "QUICK EVALUATION \u2014 NOT FULL DATASET",
+      "windows": 10,
       "macro_f1": 1.0,
       "weighted_f1": 1.0,
       "accuracy": 1.0,
       "false_alarms_per_hour": 0.0,
       "attack_detection_rate": 1.0,
       "forecast_mean_lead_time_seconds": null,
-      "throughput_windows_sec": 65.5
+      "throughput_windows_sec": 77.8
+    },
+    "forecast_scenario": {
+      "name": "Forecastable Synthetic Escalation",
+      "category": "Category B \u2014 Synthetic Development Fixture",
+      "status": "completed",
+      "evaluation_mode": "FULL EVALUATION",
+      "windows": 34,
+      "macro_f1": 0.02,
+      "weighted_f1": 0.0565,
+      "accuracy": 0.0294,
+      "false_alarms_per_hour": 41.818,
+      "attack_detection_rate": 1.0,
+      "forecast_mean_lead_time_seconds": 840.0,
+      "throughput_windows_sec": 56.0
     },
     "cicids2017": {
       "name": "CICIDS2017",

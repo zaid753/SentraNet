@@ -32,8 +32,6 @@ const navItems = [
 
   { id: 'integrations', label: 'Integrations', icon: Cpu, group: 'PLATFORM' },
   { id: 'api', label: 'API', icon: Server, group: 'PLATFORM' },
-  { id: 'team', label: 'Team', icon: Shield, group: 'PLATFORM' },
-  { id: 'audit', label: 'Audit Logs', icon: FileSearch, group: 'PLATFORM' },
 
   { id: 'health', label: 'System Health', icon: Activity, group: 'SYSTEM' },
   { id: 'settings', label: 'Settings', icon: Settings, group: 'SYSTEM' },

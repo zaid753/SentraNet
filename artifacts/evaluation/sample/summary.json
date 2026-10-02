@@ -4,7 +4,7 @@
   "category": "Category B \u2014 Synthetic Development Fixture",
   "status": "COMPLETED",
   "evaluation_type": "FROZEN_MODEL",
-  "evaluated_at": "2026-09-30T18:01:26.899629+00:00",
+  "evaluated_at": "2026-10-02T13:23:25.483410+00:00",
   "evaluation_mode": "QUICK EVALUATION \u2014 NOT FULL DATASET",
   "model_version": {
     "xgboost": "models/xgboost/sentranet_xgboost.json",
@@ -17,10 +17,10 @@
     "macro_f1": 1.0,
     "weighted_f1": 1.0,
     "macro_pr_auc": null,
-    "log_loss": 0.1163
+    "log_loss": 0.047
   },
   "false_positives": {
-    "actual_benign_windows": 0,
+    "actual_benign_windows": 10,
     "false_positive_count": 0,
     "false_positive_rate": 0.0,
     "time_span_hours": 0.15,
@@ -29,48 +29,50 @@
   "anomaly_detection": {
     "operational_threshold": 0.497787,
     "benign_score_distribution": {
+      "mean": 0.1402,
+      "median": 0.0897,
+      "p95": 0.3072,
+      "p99": 0.3105
+    },
+    "attack_score_distribution": {
       "mean": null,
       "median": null,
       "p95": null,
       "p99": null
     },
-    "attack_score_distribution": {
-      "mean": 0.7546,
-      "median": 0.774,
-      "p95": 0.8212,
-      "p99": 0.8218
-    },
-    "attack_detection_rate": 1.0,
-    "benign_anomaly_fpr": null
+    "attack_detection_rate": null,
+    "benign_anomaly_fpr": 0.0
   },
   "risk_fusion": {
     "fusion_formula": "clip(0.60 * S_attack + 0.40 * anomaly_score, 0, 1)",
     "risk_state_counts": {
-      "HIGH": 9,
-      "ELEVATED": 1
+      "LOW": 10
     },
-    "benign_risk_distribution": {},
-    "attack_risk_distribution": {
-      "HIGH": 9,
-      "ELEVATED": 1
+    "benign_risk_distribution": {
+      "LOW": 10
     },
+    "attack_risk_distribution": {},
     "false_high_count": 0,
-    "attack_high_rate": 0.9
+    "attack_high_rate": null
   },
   "forecasting": {
-    "attack_onsets_count": 1,
+    "attack_onsets_count": 0,
     "forecasted_onsets_count": 0,
-    "mean_lead_time_seconds": null,
-    "median_lead_time_seconds": null,
-    "horizon_1m_f1": 0.0,
-    "horizon_5m_f1": 0.0
+    "early_forecast_count": 0,
+    "onset_forecast_count": 0,
+    "post_onset_forecast_count": 0,
+    "false_forecast_count": 0,
+    "mean_lead_time_seconds": "N/A",
+    "median_lead_time_seconds": "N/A",
+    "horizon_1m_f1": "N/A",
+    "horizon_5m_f1": "N/A"
   },
   "performance": {
     "total_windows_evaluated": 10,
-    "total_inference_time_seconds": 0.126,
-    "throughput_windows_per_second": 79.5,
-    "latency_ms_mean": 12.51,
-    "latency_ms_median": 12.46,
-    "latency_ms_p95": 12.89
+    "total_inference_time_seconds": 0.123,
+    "throughput_windows_per_second": 81.3,
+    "latency_ms_mean": 12.25,
+    "latency_ms_median": 12.15,
+    "latency_ms_p95": 12.78
   }
 }

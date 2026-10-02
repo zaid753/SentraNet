@@ -104,6 +104,10 @@ def display_results(result: dict):
     print(" [5] TEMPORAL ATTACK FORECASTING")
     print(f"   • Attack Onsets:    {fc.get('attack_onsets_count', 0)}")
     print(f"   • Forecasted:       {fc.get('forecasted_onsets_count', 0)}")
+    print(f"   • EARLY Forecasts:  {fc.get('early_forecast_count', 0)}")
+    print(f"   • ONSET Forecasts:  {fc.get('onset_forecast_count', 0)}")
+    print(f"   • POST-ONSET:       {fc.get('post_onset_forecast_count', 0)}")
+    print(f"   • FALSE Forecasts:  {fc.get('false_forecast_count', 0)}")
     print(f"   • Mean Lead Time:   {format_val(fc.get('mean_lead_time_seconds'), '{:.1f}')} seconds")
     print(f"   • Median Lead Time: {format_val(fc.get('median_lead_time_seconds'), '{:.1f}')} seconds")
     print(f"   • Horizon 1m F1:    {format_val(fc.get('horizon_1m_f1'))}")
@@ -127,7 +131,7 @@ def main():
         "--dataset",
         type=str,
         default=None,
-        choices=["sample", "cicids2017", "unsw_nb15", "cic_ddos2019"],
+        choices=["sample", "cicids2017", "unsw_nb15", "cic_ddos2019", "forecast_scenario"],
         help="Target benchmark dataset identifier to evaluate",
     )
     parser.add_argument(

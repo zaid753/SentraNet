@@ -3,10 +3,16 @@ import { FlaskConical, CheckCircle2, XCircle, AlertTriangle, RefreshCw, Clock, C
 import type { EvaluationSummary, EvaluationDatasetResult } from '../types';
 import { getEvaluationSummary, getDatasetEvaluation } from '../services/api';
 
-const DATASET_KEYS = ['sample', 'cicids2017', 'unsw_nb15', 'cic_ddos2019'] as const;
+const DATASET_KEYS = ['forecast_scenario', 'sample', 'cicids2017', 'unsw_nb15', 'cic_ddos2019'] as const;
 type DatasetKey = typeof DATASET_KEYS[number];
 
 const DATASET_META: Record<DatasetKey, { label: string; shortLabel: string; category: string; color: string }> = {
+  forecast_scenario: {
+    label: 'Forecastable Synthetic Escalation',
+    shortLabel: 'FORECAST-VAL',
+    category: 'Category B',
+    color: 'emerald',
+  },
   sample: {
     label: 'Synthetic Development Fixture',
     shortLabel: 'SAMPLE',
@@ -109,6 +115,19 @@ function DatasetPanel({ result }: { result: EvaluationDatasetResult }) {
           </div>
         </div>
       )}
+      {result.dataset_id === 'forecast_scenario' && isComplete && (
+        <div className="flex items-start gap-3 p-4 rounded-lg border border-purple-700/40 bg-purple-950/20 mb-4">
+          <AlertTriangle className="w-5 h-5 text-purple-400 mt-0.5 shrink-0" />
+          <div>
+            <div className="font-mono font-bold text-purple-300 text-sm tracking-wider">
+              SYNTHETIC VALIDATION // NOT REAL NETWORK TRAFFIC
+            </div>
+            <div className="text-xs text-purple-400/80 mt-1">
+              This scenario is explicitly designed to evaluate the multi-horizon temporal forecasting pipeline under controlled, deterministic conditions. It contains artificial, gradual precursors to validate the AI engine's lead-time calculation and no-future-leakage guarantees.
+            </div>
+          </div>
+        </div>
+      )}
       {isNotEvaluated && (
         <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-700/30 bg-amber-950/20">
           <AlertTriangle className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
@@ -197,9 +216,13 @@ function DatasetPanel({ result }: { result: EvaluationDatasetResult }) {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <MetricCard label="Attack Onsets" value={String(forecast.attack_onsets_count)} />
-                <MetricCard label="Forecasted" value={String(forecast.forecasted_onsets_count)} />
-                <MetricCard label="Mean Lead Time" value={forecast.mean_lead_time_seconds != null ? `${forecast.mean_lead_time_seconds.toFixed(1)}s` : 'N/A'} />
+                <MetricCard label="Early Forecasts" value={String(forecast.early_forecast_count ?? 0)} highlight />
+                <MetricCard label="Onset Forecasts" value={String(forecast.onset_forecast_count ?? 0)} />
+                <MetricCard label="Post-Onset" value={String(forecast.post_onset_forecast_count ?? 0)} />
+                <MetricCard label="False Forecasts" value={String(forecast.false_forecast_count ?? 0)} />
+                <MetricCard label="Mean Lead Time" value={forecast.mean_lead_time_seconds != null ? `${forecast.mean_lead_time_seconds.toFixed(1)}s` : 'N/A'} highlight />
                 <MetricCard label="1m Horizon F1" value={fmt(forecast.horizon_1m_f1)} />
+                <MetricCard label="5m Horizon F1" value={fmt(forecast.horizon_5m_f1)} />
               </div>
             </div>
           )}

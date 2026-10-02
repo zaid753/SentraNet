@@ -1,46 +1,46 @@
 {
-  "split": "sample_quick",
-  "sample_count": 10,
-  "macro_f1": 1.0,
-  "weighted_f1": 1.0,
-  "multiclass_log_loss": 0.047,
-  "macro_pr_auc": null,
-  "pr_auc_valid_class_count": 0,
+  "split": "forecast_scenario_full",
+  "sample_count": 34,
+  "macro_f1": 0.02,
+  "weighted_f1": 0.0565,
+  "multiclass_log_loss": 1.7575,
+  "macro_pr_auc": 0.3929,
+  "pr_auc_valid_class_count": 3,
   "total_class_count": 5,
-  "accuracy_reference": 1.0,
+  "accuracy_reference": 0.0294,
   "per_class": {
     "BENIGN": {
       "class_index": 0,
-      "ground_truth_count": 10,
-      "predicted_count": 10,
+      "ground_truth_count": 24,
+      "predicted_count": 1,
       "precision": 1.0,
-      "recall": 1.0,
-      "f1_score": 1.0,
+      "recall": 0.041666666666666664,
+      "f1_score": 0.08,
       "status": "evaluated"
     },
     "DDOS": {
       "class_index": 1,
-      "ground_truth_count": 0,
-      "predicted_count": 0,
-      "precision": null,
-      "recall": null,
-      "f1_score": null,
-      "status": "class_absent_in_ground_truth"
+      "ground_truth_count": 5,
+      "predicted_count": 9,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "status": "evaluated"
     },
     "SCANNING": {
       "class_index": 2,
-      "ground_truth_count": 0,
-      "predicted_count": 0,
-      "precision": null,
-      "recall": null,
-      "f1_score": null,
-      "status": "class_absent_in_ground_truth"
+      "ground_truth_count": 5,
+      "predicted_count": 10,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "status": "evaluated"
     },
     "BOTNET": {
       "class_index": 3,
       "ground_truth_count": 0,
-      "predicted_count": 0,
-      "precision": null,
+      "predicted_count": 14,
+      "precision": 0.0,
       "recall": null,
       "f1_score": null,
       "status": "class_absent_in_ground_truth"
@@ -57,16 +57,13 @@
   },
   "pr_auc_per_class": {
     "BENIGN": {
-      "pr_auc": null,
-      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+      "pr_auc": 0.7927
     },
     "DDOS": {
-      "pr_auc": null,
-      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+      "pr_auc": 0.2778
     },
     "SCANNING": {
-      "pr_auc": null,
-      "reason": "Class has only one binary state in y_true (no positive or no negative samples)"
+      "pr_auc": 0.1083
     },
     "BOTNET": {
       "pr_auc": null,
@@ -87,9 +84,16 @@
     ],
     "matrix": [
       [
-        10,
+        1,
+        9,
+        5,
+        9,
+        0
+      ],
+      [
         0,
         0,
+        5,
         0,
         0
       ],
@@ -97,14 +101,7 @@
         0,
         0,
         0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
+        5,
         0
       ],
       [

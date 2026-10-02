@@ -1,17 +1,17 @@
 {
   "operational_threshold": 0.497787,
   "benign_score_distribution": {
+    "mean": 0.1402,
+    "median": 0.0897,
+    "p95": 0.3072,
+    "p99": 0.3105
+  },
+  "attack_score_distribution": {
     "mean": null,
     "median": null,
     "p95": null,
     "p99": null
   },
-  "attack_score_distribution": {
-    "mean": 0.7546,
-    "median": 0.774,
-    "p95": 0.8212,
-    "p99": 0.8218
-  },
-  "attack_detection_rate": 1.0,
-  "benign_anomaly_fpr": null
+  "attack_detection_rate": null,
+  "benign_anomaly_fpr": 0.0
 }

@@ -1,73 +1,67 @@
 {
-  "attack_onsets_count": 1,
+  "attack_onsets_count": 0,
   "forecasted_onsets_count": 0,
-  "episodes": [
-    {
-      "attack_class": "SCANNING",
-      "onset": "2026-09-30T10:53:00",
-      "forecast_raised": false,
-      "first_forecast": null,
-      "lead_time_seconds": null,
-      "confidence": null,
-      "risk_at_forecast": null,
-      "eta_error_seconds": null
-    }
-  ],
+  "early_forecast_count": 0,
+  "onset_forecast_count": 0,
+  "post_onset_forecast_count": 0,
+  "false_forecast_count": 0,
+  "episodes": [],
   "lead_times": {
-    "mean": null,
-    "median": null,
-    "min": null,
-    "max": null
-  },
-  "eta_accuracy": {
-    "mean_eta_error_seconds": null,
-    "median_eta_error_seconds": null
+    "mean": "N/A",
+    "median": "N/A",
+    "min": "N/A",
+    "max": "N/A"
   },
   "horizon_metrics": {
     "1m": {
       "horizon_minutes": 1,
-      "tp": 0,
-      "fp": 3,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "valid_episodes": 0,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 0,
+      "false_forecasts": 0,
+      "precision": "N/A",
+      "recall": "N/A",
+      "f1": "N/A"
     },
     "2m": {
       "horizon_minutes": 2,
-      "tp": 0,
-      "fp": 3,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "valid_episodes": 0,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 0,
+      "false_forecasts": 0,
+      "precision": "N/A",
+      "recall": "N/A",
+      "f1": "N/A"
     },
     "5m": {
       "horizon_minutes": 5,
-      "tp": 0,
-      "fp": 3,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "valid_episodes": 0,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 0,
+      "false_forecasts": 0,
+      "precision": "N/A",
+      "recall": "N/A",
+      "f1": "N/A"
     },
     "10m": {
       "horizon_minutes": 10,
-      "tp": 0,
-      "fp": 3,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "valid_episodes": 0,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 0,
+      "false_forecasts": 0,
+      "precision": "N/A",
+      "recall": "N/A",
+      "f1": "N/A"
     },
     "15m": {
       "horizon_minutes": 15,
-      "tp": 0,
-      "fp": 3,
-      "fn": 1,
-      "precision": 0.0,
-      "recall": 0.0,
-      "f1": 0.0
+      "valid_episodes": 0,
+      "successful_early_forecasts": 0,
+      "missed_episodes": 0,
+      "false_forecasts": 0,
+      "precision": "N/A",
+      "recall": "N/A",
+      "f1": "N/A"
     }
   }
 }

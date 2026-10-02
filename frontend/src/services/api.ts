@@ -138,6 +138,12 @@ class ApiService {
     return this.fetchJson<IncidentDetailResponse>(`/api/incidents/${encodeURIComponent(incidentId)}`);
   }
 
+  async resolveIncident(incidentId: string): Promise<IncidentDetailResponse> {
+    return this.fetchJson<IncidentDetailResponse>(`/api/incidents/${encodeURIComponent(incidentId)}/resolve`, {
+      method: 'POST',
+    });
+  }
+
   // Replay Lifecycle
   async startReplay(request: ReplayStartRequest): Promise<ReplayActionResponse> {
     return this.fetchJson<ReplayActionResponse>('/api/replay/start', {
@@ -267,6 +273,8 @@ class ApiService {
   async getAnalyticsSystemHealth(): Promise<any> {
     return this.fetchJson<any>('/api/system/health');
   }
+
+
 }
 
 export const api = new ApiService(API_BASE_URL);
@@ -311,4 +319,5 @@ export const getIncidentExplanation = (id: string) => api.getIncidentExplanation
 // Phase 7: Analytics Exports
 export const getAnalyticsOverview = (timeRange?: string) => api.getAnalyticsOverview(timeRange);
 export const getAnalyticsSystemHealth = () => api.getAnalyticsSystemHealth();
+export const resolveIncident = (id: string) => api.resolveIncident(id);
 

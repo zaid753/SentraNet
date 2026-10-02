@@ -12,7 +12,7 @@ class AnalyticsService:
         self.repo = AnalyticsRepository(db)
         self.db = db
 
-    def get_overview(self, workspace_id: str, range_filter: str = "all") -> Dict[str, Any]:
+    def get_overview(self, range_filter: str = "all") -> Dict[str, Any]:
         start_time = None
         now = datetime.datetime.now(datetime.timezone.utc)
         if range_filter == "24h":
@@ -22,7 +22,7 @@ class AnalyticsService:
         elif range_filter == "30d":
             start_time = now - datetime.timedelta(days=30)
             
-        return self.repo.get_overview(workspace_id, start_time)
+        return self.repo.get_overview(start_time)
 
     def get_system_health(self) -> Dict[str, Any]:
         # 1. DB Health

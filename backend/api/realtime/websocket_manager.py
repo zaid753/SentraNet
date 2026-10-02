@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 
 class WebSocketManager:
     def __init__(self):
-        self.active_connections: Dict[WebSocket, bool] = {}
+        # Store active websockets
+        self.active_connections = set()
 
     async def connect(self, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections[websocket] = True
+        self.active_connections.add(websocket)
         
         # Send initial connection event
         await self.send_event(websocket, EventEnvelope(
@@ -23,7 +23,7 @@ class WebSocketManager:
 
     def disconnect(self, websocket: WebSocket):
         if websocket in self.active_connections:
-            del self.active_connections[websocket]
+            self.active_connections.remove(websocket)
 
     async def send_event(self, websocket: WebSocket, event: EventEnvelope):
         if websocket.application_state == WebSocketState.CONNECTED:
@@ -34,8 +34,7 @@ class WebSocketManager:
                 self.disconnect(websocket)
 
     async def broadcast(self, event: EventEnvelope):
-        # We need a copy of the keys to avoid dictionary changed size during iteration
-        for connection in list(self.active_connections.keys()):
+        for connection in list(self.active_connections):
             await self.send_event(connection, event)
 
 ws_manager = WebSocketManager()

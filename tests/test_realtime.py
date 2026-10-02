@@ -15,6 +15,14 @@ def isolated_bus():
     bus = EventBus()
     return bus
 
+@pytest.fixture
+def setup_realtime_db():
+    from backend.api.database import SessionLocal, Base, engine
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    yield
+    db.close()
+
 def test_event_model_validation():
     # Valid
     env = EventEnvelope(event_type=EventTypes.RISK_UPDATED, payload={"score": 0.5})
@@ -94,15 +102,16 @@ def test_clean_shutdown(isolated_bus):
 
 # --- WEBSOCKET TESTS ---
 # Using TestClient context for testing websockets
-def test_websocket_connection():
+def test_websocket_connection(setup_realtime_db):
     client = TestClient(app)
+    
     with client.websocket_connect("/ws/events") as websocket:
         # First message should be connection established
         data = websocket.receive_json()
         assert data["event_type"] in ["connection.established", "system.status.changed"]
         assert data["payload"].get("status") in ["connected", "CONNECTED"] or "connection" in str(data)
 
-def test_websocket_disconnect():
+def test_websocket_disconnect(setup_realtime_db):
     client = TestClient(app)
     with client.websocket_connect("/ws/events") as websocket:
         data = websocket.receive_json()
@@ -113,7 +122,7 @@ def test_websocket_disconnect():
     # but clean exit without errors implies success.
     assert True
 
-def test_websocket_broadcast_and_event_delivery():
+def test_websocket_broadcast_and_event_delivery(setup_realtime_db):
     client = TestClient(app)
     # We need to trigger an event from the bus to see if it reaches the websocket
     from backend.api.events import event_bus

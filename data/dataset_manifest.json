@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T09:39:49.415544+00:00",
+  "generated_at": "2026-10-01T14:15:56.173975+00:00",
   "project": "SENTRANET",
   "phase": "Phase 10 \u2014 Benchmark Evaluation & Empirical Validation",
   "datasets": {
@@ -28,6 +28,30 @@
         "SSH-Patator"
       ],
       "download_instructions": "Download raw benchmark files from SENTRANET internal fixture generator (scripts/generate_sample_data.py) into 'data/samples/sample_network_traffic.csv/'."
+    },
+    "forecast_scenario": {
+      "dataset_id": "forecast_scenario",
+      "name": "Forecastable Synthetic Escalation",
+      "category": "Category B \u2014 Synthetic Development Fixture",
+      "official_source": "SENTRANET internal fixture generator (scripts/generate_forecast_scenario.py)",
+      "expected_path": "data/samples/forecast_scenario.csv",
+      "available": true,
+      "status": "AVAILABLE",
+      "file_count": 1,
+      "available_files": [
+        "forecast_scenario.csv"
+      ],
+      "missing_files": [],
+      "total_bytes": 3368300,
+      "total_rows": 35751,
+      "timestamp_available": true,
+      "labels_available": true,
+      "attack_categories": [
+        "BENIGN",
+        "PortScan",
+        "DDoS"
+      ],
+      "download_instructions": "Download raw benchmark files from SENTRANET internal fixture generator (scripts/generate_forecast_scenario.py) into 'data/samples/forecast_scenario.csv/'."
     },
     "cicids2017": {
       "dataset_id": "cicids2017",

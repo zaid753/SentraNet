@@ -9,7 +9,6 @@ class Alert(Base):
 
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     incident_id = Column(String, ForeignKey("incidents.id"), nullable=False)
-    workspace_id = Column(String, ForeignKey("workspaces.id"), nullable=False)
     alert_type = Column(String, nullable=False)
     status = Column(String, nullable=False, default="NEW")
     risk_score = Column(Float, nullable=True)

@@ -9,3 +9,4 @@ sqlalchemy
 passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
+scapy>=2.5.0

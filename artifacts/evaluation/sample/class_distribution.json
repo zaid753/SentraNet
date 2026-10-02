@@ -1,9 +1,9 @@
 {
   "total_windows": 10,
   "counts": {
-    "SCANNING": 10
+    "BENIGN": 10
   },
   "percentages": {
-    "SCANNING": 100.0
+    "BENIGN": 100.0
   }
 }

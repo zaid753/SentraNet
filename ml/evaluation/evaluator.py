@@ -364,6 +364,10 @@ class BenchmarkEvaluator:
             "forecasting": {
                 "attack_onsets_count": forecast_results["attack_onsets_count"],
                 "forecasted_onsets_count": forecast_results["forecasted_onsets_count"],
+                "early_forecast_count": forecast_results.get("early_forecast_count", 0),
+                "onset_forecast_count": forecast_results.get("onset_forecast_count", 0),
+                "post_onset_forecast_count": forecast_results.get("post_onset_forecast_count", 0),
+                "false_forecast_count": forecast_results.get("false_forecast_count", 0),
                 "mean_lead_time_seconds": forecast_results["lead_times"]["mean"],
                 "median_lead_time_seconds": forecast_results["lead_times"]["median"],
                 "horizon_1m_f1": forecast_results["horizon_metrics"]["1m"]["f1"],
@@ -380,41 +384,36 @@ class BenchmarkEvaluator:
     def _load_or_preprocess_windows(
         self, dataset_id: str, max_rows: Optional[int] = None
     ) -> Tuple[pd.DataFrame, Dict[str, Any]]:
-        """Loads existing processed parquet windows or processes raw dataset."""
-        processed_path = f"data/processed/{dataset_id}/test.parquet"
-        full_processed_path = f"data/processed/{dataset_id}"
+        """Loads existing processed parquet windows or processes raw dataset.
+        For temporal evaluation of frozen models, we evaluate the entire chronological stream
+        (train + validation + test) to ensure full episode reconstruction.
+        """
+        out_dir = f"data/processed/{dataset_id}"
+        
+        def _load_all_splits(base_dir: str) -> Optional[pd.DataFrame]:
+            dfs = []
+            for split in ["train.parquet", "validation.parquet", "test.parquet"]:
+                p = os.path.join(base_dir, split)
+                if os.path.exists(p):
+                    dfs.append(pd.read_parquet(p))
+            if dfs:
+                df = pd.concat(dfs, ignore_index=True)
+                # Ensure strictly sorted chronological stream
+                return df.sort_values("window_start").reset_index(drop=True)
+            return None
 
-        # If already preprocessed into parquet, load directly
-        if os.path.exists(processed_path):
-            df = pd.read_parquet(processed_path)
-            quality = {
-                "dataset": dataset_id,
-                "loaded_from": processed_path,
-                "window_count": len(df),
-                "features_present": [c for c in CANONICAL_17_FEATURES if c in df.columns],
-                "cleaned": True,
-            }
-            return df, quality
-
-        # Check for multiple parquets in directory
-        if os.path.exists(full_processed_path) and os.path.isdir(full_processed_path):
-            p_files = [
-                os.path.join(full_processed_path, f)
-                for f in sorted(os.listdir(full_processed_path))
-                if f.endswith(".parquet") and not f.startswith(".")
-            ]
-            if p_files:
-                dfs = [pd.read_parquet(pf) for pf in p_files]
-                combined = pd.concat(dfs, ignore_index=True)
+        # Check if already preprocessed
+        if os.path.exists(out_dir):
+            combined_df = _load_all_splits(out_dir)
+            if combined_df is not None and not combined_df.empty:
                 quality = {
                     "dataset": dataset_id,
-                    "loaded_from": full_processed_path,
-                    "partitions": [os.path.basename(pf) for pf in p_files],
-                    "window_count": len(combined),
-                    "features_present": [c for c in CANONICAL_17_FEATURES if c in combined.columns],
+                    "loaded_from": out_dir,
+                    "window_count": len(combined_df),
+                    "features_present": [c for c in CANONICAL_17_FEATURES if c in combined_df.columns],
                     "cleaned": True,
                 }
-                return combined, quality
+                return combined_df, quality
 
         # Otherwise, run PreprocessingPipeline if raw files exist
         spec = DATASET_SPECS.get(dataset_id, {})
@@ -425,9 +424,10 @@ class BenchmarkEvaluator:
                 window_size_seconds=60,
                 rolling_window_count=5,
             )
-            out_dir = f"data/processed/{dataset_id}"
             metadata = pipeline.run(input_path=raw_path, output_dir=out_dir, max_rows=max_rows)
-            df = pd.read_parquet(os.path.join(out_dir, "test.parquet"))
+            df = _load_all_splits(out_dir)
+            if df is None:
+                df = pd.DataFrame()
             return df, metadata
 
         return pd.DataFrame(), {"dataset": dataset_id, "status": "no_data"}
@@ -439,8 +439,7 @@ class BenchmarkEvaluator:
         forecast_events: List[Dict[str, Any]],
     ) -> Dict[str, Any]:
         """
-        Reconstructs attack episodes and evaluates forecast precision, recall,
-        lead times, and ETA estimation errors.
+        Reconstructs attack episodes and strictly evaluates forecast events.
         """
         # Reconstruct attack episodes (contiguous non-benign windows)
         episodes = []
@@ -473,48 +472,72 @@ class BenchmarkEvaluator:
         if in_episode and current_ep:
             episodes.append(current_ep)
 
-        # Match forecasts to attack onsets
-        forecasted_count = 0
+        # Categorize every forecast event
+        early_forecasts = []
+        onset_forecasts = []
+        post_onset_forecasts = []
+        false_forecasts = []
+
+        for fc in forecast_events:
+            fc_t = pd.to_datetime(fc["timestamp"])
+            classified = False
+            
+            # 1. Check if it's an EARLY FORECAST
+            for ep in episodes:
+                onset_t = ep["onset_timestamp"]
+                lead_time = (onset_t - fc_t).total_seconds()
+                if 0 < lead_time <= 900:  # strictly before onset, up to 15m
+                    early_forecasts.append(fc)
+                    classified = True
+                    break
+            
+            if classified:
+                continue
+                
+            # 2. Check if it's ONSET or POST-ONSET
+            for ep in episodes:
+                onset_t = ep["onset_timestamp"]
+                end_t = ep["end_timestamp"]
+                if onset_t <= fc_t <= end_t:
+                    offset = (fc_t - onset_t).total_seconds()
+                    if offset <= 60:
+                        onset_forecasts.append(fc)
+                    else:
+                        post_onset_forecasts.append(fc)
+                    classified = True
+                    break
+                    
+            if not classified:
+                false_forecasts.append(fc)
+
+        # Evaluate episodes for valid forecasts
+        forecasted_episodes = 0
         lead_times_seconds: List[float] = []
-        eta_errors_seconds: List[float] = []
 
         onset_records = []
-
         for ep in episodes:
             onset_ts = ep["onset_timestamp"]
-            onset_idx = ep["onset_index"]
             att_class = ep["attack_class"]
-
-            # Prior forecasts before onset (within 15 minutes = 900 seconds)
-            prior_forecasts = [
-                fc for fc in forecast_events
-                if fc["window_index"] < onset_idx
-                and 0 < (onset_ts - pd.to_datetime(fc["timestamp"])).total_seconds() <= 900
+            
+            # Find earliest valid forecast for this episode
+            valid_fcs = [
+                fc for fc in early_forecasts
+                if 0 < (onset_ts - pd.to_datetime(fc["timestamp"])).total_seconds() <= 900
             ]
-
-            if prior_forecasts:
-                forecasted_count += 1
-                # Earliest valid precursor forecast
-                first_fc = prior_forecasts[0]
+            
+            if valid_fcs:
+                forecasted_episodes += 1
+                first_fc = valid_fcs[0]
                 fc_ts = pd.to_datetime(first_fc["timestamp"])
                 lead_time = (onset_ts - fc_ts).total_seconds()
                 lead_times_seconds.append(lead_time)
-
-                # ETA Error: predicted ETA vs actual lead time
-                pred_eta = first_fc.get("eta_seconds")
-                eta_err = abs(pred_eta - lead_time) if pred_eta is not None else None
-                if eta_err is not None:
-                    eta_errors_seconds.append(eta_err)
-
+                
                 onset_records.append({
                     "attack_class": att_class,
                     "onset": onset_ts.isoformat(),
                     "forecast_raised": True,
                     "first_forecast": fc_ts.isoformat(),
                     "lead_time_seconds": lead_time,
-                    "confidence": first_fc["confidence"],
-                    "risk_at_forecast": first_fc["risk_score"],
-                    "eta_error_seconds": eta_err,
                 })
             else:
                 onset_records.append({
@@ -523,62 +546,69 @@ class BenchmarkEvaluator:
                     "forecast_raised": False,
                     "first_forecast": None,
                     "lead_time_seconds": None,
-                    "confidence": None,
-                    "risk_at_forecast": None,
-                    "eta_error_seconds": None,
                 })
 
-        # Calculate horizon precision/recall across 1m, 2m, 5m, 10m, 15m
+        # Calculate horizon precision/recall
         horizons = [1, 2, 5, 10, 15]
         horizon_metrics = {}
 
         for h in horizons:
             h_seconds = h * 60
-            # TP: attack onset that had a forecast within [h_seconds - 60, h_seconds + 60] or up to h_seconds
+            
+            # tp = valid forecast episodes within this horizon
             tp = sum(1 for rec in onset_records if rec["forecast_raised"] and rec["lead_time_seconds"] <= h_seconds)
             fn = len(episodes) - tp
-            # FP: forecast events that were not followed by an attack onset within h_seconds
+            
+            # fp = forecast events not followed by attack onset within h_seconds
             fp = 0
             for fc in forecast_events:
                 fc_t = pd.to_datetime(fc["timestamp"])
-                followed_by_attack = any(
+                followed = any(
                     0 < (ep["onset_timestamp"] - fc_t).total_seconds() <= h_seconds
                     for ep in episodes
                 )
-                if not followed_by_attack:
+                if not followed:
                     fp += 1
 
-            prec = (tp / (tp + fp)) if (tp + fp) > 0 else 0.0
-            rec = (tp / (tp + fn)) if (tp + fn) > 0 else 0.0
-            f1_h = (2 * prec * rec / (prec + rec)) if (prec + rec) > 0 else 0.0
+            if len(episodes) == 0:
+                prec = None
+                rec = None
+                f1_h = None
+            else:
+                prec = (tp / (tp + fp)) if (tp + fp) > 0 else 0.0
+                rec = (tp / (tp + fn)) if (tp + fn) > 0 else 0.0
+                f1_h = (2 * prec * rec / (prec + rec)) if (prec + rec) > 0 else 0.0
 
             horizon_metrics[f"{h}m"] = {
                 "horizon_minutes": h,
-                "tp": tp,
-                "fp": fp,
-                "fn": fn,
-                "precision": round(prec, 4),
-                "recall": round(rec, 4),
-                "f1": round(f1_h, 4),
+                "valid_episodes": len(episodes),
+                "successful_early_forecasts": tp,
+                "missed_episodes": fn,
+                "false_forecasts": fp,
+                "precision": round(prec, 4) if prec is not None else "N/A",
+                "recall": round(rec, 4) if rec is not None else "N/A",
+                "f1": round(f1_h, 4) if f1_h is not None else "N/A",
             }
 
-        lead_stats = {
-            "mean": round(float(np.mean(lead_times_seconds)), 1) if lead_times_seconds else None,
-            "median": round(float(np.median(lead_times_seconds)), 1) if lead_times_seconds else None,
-            "min": round(float(np.min(lead_times_seconds)), 1) if lead_times_seconds else None,
-            "max": round(float(np.max(lead_times_seconds)), 1) if lead_times_seconds else None,
-        }
+        def _stat(arr, fn):
+            if not arr: return "N/A"
+            return round(float(fn(arr)), 1)
 
-        eta_stats = {
-            "mean_eta_error_seconds": round(float(np.mean(eta_errors_seconds)), 1) if eta_errors_seconds else None,
-            "median_eta_error_seconds": round(float(np.median(eta_errors_seconds)), 1) if eta_errors_seconds else None,
+        lead_stats = {
+            "mean": _stat(lead_times_seconds, np.mean),
+            "median": _stat(lead_times_seconds, np.median),
+            "min": _stat(lead_times_seconds, np.min),
+            "max": _stat(lead_times_seconds, np.max),
         }
 
         return {
             "attack_onsets_count": len(episodes),
-            "forecasted_onsets_count": forecasted_count,
+            "forecasted_onsets_count": forecasted_episodes,
+            "early_forecast_count": len(early_forecasts),
+            "onset_forecast_count": len(onset_forecasts),
+            "post_onset_forecast_count": len(post_onset_forecasts),
+            "false_forecast_count": len(false_forecasts),
             "episodes": onset_records,
             "lead_times": lead_stats,
-            "eta_accuracy": eta_stats,
             "horizon_metrics": horizon_metrics,
         }

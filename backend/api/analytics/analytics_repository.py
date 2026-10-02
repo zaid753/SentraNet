@@ -8,9 +8,9 @@ class AnalyticsRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_overview(self, workspace_id: str, start_time: Optional[datetime.datetime] = None) -> Dict[str, Any]:
-        incidents_query = self.db.query(Incident).filter(Incident.workspace_id == workspace_id)
-        alerts_query = self.db.query(Alert).filter(Alert.workspace_id == workspace_id)
+    def get_overview(self, start_time: Optional[datetime.datetime] = None) -> Dict[str, Any]:
+        incidents_query = self.db.query(Incident)
+        alerts_query = self.db.query(Alert)
 
         if start_time:
             incidents_query = incidents_query.filter(Incident.created_at >= start_time)

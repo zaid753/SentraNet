@@ -1,0 +1,18 @@
+{
+  "fusion_formula": "clip(0.60 * S_attack + 0.40 * anomaly_score, 0, 1)",
+  "risk_state_counts": {
+    "HIGH": 24,
+    "ELEVATED": 9,
+    "GUARDED": 1
+  },
+  "benign_risk_distribution": {
+    "HIGH": 14,
+    "ELEVATED": 9,
+    "GUARDED": 1
+  },
+  "attack_risk_distribution": {
+    "HIGH": 10
+  },
+  "false_high_count": 14,
+  "attack_high_rate": 1.0
+}

@@ -4,7 +4,7 @@
   "category": "Category A \u2014 Real Benchmark Capture",
   "status": "NOT_AVAILABLE",
   "evaluation_type": "FROZEN_MODEL",
-  "evaluated_at": "2026-09-30T18:01:25.752575+00:00",
+  "evaluated_at": "2026-10-02T13:23:22.130656+00:00",
   "message": "Dataset 'cic_ddos2019' is not available locally. Raw benchmark files are missing from 'data/raw/cic_ddos2019'.",
   "expected_path": "data/raw/cic_ddos2019",
   "missing_files": [

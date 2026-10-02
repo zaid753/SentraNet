@@ -13,6 +13,11 @@ import os
 import json
 import pandas as pd
 from datetime import datetime
+import threading
+import queue
+import time
+
+from backend.telemetry.live.flow_builder import FlowBuilder
 
 from backend.telemetry.flow_schema import FlowRecord
 from backend.telemetry.flow_normalizer import normalize_flow
@@ -170,24 +175,119 @@ class ReplayFlowSource(FileFlowSource):
 
 class LiveFlowSource:
     """
-    Placeholder interface for future live packet or IPFIX/NetFlow capture.
-    Strict scientific boundary: In Phase 9, live capture is deliberately NOT enabled
-    and unprivileged. Always clearly indicates that live source is not configured.
+    Live packet capture and flow extraction.
+    Captures traffic via scapy in a background thread, groups it via FlowBuilder,
+    and exposes a read() interface for WindowAggregator.
     """
 
     def __init__(self, interface: Optional[str] = None):
         self.interface = interface
         self._source_type: SourceType = "live"
+        self._flow_builder = FlowBuilder()
+        self._flow_queue: queue.Queue[FlowRecord] = queue.Queue()
+        
+        self._thread: Optional[threading.Thread] = None
+        self._stop_event = threading.Event()
+        self._is_running = False
+        
+        self.state = "STOPPED"
+        self.error_message: Optional[str] = None
 
     @property
     def source_type(self) -> SourceType:
         return self._source_type
+        
+    def start(self) -> None:
+        if self._is_running:
+            return
+            
+        self.state = "STARTING"
+        self.error_message = None
+        self._stop_event.clear()
+        
+        try:
+            from scapy.all import sniff
+        except ImportError as e:
+            self.state = "ERROR"
+            self.error_message = f"SCAPY IMPORT FAILED: {str(e)}"
+            return
+            
+        self._thread = threading.Thread(target=self._capture_loop, daemon=True)
+        self._thread.start()
+
+    def stop(self) -> None:
+        self._stop_event.set()
+        if self._thread and self._thread.is_alive():
+            self._thread.join(timeout=2.0)
+        self._is_running = False
+        self.state = "STOPPED"
+
+        final_flows = self._flow_builder.flush()
+        for f in final_flows:
+            self._flow_queue.put(f)
+
+    def _capture_loop(self) -> None:
+        try:
+            from scapy.all import sniff
+        except ImportError:
+            self.state = "ERROR"
+            self.error_message = "Scapy not installed."
+            return
+
+        self._is_running = True
+        self.state = "RUNNING"
+        
+        last_expire = time.time()
+
+        def packet_handler(pkt):
+            if self._stop_event.is_set():
+                return
+            
+            flows = self._flow_builder.process_packet(pkt)
+            for f in flows:
+                self._flow_queue.put(f)
+                
+            nonlocal last_expire
+            now = time.time()
+            if now - last_expire > 5.0:
+                stale = self._flow_builder.expire_stale_flows(now)
+                for f in stale:
+                    self._flow_queue.put(f)
+                last_expire = now
+
+        while not self._stop_event.is_set() and self.state == "RUNNING":
+            try:
+                sniff(
+                    iface=self.interface,
+                    prn=packet_handler,
+                    store=False,
+                    stop_filter=lambda _: self._stop_event.is_set(),
+                    timeout=2.0
+                )
+            except PermissionError as pe:
+                self._is_running = False
+                self.state = "PERMISSION_DENIED"
+                self.error_message = "LIVE NETWORK UNAVAILABLE: PACKET CAPTURE PERMISSION REQUIRED"
+                break
+            except Exception as e:
+                self._is_running = False
+                self.state = "ERROR"
+                self.error_message = str(e)
+                break
 
     def read(self) -> Optional[FlowRecord]:
-        raise NotImplementedError(
-            "Live telemetry source not configured. Phase 9 operates on Synthetic Stream and "
-            "Historical Replay. Live capture (IPFIX/NetFlow/eBPF) is reserved for Phase 10+."
-        )
+        try:
+            return self._flow_queue.get_nowait()
+        except queue.Empty:
+            return None
 
     def __iter__(self) -> Iterator[FlowRecord]:
-        raise NotImplementedError("Live telemetry source not configured.")
+        while True:
+            rec = self.read()
+            if rec is None:
+                if not self._is_running and self._flow_queue.empty():
+                    break
+                else:
+                    break
+            yield rec
+

@@ -263,6 +263,10 @@ export interface EvaluationRiskFusion {
 export interface EvaluationForecasting {
   attack_onsets_count: number;
   forecasted_onsets_count: number;
+  early_forecast_count?: number;
+  onset_forecast_count?: number;
+  post_onset_forecast_count?: number;
+  false_forecast_count?: number;
   mean_lead_time_seconds: number | null;
   median_lead_time_seconds: number | null;
   horizon_1m_f1: number | null;

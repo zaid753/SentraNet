@@ -143,7 +143,7 @@ export function AnalyticsPage() {
                 </svg>
                 <div className="space-y-1">
                   <h3 className="font-medium text-foreground">Trend Visualization Note</h3>
-                  <p className="text-sm text-muted-foreground max-w-md">Detailed timeseries rendering relies on continuous synthetic replay data. Advanced charting modules are initializing based on workspace events.</p>
+                  <p className="text-sm text-muted-foreground max-w-md">Detailed timeseries rendering relies on continuous synthetic replay data. Advanced charting modules are initializing based on system events.</p>
                 </div>
               </div>
 

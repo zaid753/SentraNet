@@ -57,9 +57,9 @@ def test_profiles_metadata_validity():
             assert flow.protocol in ["TCP", "UDP", "ICMP", "OTHER"]
 
 
-def test_live_source_placeholder_behavior():
+def test_live_source_behavior():
     live = LiveFlowSource()
     assert live.source_type == "live"
-    with pytest.raises(NotImplementedError) as exc_info:
-        live.read()
-    assert "Live telemetry source not configured" in str(exc_info.value)
+    assert live.state == "STOPPED"
+    assert live.error_message is None
+

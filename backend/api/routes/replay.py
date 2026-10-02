@@ -11,8 +11,6 @@ from backend.api.schemas.replay import (
 )
 from backend.api.services.replay_service import ReplayService
 from backend.api.dependencies import get_replay_service
-from backend.api.auth import get_current_workspace
-from backend.api.models import Workspace
 
 router = APIRouter(tags=["Replay"])
 
@@ -24,11 +22,8 @@ router = APIRouter(tags=["Replay"])
 )
 def start_replay(
     request: ReplayStartRequest,
-    service: ReplayService = Depends(get_replay_service),
-    workspace: Workspace = Depends(get_current_workspace)
+    service: ReplayService = Depends(get_replay_service)
 ) -> ReplayActionResponse:
-    with service.lock:
-        service.active_workspace_id = workspace.id
     return service.start(request)
 
 @router.post(

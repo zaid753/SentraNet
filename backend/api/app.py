@@ -13,9 +13,12 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+import time
+from collections import defaultdict
 
 from backend.api.database import engine, Base
-from backend.api.models import User, Workspace, Incident, Alert
+from backend.api.models import Incident, Alert
 from backend.api.persistence_subscriber import setup_persistence_subscriptions
 
 from backend.api.routes import api_router
@@ -97,6 +100,19 @@ def create_app() -> FastAPI:
             allow_methods=["*"],
             allow_headers=["*"],
         )
+
+    class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request, call_next):
+            response = await call_next(request)
+            response.headers["X-Content-Type-Options"] = "nosniff"
+            response.headers["X-Frame-Options"] = "DENY"
+            response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+            response.headers["Content-Security-Policy"] = "default-src 'self' 'unsafe-inline' 'unsafe-eval' data:; connect-src 'self' ws: wss: http: https:;"
+            return response
+
+    app.add_middleware(SecurityHeadersMiddleware)
+
+
 
     # Exception Handlers
     @app.exception_handler(APIException)
