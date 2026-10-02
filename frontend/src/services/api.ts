@@ -16,6 +16,9 @@ import type {
   TelemetryActionResponse,
   EvaluationSummary,
   EvaluationDatasetResult,
+  LiveStatusResponse,
+  LiveStartRequest,
+  InterfaceResponse,
 } from '../types';
 import type { ExplanationResponse, IncidentExplanation } from '../types/explainability';
 
@@ -243,6 +246,27 @@ class ApiService {
     return this.fetchJson<SyntheticStatusResponse>('/api/telemetry/synthetic/status');
   }
 
+  async getInterfaces(): Promise<InterfaceResponse[]> {
+    return this.fetchJson<InterfaceResponse[]>('/api/telemetry/interfaces');
+  }
+
+  async getLiveStatus(): Promise<LiveStatusResponse> {
+    return this.fetchJson<LiveStatusResponse>('/api/telemetry/live/status');
+  }
+
+  async startLiveCapture(req: LiveStartRequest): Promise<LiveStatusResponse> {
+    return this.fetchJson<LiveStatusResponse>('/api/telemetry/live/start', {
+      method: 'POST',
+      body: JSON.stringify(req),
+    });
+  }
+
+  async stopLiveCapture(): Promise<LiveStatusResponse> {
+    return this.fetchJson<LiveStatusResponse>('/api/telemetry/live/stop', {
+      method: 'POST',
+    });
+  }
+
   getBaseUrl(): string {
     return this.baseUrl;
   }
@@ -307,6 +331,11 @@ export const stopSyntheticStream = () => api.stopSyntheticStream();
 export const pauseSyntheticStream = () => api.pauseSyntheticStream();
 export const resumeSyntheticStream = () => api.resumeSyntheticStream();
 export const getSyntheticStatus = () => api.getSyntheticStatus();
+
+export const getInterfaces = () => api.getInterfaces();
+export const getLiveStatus = () => api.getLiveStatus();
+export const startLiveCapture = (req: LiveStartRequest) => api.startLiveCapture(req);
+export const stopLiveCapture = () => api.stopLiveCapture();
 
 // Phase 10: Evaluation Exports
 export const getEvaluationSummary = () => api.getEvaluationSummary();

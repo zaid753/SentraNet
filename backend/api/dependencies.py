@@ -25,3 +25,7 @@ def get_stream_processor() -> "StreamProcessor":
 def get_synthetic_stream_service() -> "SyntheticStreamService":
     from backend.telemetry.synthetic_service import SyntheticStreamService
     return SyntheticStreamService.get_instance()
+
+def get_live_service():
+    from backend.api.services.live_service import LiveService
+    return LiveService.get_instance()

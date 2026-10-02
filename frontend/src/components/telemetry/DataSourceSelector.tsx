@@ -1,12 +1,13 @@
 import React from 'react';
 import type { TelemetrySource } from '../../types';
-import { Database, Activity, Radio, Lock } from 'lucide-react';
+import { Database, Activity, Radio } from 'lucide-react';
 
 interface DataSourceSelectorProps {
   currentSource: TelemetrySource;
   onSelectSource: (source: TelemetrySource) => void;
   isHistoricalRunning: boolean;
   isSyntheticRunning: boolean;
+  isLiveRunning: boolean;
 }
 
 export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
@@ -14,6 +15,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
   onSelectSource,
   isHistoricalRunning,
   isSyntheticRunning,
+  isLiveRunning,
 }) => {
   return (
     <div className="soc-panel rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -70,18 +72,28 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           </span>
         </button>
 
-        {/* Live Telemetry (Disabled / Placeholder) */}
-        <div
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg border bg-slate-950/50 border-slate-800/40 text-slate-600 cursor-not-allowed opacity-60"
-          title="Live packet capture (IPFIX/NetFlow/eBPF) is reserved for Phase 10+"
+        {/* Live Telemetry */}
+        <button
+          onClick={() => onSelectSource('live')}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+            currentSource === 'live'
+              ? 'bg-red-500/20 border-red-500/60 text-red-200 font-bold shadow-sm'
+              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+          }`}
         >
-          <Radio className="w-3.5 h-3.5 text-slate-600" />
+          <Radio className="w-3.5 h-3.5 text-red-400" />
           <span>Live Telemetry</span>
-          <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-slate-500 border border-slate-800 flex items-center gap-1">
-            <Lock className="w-2.5 h-2.5" />
-            NOT CONFIGURED
+          {isLiveRunning && (
+            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+          )}
+          <span className={`text-[9px] px-1.5 py-0.2 rounded border ${
+            currentSource === 'live' 
+            ? 'bg-red-950/80 text-red-400 border-red-800/40' 
+            : 'bg-slate-900 text-slate-500 border-slate-800'
+          }`}>
+            EXPERIMENTAL
           </span>
-        </div>
+        </button>
       </div>
     </div>
   );

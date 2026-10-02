@@ -20,7 +20,9 @@ import { IncidentTable } from '../components/incidents/IncidentTable';
 import { ExplanationPanel } from '../components/explainability/ExplanationPanel';
 import { DataSourceSelector } from '../components/telemetry/DataSourceSelector';
 import { SyntheticStreamControls } from '../components/telemetry/SyntheticStreamControls';
+import { LiveStreamControls } from '../components/telemetry/LiveStreamControls';
 import { useSyntheticStream } from '../hooks/useSyntheticStream';
+import { useLiveStream } from '../hooks/useLiveStream';
 import type { TelemetrySource } from '../types';
 
 import { AlertTriangle, RefreshCw } from 'lucide-react';
@@ -35,9 +37,14 @@ export const DashboardPage: React.FC = () => {
   const { connectionState, refresh: refreshSystem } = useSystemStatus();
   const replay = useReplay();
   const synthetic = useSyntheticStream();
+  const live = useLiveStream();
 
-  // Active stream state (either historical replay or synthetic stream)
-  const isStreamActive = activeDataSource === 'synthetic' ? synthetic.isRunning : replay.isRunning;
+  // Active stream state (either historical replay or synthetic stream or live)
+  const isStreamActive = activeDataSource === 'synthetic' 
+    ? synthetic.isRunning 
+    : activeDataSource === 'live'
+    ? live.isRunning
+    : replay.isRunning;
   const { risk, isLoading: isRiskLoading, refresh: refreshRisk } = useCurrentRisk(isStreamActive);
   const { points: timelinePoints, isLoading: isTimelineLoading, refresh: refreshTimeline } = useTimeline(isStreamActive, 50);
   const { alerts, currentAlert, isLoading: isAlertsLoading, refresh: refreshAlerts } = useAlerts(isStreamActive, 20);
@@ -50,6 +57,7 @@ export const DashboardPage: React.FC = () => {
     refreshSystem();
     replay.refresh();
     synthetic.refresh();
+    live.refresh();
     refreshRisk();
     refreshTimeline();
     refreshAlerts();
@@ -100,6 +108,7 @@ export const DashboardPage: React.FC = () => {
         onSelectSource={(src) => setActiveDataSource(src)}
         isHistoricalRunning={replay.isRunning}
         isSyntheticRunning={synthetic.isRunning}
+        isLiveRunning={live.isRunning}
       />
 
       {/* 1. Security Posture Hero */}
@@ -153,7 +162,7 @@ export const DashboardPage: React.FC = () => {
               onReset={replay.reset}
               currentAttackClass={risk?.attack_class}
             />
-          ) : (
+          ) : activeDataSource === 'synthetic' ? (
             <SyntheticStreamControls
               telemetryStatus={synthetic.telemetryStatus}
               syntheticStatus={synthetic.syntheticStatus}
@@ -167,6 +176,17 @@ export const DashboardPage: React.FC = () => {
               onResume={synthetic.resume}
               onFlush={synthetic.flush}
               onReset={synthetic.reset}
+            />
+          ) : (
+            <LiveStreamControls
+              telemetryStatus={live.telemetryStatus}
+              liveStatus={live.liveStatus}
+              interfaces={live.interfaces}
+              isRunning={live.isRunning}
+              isLoading={live.isLoading}
+              actionError={live.actionError}
+              onStart={live.start}
+              onStop={live.stop}
             />
           )}
         </div>

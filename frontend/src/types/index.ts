@@ -234,6 +234,25 @@ export interface TelemetryActionResponse {
   details?: Record<string, unknown> | null;
 }
 
+export interface LiveStatusResponse {
+  state: string;
+  interface?: string | null;
+  error_message?: string | null;
+  packet_count: number;
+  flow_count: number;
+  start_time?: string | null;
+  last_packet_time?: string | null;
+}
+
+export interface LiveStartRequest {
+  interface: string;
+}
+
+export interface InterfaceResponse {
+  name: string;
+  description: string;
+}
+
 // ============================================================
 // Phase 10: Benchmark Evaluation Types
 // ============================================================

@@ -15,10 +15,14 @@ from backend.api.schemas.telemetry import (
     SyntheticStartRequest,
     SyntheticStatusResponse,
     TelemetryActionResponse,
+    LiveStartRequest,
+    LiveStatusResponse,
+    InterfaceResponse
 )
-from backend.api.dependencies import get_stream_processor, get_synthetic_stream_service
+from backend.api.dependencies import get_stream_processor, get_synthetic_stream_service, get_live_service
 from backend.telemetry.stream_processor import StreamProcessor
 from backend.telemetry.synthetic_service import SyntheticStreamService
+from backend.api.services.live_service import LiveService
 from backend.api.errors import ConflictException
 
 router = APIRouter(prefix="/telemetry", tags=["telemetry"])
@@ -144,6 +148,58 @@ async def get_synthetic_status(
     status_data = synthetic_svc.get_status()
     return SyntheticStatusResponse(**status_data)
 
+
+@router.get(
+    "/interfaces",
+    response_model=list[InterfaceResponse],
+    summary="Get available network interfaces",
+)
+async def get_interfaces() -> list[InterfaceResponse]:
+    return LiveService.get_interfaces()
+
+
+@router.get(
+    "/live/status",
+    response_model=LiveStatusResponse,
+    summary="Get live capture status",
+)
+async def get_live_status(
+    live_svc: LiveService = Depends(get_live_service),
+) -> LiveStatusResponse:
+    return LiveStatusResponse(**live_svc.get_status())
+
+
+@router.post(
+    "/live/start",
+    response_model=LiveStatusResponse,
+    summary="Start live packet capture",
+)
+async def start_live_capture(
+    req: LiveStartRequest,
+    live_svc: LiveService = Depends(get_live_service),
+    synthetic_svc: SyntheticStreamService = Depends(get_synthetic_stream_service)
+) -> LiveStatusResponse:
+    synth_status = synthetic_svc.get_status()
+    if synth_status["status"] in ["running", "paused"]:
+        raise ConflictException(
+            code="SYNTHETIC_RUNNING",
+            message="Cannot start live capture while synthetic stream is active. Stop it first."
+        )
+    
+    status_data = live_svc.start(interface=req.interface)
+    return LiveStatusResponse(**status_data)
+
+
+@router.post(
+    "/live/stop",
+    response_model=LiveStatusResponse,
+    summary="Stop live packet capture",
+)
+async def stop_live_capture(
+    live_svc: LiveService = Depends(get_live_service),
+) -> LiveStatusResponse:
+    status_data = live_svc.stop()
+    return LiveStatusResponse(**status_data)
 
 @router.post(
     "/reset",

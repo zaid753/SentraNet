@@ -73,3 +73,19 @@ class TelemetryActionResponse(BaseModel):
     message: str
     timestamp: str
     details: Optional[Dict[str, Any]] = None
+
+class LiveStartRequest(BaseModel):
+    interface: str = Field(..., description="Network interface to capture from (e.g. en0)")
+
+class LiveStatusResponse(BaseModel):
+    state: str
+    interface: Optional[str]
+    error_message: Optional[str]
+    packet_count: int
+    flow_count: int
+    start_time: Optional[str]
+    last_packet_time: Optional[str]
+
+class InterfaceResponse(BaseModel):
+    name: str
+    description: str
