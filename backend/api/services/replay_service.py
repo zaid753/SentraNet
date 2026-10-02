@@ -30,6 +30,7 @@ DATASET_PRESETS = {
     "test": "data/processed/sample/test.parquet",
     "train": "data/processed/sample/train.parquet",
     "sample": "data/processed/sample/validation.parquet",
+    "cicids2017_friday_morning": "data/processed/cicids2017/Friday-WorkingHours-Morning.parquet",
 }
 
 class ReplayService:

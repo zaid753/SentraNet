@@ -91,6 +91,7 @@ export const ReplayControls: React.FC<ReplayControlsProps> = ({
               <option value="validation">validation</option>
               <option value="test">test.parquet</option>
               <option value="train">train.parquet</option>
+              <option value="cicids2017_friday_morning">CIC-IDS2017 (Fri Morning)</option>
             </select>
           </div>
           <div className="flex items-center gap-2">

@@ -270,9 +270,14 @@ class LiveFlowSource:
                 self.error_message = "LIVE NETWORK UNAVAILABLE: PACKET CAPTURE PERMISSION REQUIRED"
                 break
             except Exception as e:
-                self._is_running = False
-                self.state = "ERROR"
-                self.error_message = str(e)
+                if "Permission denied" in str(e) or "not permitted" in str(e).lower():
+                    self._is_running = False
+                    self.state = "PERMISSION_DENIED"
+                    self.error_message = "LIVE NETWORK UNAVAILABLE: PACKET CAPTURE PERMISSION REQUIRED"
+                else:
+                    self._is_running = False
+                    self.state = "ERROR"
+                    self.error_message = str(e)
                 break
 
     def read(self) -> Optional[FlowRecord]:
