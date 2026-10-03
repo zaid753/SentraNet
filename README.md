@@ -2,19 +2,37 @@
 
 > **"From detecting attacks to forecasting them."**
 
-SENTRANET is an advanced AI-driven cybersecurity prototype built for **SIH 2026 (Problem Statement: SIH26153 - Blockchain & Cybersecurity)**. 
+SENTRANET is an advanced AI-driven cybersecurity prototype built by **Team OUTLIERS** for **SIH 2026 (Problem Statement: SIH26153 - Blockchain & Cybersecurity)**. 
 
 While traditional Intrusion Detection Systems (IDS) simply alert on attacks *after* they have occurred, SENTRANET introduces a temporal forecasting engine. By continuously decomposing network telemetry into a dual-model architecture (XGBoost + Isolation Forest), SENTRANET not only classifies active threats but forecasts the trajectory of an attack *before* the critical impact stage.
 
-## 🚀 Core Capabilities
+## 🚀 Core Capabilities & Verified Engineering State
 
-- **Real-Time Threat Classification**: Deterministic 17-feature aggregation mapped to an optimized XGBoost classifier.
-- **Unsupervised Anomaly Detection**: Isolation Forest for detecting zero-day deviations and unknown attacker patterns.
-- **Predictive Risk Forecasting**: Temporal risk fusion engine predicting emergence and time-to-impact for escalating threats.
-- **Forecast Validation**: Dedicated evaluation module for testing early-warning capabilities and lead times on synthetic data without future leakage.
-- **Synthetic Replay Engine**: Generates real-time deterministic streaming telemetry to validate UI updates, incident lifecycles, and model inference without live external traffic.
-- **Scientific Explainability**: Live, mathematically grounded explanation layer mapping decisions back to the original feature vectors without LLM hallucination.
-- **Professional SOC Dashboard**: A React-based Security Operations Center (SOC) visualizing timeline events, incident dossiers, and AI explainability.
+**Core Pipeline:**
+Network Flow → 60-second Temporal Window → 17 Canonical Features → XGBoost + Isolation Forest → Risk Fusion → Temporal Forecast → Incident / Alert → AI-assisted SOC
+
+**Current Engineering State:**
+- **236 backend tests passing**
+- Deterministic model registry for explicit experimentation
+- Real-time zero-hallucination explainability layer
+
+**Current Real-Data Validation:**
+The SENTRANET architecture has been rigorously validated against the verified **CIC-IDS2017** historical dataset.
+
+- **Dataset Scope**: ~3.1M raw historical flows
+- **Temporal Transformation**: 2,454 chronological 60-second windows
+- **Chronological Split**: 60/20/20 evaluation
+
+**Known-class test results:**
+- 95.02% Accuracy
+- 60.21% Macro F1
+- 96.33% Weighted F1
+
+**Forecast audit:**
+- 9 total forecasts (2 EARLY, 0 ONSET, 7 POST-ONSET, 0 FALSE)
+- **Observed EARLY lead times**: 26–27 minutes
+
+*IMPORTANT: The reported early lead time is an observation on the held-out CIC-IDS2017 chronological test sequence. It is not a guaranteed universal prediction, nor a claim of production performance.*
 
 ---
 
@@ -25,9 +43,9 @@ flowchart TB
 
     A[Network Flow Sources]
 
-    A1[Historical Replay]
-    A2[Synthetic Stream]
-    A3[Live Flow Source]
+    A1[CIC-IDS2017 Real Dataset Replay]
+    A2[Synthetic Simulation]
+    A3[Live Network / Experimental]
 
     A --> A1
     A --> A2
@@ -66,7 +84,7 @@ flowchart TB
 - **Backend**: Python 3.10+, FastAPI, Uvicorn
 - **AI/ML**: XGBoost, scikit-learn (Isolation Forest), Pandas, NumPy
 - **Frontend**: React, TypeScript, Vite, Tailwind CSS, Lucide Icons, Recharts
-- **Testing**: Pytest (178/178 tests passing)
+- **Testing**: Pytest (236/236 tests passing)
 
 ---
 
@@ -100,7 +118,7 @@ cp .env.example .env
 
 ## 🏃‍♂️ Running the Demo
 
-SENTRANET features a deterministic, reproducible demo for SIH presentation.
+SENTRANET features deterministic, reproducible demonstration paths for SIH presentation.
 
 ```bash
 ./scripts/run_demo.sh
@@ -109,25 +127,24 @@ SENTRANET features a deterministic, reproducible demo for SIH presentation.
 **What this does:**
 1. Starts the FastAPI backend.
 2. Starts the React frontend on `http://localhost:5173`.
-3. Initiates a `baseline-scanning-attack` synthetic telemetry stream (Seed: 42) to simulate a complete attack lifecycle from baseline to incident.
+3. Initiates the AI-assisted SOC dashboard.
 
-*For detailed instructions, refer to `docs/DEMO_RUNBOOK.md`.*
+*The UI features explicit model selection and playback controls to switch between the Synthetic Baseline Simulation and the CIC-IDS2017 Experimental Replay.*
 
 ---
 
 ## 🔬 Evaluation & Scientific Honesty
 
-SENTRANET includes a benchmark evaluation engine (Phase 10) featuring a dedicated **Forecast Validation** module. 
-The currently available evaluation results exposed in the UI include the project's **synthetic fixture**. Standard datasets (such as CICIDS2017, UNSW-NB15, or CIC-DDoS2019) are fully compatible with our 17-feature contract. 
+SENTRANET includes a benchmark evaluation engine featuring a dedicated **Forecast Validation** module. 
 
 **Scientific Limitations & Disclosures:**
-1. **Real benchmark datasets are currently unavailable unless the repository proves otherwise.**
-2. **Synthetic results must not be presented as benchmark performance.** The 840-second (14 minute) lead time represents the *observed lead time on the deterministic synthetic slow-escalation validation scenario*, not a real-world prediction guarantee.
-3. **Risk & Confidence are heuristics.** Risk scores and Forecast Confidences are heuristic indicators derived from model ensembles, NOT calibrated probabilities.
-4. **ETA is an estimate.** The Estimated Time to Attack (ETA) is a heuristic estimate, NOT a guaranteed time-to-attack.
-5. **No production validation.** The system currently has not been deployed on a live production enterprise network.
+1. **Model Selection**: The system utilizes a dual-model registry. The synthetic baseline is the default stability model. The CIC-IDS2017 model is actively marked as **EXPERIMENTAL**.
+2. **Real Dataset Constraints**: CIC-IDS2017 replay is explicitly a historical replay of verified data, **NOT live network traffic**.
+3. **Novel-Class Detection**: During chronological zero-shot evaluation on CIC-IDS2017, BOTNET (163 test windows) and SCANNING (27 test windows) were unseen during training and were not reliably classified by the existing experimental models. This is a known limitation of chronological novel-class generalization.
+4. **Live Packet Capture**: Live network capture is an **experimental feature** that requires OS-level permissions. No synthetic fallback is silently substituted.
+5. **No Production Deployment**: The system has not been deployed on a live production enterprise network.
 
-**SENTRANET guarantees zero "fake" UI metrics.** Every value on the SOC Dashboard (throughput, risk, anomaly, features) is pulled from actual deterministic API responses generated by the ML pipeline.
+**SENTRANET guarantees zero "fake" UI metrics.** Every value on the SOC Dashboard (throughput, risk, anomaly, features, accuracy) is pulled from actual deterministic API responses generated by the ML pipeline.
 
 ---
 
@@ -145,9 +162,7 @@ The currently available evaluation results exposed in the UI include the project
 
 ---
 
-## 🏆 SIH Context & Future Work
-
-Built by **Team OUTLIERS** for the Smart India Hackathon 2026. 
+## 🏆 Future Work
 
 **Future Roadmap:**
 - **Packet Payload Inspection**: Extending beyond flow metadata.

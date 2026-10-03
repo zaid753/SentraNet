@@ -53,3 +53,7 @@ data/processed/*
 # OS
 .DS_Store
 Thumbs.db
+
+*.db
+*.sqlite
+*.sqlite3

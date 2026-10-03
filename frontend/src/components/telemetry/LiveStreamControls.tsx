@@ -62,6 +62,10 @@ export const LiveStreamControls: React.FC<LiveStreamControlsProps> = ({
         </div>
       </div>
 
+      <div className="my-2 p-2.5 rounded bg-red-950/20 border border-red-900/30 text-red-300/80 text-xs font-mono flex items-start gap-2">
+        <span>Live packet capture requires OS-level packet capture permissions. No synthetic or historical fallback is silently substituted.</span>
+      </div>
+
       {(actionError || (liveStatus?.state === 'PERMISSION_DENIED' || liveStatus?.state === 'ERROR')) && (
         <div className="my-2 p-2.5 rounded bg-rose-950/50 border border-rose-800/60 text-rose-300 text-xs font-mono flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />

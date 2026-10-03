@@ -25,12 +25,12 @@ export const SOCApp: React.FC = () => {
       <SOCLayout 
         activeView={activeView} 
         onViewChange={(v) => {
-          if (v === 'evaluation') navigate('/evaluation');
-          else if (v === 'architecture' || v === 'foundation') navigate('/foundation');
-          else if (v === 'incidents') navigate('/'); // We don't have a standalone incidents list yet, use dashboard
-          else if (v === 'analytics') navigate('/analytics');
-          else if (v === 'health') navigate('/system');
-          else navigate('/');
+          if (v === 'evaluation') navigate('/soc/evaluation');
+          else if (v === 'architecture' || v === 'foundation') navigate('/soc/foundation');
+          else if (v === 'incidents') navigate('/soc'); // We don't have a standalone incidents list yet, use dashboard
+          else if (v === 'analytics') navigate('/soc/analytics');
+          else if (v === 'health') navigate('/soc/system');
+          else navigate('/soc');
         }}
       >
         <Routes>
@@ -40,7 +40,7 @@ export const SOCApp: React.FC = () => {
           <Route path="/incidents/:incidentId" element={<InvestigationPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/system" element={<SystemHealthPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/soc" replace />} />
         </Routes>
       </SOCLayout>
     </RealtimeProvider>

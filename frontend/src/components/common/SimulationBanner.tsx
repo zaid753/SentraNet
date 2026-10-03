@@ -4,14 +4,12 @@ import type { TelemetrySource } from '../../types';
 
 interface SimulationBannerProps {
   isRunning?: boolean;
-  datasetName?: string | null;
   sourceType?: TelemetrySource;
   className?: string;
 }
 
 export const SimulationBanner: React.FC<SimulationBannerProps> = ({
   isRunning = false,
-  datasetName = 'validation',
   sourceType = 'historical',
   className = '',
 }) => {
@@ -49,14 +47,12 @@ export const SimulationBanner: React.FC<SimulationBannerProps> = ({
           >
             {isSynthetic
               ? 'SYNTHETIC STREAM // SIMULATION'
-              : 'REAL DATASET REPLAY'}
+              : 'REAL DATASET EXPERIMENT'}
           </span>
           <span className={isSynthetic ? 'text-emerald-200/80' : 'text-amber-200/80'}>
             {isSynthetic
               ? 'Network telemetry is dynamically generated metadata feeding 60s feature aggregation. No packet payloads are captured.'
-              : `Network telemetry is being chronologically replayed from a verified real-world historical dataset (Dataset: ${
-                  datasetName || 'CIC-IDS2017'
-                }).`}
+              : `CIC-IDS2017 HISTORICAL REPLAY - NOT LIVE NETWORK TRAFFIC`}
           </span>
         </div>
       </div>

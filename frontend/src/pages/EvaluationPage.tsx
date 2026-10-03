@@ -128,6 +128,30 @@ function DatasetPanel({ result }: { result: EvaluationDatasetResult }) {
           </div>
         </div>
       )}
+      {result.dataset_id === 'cicids2017' && isComplete && (
+        <div className="flex flex-col gap-3 p-4 rounded-lg border border-cyan-700/40 bg-cyan-950/20 mb-4">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-cyan-400 mt-0.5 shrink-0" />
+            <div>
+              <div className="font-mono font-bold text-cyan-300 text-sm tracking-wider">
+                CIC-IDS2017 REAL-DATA VALIDATION
+              </div>
+              <div className="text-xs text-cyan-400/80 mt-1">
+                ~3.1M FLOWS → 2,454 WINDOWS → 60/20/20 CHRONOLOGICAL SPLIT
+              </div>
+              <div className="text-xs text-cyan-500 mt-1">
+                Observed on the held-out CIC-IDS2017 chronological test sequence; not a universal prediction guarantee.
+              </div>
+            </div>
+          </div>
+          <div className="mt-2 pt-3 border-t border-cyan-900/50 flex items-start gap-3">
+            <AlertTriangle className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+            <div className="text-xs text-amber-300/90 font-mono">
+              <strong>Novel-Class Limitation:</strong> BOTNET (163 test windows) and SCANNING (27 test windows) were chronologically unseen during training and were not reliably classified by the existing experimental models.
+            </div>
+          </div>
+        </div>
+      )}
       {isNotEvaluated && (
         <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-700/30 bg-amber-950/20">
           <AlertTriangle className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />

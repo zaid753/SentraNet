@@ -44,7 +44,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           }`}
         >
           <Database className="w-3.5 h-3.5 text-cyan-400" />
-          <span>Historical Replay</span>
+          <span className="font-mono tracking-wider">CIC-IDS2017 REAL DATASET REPLAY</span>
           {isHistoricalRunning && (
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           )}
@@ -63,7 +63,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           }`}
         >
           <Activity className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Synthetic Stream</span>
+          <span className="font-mono tracking-wider">SYNTHETIC SIMULATION</span>
           {isSyntheticRunning && (
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           )}
@@ -82,7 +82,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           }`}
         >
           <Radio className="w-3.5 h-3.5 text-red-400" />
-          <span>Live Telemetry</span>
+          <span className="font-mono tracking-wider">LIVE NETWORK EXPERIMENTAL</span>
           {isLiveRunning && (
             <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
           )}

@@ -99,7 +99,6 @@ export const DashboardPage: React.FC = () => {
       <SimulationBanner
         isRunning={isStreamActive}
         sourceType={activeDataSource}
-        datasetName={activeDataSource === 'historical' ? replay.status?.dataset : synthetic.syntheticStatus?.profile}
       />
 
       {/* Telemetry Data Source Selector (Phase 9) */}
