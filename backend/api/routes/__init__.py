@@ -14,6 +14,7 @@ from backend.api.routes.telemetry import router as telemetry_router
 from backend.api.routes.evaluation import router as evaluation_router
 from backend.api.routes.explanations import router as explanations_router
 from backend.api.routes.analytics import router as analytics_router
+from backend.api.routes.models import router as models_router
 
 api_router = APIRouter()
 
@@ -28,5 +29,6 @@ api_router.include_router(telemetry_router)
 api_router.include_router(evaluation_router)
 api_router.include_router(explanations_router)
 api_router.include_router(analytics_router)
+api_router.include_router(models_router)
 
 __all__ = ["api_router"]

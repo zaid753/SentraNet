@@ -1,0 +1,12 @@
+{
+  "classes": [
+    "BENIGN",
+    "DDOS",
+    "OTHER_ATTACK"
+  ],
+  "class_to_index": {
+    "BENIGN": 0,
+    "DDOS": 1,
+    "OTHER_ATTACK": 2
+  }
+}

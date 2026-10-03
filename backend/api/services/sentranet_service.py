@@ -55,6 +55,7 @@ class SentranetService:
         self.windows_processed_count: int = 0
         self.latest_features: Optional[Dict[str, float]] = None
 
+        self.active_model_id: str = "sentranet_synthetic_v1"
         self.initialize_models()
 
     @classmethod
@@ -65,18 +66,37 @@ class SentranetService:
             return cls._instance
 
     def initialize_models(self) -> None:
-        """Initializes and caches models and engines exactly once."""
+        """Initializes and caches models and engines exactly once (or on reload)."""
+        from backend.api.services.model_registry import ModelRegistry
         try:
-            self.forecast_engine = ForecastEngine()
-            self.incident_manager = IncidentManager()
-            self.state_machine = AlertStateMachine(incident_manager=self.incident_manager)
+            entry = ModelRegistry.get_model(self.active_model_id)
+            self.forecast_engine = ForecastEngine(
+                xgb_model_path=entry.xgboost_artifact,
+                if_model_path=entry.isolation_forest_artifact
+            )
+            # Retain existing instances if already created to avoid losing incident state,
+            # but usually it's fine. For safety, we keep incident_manager if it exists.
+            if self.incident_manager is None:
+                self.incident_manager = IncidentManager()
+            if self.state_machine is None:
+                self.state_machine = AlertStateMachine(incident_manager=self.incident_manager)
             self.is_ready = True
         except Exception as e:
             self.is_ready = False
             raise ServiceUnavailableException(
                 code="MODEL_INITIALIZATION_FAILED",
-                message=f"Failed to initialize SENTRANET models: {str(e)}"
+                message=f"Failed to initialize SENTRANET models for {self.active_model_id}: {str(e)}"
             )
+            
+    def set_active_model(self, model_id: str) -> None:
+        """Changes the active model and reinitializes the pipeline engines."""
+        with self.lock:
+            # Check validity first before updating state
+            from backend.api.services.model_registry import ModelRegistry
+            ModelRegistry.get_model(model_id)
+            
+            self.active_model_id = model_id
+            self.initialize_models()
 
     def analyze(self, request: AnalyzeRequest) -> AnalyzeResponse:
         """

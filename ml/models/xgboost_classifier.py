@@ -43,8 +43,16 @@ class XGBoostClassifier:
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"Model file '{model_path}' does not exist.")
 
-        self.booster = xgb.Booster()
-        self.booster.load_model(model_path)
+        if model_path.endswith('.joblib'):
+            import joblib
+            model = joblib.load(model_path)
+            if hasattr(model, 'get_booster'):
+                self.booster = model.get_booster()
+            else:
+                self.booster = model
+        else:
+            self.booster = xgb.Booster()
+            self.booster.load_model(model_path)
 
         # Resolve paths if not given explicitly
         model_dir = os.path.dirname(model_path)

@@ -4,7 +4,7 @@
   "category": "Category B \u2014 Synthetic Development Fixture",
   "status": "COMPLETED",
   "evaluation_type": "FROZEN_MODEL",
-  "evaluated_at": "2026-10-03T10:58:06.299264+00:00",
+  "evaluated_at": "2026-10-03T11:20:25.800863+00:00",
   "evaluation_mode": "QUICK EVALUATION \u2014 NOT FULL DATASET",
   "model_version": {
     "xgboost": "models/xgboost/sentranet_xgboost.json",
@@ -69,10 +69,10 @@
   },
   "performance": {
     "total_windows_evaluated": 10,
-    "total_inference_time_seconds": 0.137,
-    "throughput_windows_per_second": 73.1,
-    "latency_ms_mean": 13.61,
-    "latency_ms_median": 13.66,
-    "latency_ms_p95": 14.01
+    "total_inference_time_seconds": 0.161,
+    "throughput_windows_per_second": 62.0,
+    "latency_ms_mean": 16.04,
+    "latency_ms_median": 15.92,
+    "latency_ms_p95": 18.57
   }
 }

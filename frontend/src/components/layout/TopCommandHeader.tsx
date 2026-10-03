@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Search, Server, Activity, Clock, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Server, Activity, Clock, Wifi, WifiOff, RefreshCw } from 'lucide-react';
 import type { SystemStatus } from '../../types';
 import { useRealtime } from '../../context/RealtimeContext';
+import { useModelRegistry } from '../../hooks/useModelRegistry';
 
 interface TopCommandHeaderProps {
   status: SystemStatus | null;
@@ -13,6 +14,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
   
   const [currentTime, setCurrentTime] = useState(new Date());
   const { status: wsStatus } = useRealtime();
+  const registry = useModelRegistry();
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -39,19 +41,40 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
         </div>
       </div>
 
-      {/* Center: Global Search / Command (Visual placeholder as requested) */}
-      <div className="hidden lg:flex max-w-md w-full mx-8">
-        <div className="relative w-full">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-4 w-4 text-[var(--color-text-secondary)]" />
+      {/* Center: Model Selector & Warning */}
+      <div className="hidden lg:flex flex-1 items-center justify-center mx-8">
+        {registry.activeModel && (
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-[var(--color-text-secondary)] font-mono">MODEL:</span>
+              <select 
+                className="bg-[var(--color-elevated)] border border-[var(--color-border)] rounded text-sm text-[var(--color-text-primary)] px-2 py-1 outline-none font-medium focus:border-blue-500"
+                value={registry.activeModel.model_id}
+                onChange={(e) => registry.setModel(e.target.value)}
+                disabled={registry.isLoading}
+              >
+                {registry.models.map(m => (
+                  <option key={m.model_id} value={m.model_id}>
+                    {m.model_name}
+                  </option>
+                ))}
+              </select>
+              <div className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wider ${registry.activeModel.status === 'EXPERIMENTAL' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}`}>
+                {registry.activeModel.status}
+              </div>
+            </div>
+            {registry.activeModel.status === 'EXPERIMENTAL' && (
+              <div className="text-[10px] text-amber-400 font-mono mt-1 font-bold animate-pulse">
+                REAL DATASET EXPERIMENT - NOT LIVE NETWORK TRAFFIC
+              </div>
+            )}
+            {registry.error && (
+              <div className="text-[10px] text-red-400 font-mono mt-1">
+                ERROR: {registry.error}
+              </div>
+            )}
           </div>
-          <input
-            type="text"
-            className="block w-full pl-10 pr-3 py-1.5 bg-[var(--color-elevated)] border border-[var(--color-border)] rounded-md text-sm placeholder-[var(--color-text-secondary)] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-            placeholder="Search incidents, IPs, or run commands (Ctrl+K)"
-            disabled
-          />
-        </div>
+        )}
       </div>
 
       {/* Right: Telemetry & Time */}
@@ -59,7 +82,9 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
         <div className="hidden md:flex flex-col items-end">
           <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)]">
             <Server className="w-3.5 h-3.5" />
-            <span className="font-mono text-blue-400 mr-2">{status?.simulation ? 'SYNTHETIC STREAM // SIMULATION' : 'LIVE NETWORK'}</span>
+            <span className="font-mono text-blue-400 mr-2">
+              {registry.activeModel ? `DATA: ${registry.activeModel.dataset}` : 'LOADING...'}
+            </span>
             
             {wsStatus === 'connected' && (
                <div className="flex items-center gap-1 text-emerald-400">
@@ -88,7 +113,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
           </div>
           <div className="flex items-center gap-1.5 text-xs text-[var(--color-text-secondary)] mt-0.5">
             <Activity className="w-3.5 h-3.5" />
-            <span className="font-mono">17 FEATURES ACTIVE</span>
+            <span className="font-mono">{registry.activeModel ? `${registry.activeModel.feature_contract_version} FEATURES` : 'FEATURES ACTIVE'}</span>
           </div>
         </div>
         

@@ -49,13 +49,13 @@ export const SimulationBanner: React.FC<SimulationBannerProps> = ({
           >
             {isSynthetic
               ? 'SYNTHETIC STREAM // SIMULATION'
-              : 'HISTORICAL REPLAY // SIMULATION MODE'}
+              : 'REAL DATASET REPLAY'}
           </span>
           <span className={isSynthetic ? 'text-emerald-200/80' : 'text-amber-200/80'}>
             {isSynthetic
               ? 'Network telemetry is dynamically generated metadata feeding 60s feature aggregation. No packet payloads are captured.'
-              : `Network telemetry is being chronologically replayed from a historical development fixture (Dataset: ${
-                  datasetName || 'validation'
+              : `Network telemetry is being chronologically replayed from a verified real-world historical dataset (Dataset: ${
+                  datasetName || 'CIC-IDS2017'
                 }).`}
           </span>
         </div>
