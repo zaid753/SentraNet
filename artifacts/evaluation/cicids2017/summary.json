@@ -4,7 +4,7 @@
   "category": "Category A \u2014 Real Benchmark Capture",
   "status": "NOT_AVAILABLE",
   "evaluation_type": "FROZEN_MODEL",
-  "evaluated_at": "2026-10-03T11:20:22.184311+00:00",
+  "evaluated_at": "2026-10-03T11:48:13.070539+00:00",
   "message": "Dataset 'cicids2017' is not available locally. Raw benchmark files are missing from 'data/raw/cicids2017'.",
   "expected_path": "data/raw/cicids2017",
   "missing_files": [
