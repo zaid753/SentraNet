@@ -1,0 +1,16 @@
+{
+  "classes": [
+    "BENIGN",
+    "BOTNET",
+    "DDOS",
+    "OTHER_ATTACK",
+    "SCANNING"
+  ],
+  "class_to_index": {
+    "BENIGN": 0,
+    "BOTNET": 1,
+    "DDOS": 2,
+    "OTHER_ATTACK": 3,
+    "SCANNING": 4
+  }
+}

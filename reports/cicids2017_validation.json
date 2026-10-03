@@ -1,0 +1,209 @@
+{
+  "dataset_size": "Friday-WorkingHours-Morning.pcap_ISCX.csv (~190k flows)",
+  "window_count": 241,
+  "timestamp_range": "2017-07-07 08:59:00 to 2017-07-07 12:59:00",
+  "label_distribution": {
+    "total_windows": 241,
+    "benign_windows": 78,
+    "attack_windows": 163,
+    "details": {
+      "BOTNET": 163,
+      "BENIGN": 78
+    }
+  },
+  "cic_to_sentranet_mapping": {
+    "BENIGN": "BENIGN",
+    "Bot": "BOTNET",
+    "DDoS": "DDOS",
+    "DoS GoldenEye": "DDOS",
+    "DoS Hulk": "DDOS",
+    "DoS Slowhttptest": "DDOS",
+    "DoS slowloris": "DDOS",
+    "FTP-Patator": "OTHER_ATTACK",
+    "SSH-Patator": "OTHER_ATTACK",
+    "PortScan": "SCANNING",
+    "Infiltration": "OTHER_ATTACK",
+    "Heartbleed": "OTHER_ATTACK",
+    "Web Attack \u2013 Brute Force": "OTHER_ATTACK",
+    "Web Attack \u2013 Sql Injection": "OTHER_ATTACK",
+    "Web Attack \u2013 XSS": "OTHER_ATTACK"
+  },
+  "xgboost_metrics": {
+    "accuracy": 0.0,
+    "macro_f1": 0.0,
+    "weighted_f1": 0.0,
+    "confusion_matrix": {
+      "labels": [
+        "BENIGN",
+        "BOTNET",
+        "SCANNING"
+      ],
+      "matrix": [
+        [
+          0,
+          0,
+          78
+        ],
+        [
+          0,
+          0,
+          163
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "per_class": {
+      "BENIGN": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 78.0
+      },
+      "BOTNET": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 163.0
+      },
+      "SCANNING": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      }
+    },
+    "scientific_limitations": "Some classes absent. XGBoost frozen model trained on synthetic data."
+  },
+  "isolation_forest_metrics": {
+    "benign_anomaly_rate": 1.0,
+    "attack_anomaly_rate": 1.0,
+    "note": "Anomaly detection is independent of classification and does not explicitly mean 'attack'."
+  },
+  "risk_state_distribution": {
+    "HIGH": 241
+  },
+  "attack_episodes": [
+    {
+      "start": "2017-07-07T09:34:00",
+      "attack_class": "BOTNET",
+      "windows": 2,
+      "end": "2017-07-07T09:35:00"
+    },
+    {
+      "start": "2017-07-07T10:04:00",
+      "attack_class": "BOTNET",
+      "windows": 70,
+      "end": "2017-07-07T11:13:00"
+    },
+    {
+      "start": "2017-07-07T11:15:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T11:18:00"
+    },
+    {
+      "start": "2017-07-07T11:20:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T11:23:00"
+    },
+    {
+      "start": "2017-07-07T11:25:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T11:28:00"
+    },
+    {
+      "start": "2017-07-07T11:30:00",
+      "attack_class": "BOTNET",
+      "windows": 16,
+      "end": "2017-07-07T11:45:00"
+    },
+    {
+      "start": "2017-07-07T11:47:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T11:50:00"
+    },
+    {
+      "start": "2017-07-07T11:52:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T11:55:00"
+    },
+    {
+      "start": "2017-07-07T11:57:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:00:00"
+    },
+    {
+      "start": "2017-07-07T12:02:00",
+      "attack_class": "BOTNET",
+      "windows": 16,
+      "end": "2017-07-07T12:17:00"
+    },
+    {
+      "start": "2017-07-07T12:19:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:22:00"
+    },
+    {
+      "start": "2017-07-07T12:24:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:27:00"
+    },
+    {
+      "start": "2017-07-07T12:29:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:32:00"
+    },
+    {
+      "start": "2017-07-07T12:34:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:37:00"
+    },
+    {
+      "start": "2017-07-07T12:39:00",
+      "attack_class": "BOTNET",
+      "windows": 11,
+      "end": "2017-07-07T12:49:00"
+    },
+    {
+      "start": "2017-07-07T12:51:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:54:00"
+    },
+    {
+      "start": "2017-07-07T12:56:00",
+      "attack_class": "BOTNET",
+      "windows": 4,
+      "end": "2017-07-07T12:59:00"
+    }
+  ],
+  "forecast_results": {
+    "total_forecasts": 34,
+    "early_forecasts": 0,
+    "note": "Forecasting relies on multi-window trajectories which may not perfectly align with exact dataset label boundaries."
+  },
+  "feature_distribution_findings": "Checked for NaN/Inf, all clean. 17 features present.",
+  "scientific_disclosure": [
+    "CIC-IDS2017 is a public historical dataset.",
+    "Replay is not live network traffic.",
+    "Evaluation is on this dataset only.",
+    "The existing model was not retrained.",
+    "Results are dataset-specific.",
+    "Forecasting metrics are scenario/dataset-specific.",
+    "Risk is not calibrated probability.",
+    "Anomaly detection does not prove maliciousness."
+  ]
+}

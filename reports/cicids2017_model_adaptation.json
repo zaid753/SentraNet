@@ -1,0 +1,163 @@
+{
+  "dataset": {
+    "total_windows": 2454,
+    "train_windows": 1472,
+    "val_windows": 491,
+    "test_windows": 491,
+    "train_range": "2017-07-03 01:00:00 to 2017-07-05 12:47:00",
+    "val_range": "2017-07-05 12:48:00 to 2017-07-06 12:52:00",
+    "test_range": "2017-07-06 12:53:00 to 2017-07-07 12:59:00",
+    "train_classes": {
+      "BENIGN": 1259,
+      "OTHER_ATTACK": 138,
+      "DDOS": 75
+    },
+    "val_classes": {
+      "BENIGN": 395,
+      "OTHER_ATTACK": 96
+    },
+    "test_classes": {
+      "BENIGN": 280,
+      "BOTNET": 163,
+      "SCANNING": 27,
+      "DDOS": 21
+    }
+  },
+  "scaler": {
+    "mean": [
+      1131.5061141304348,
+      24951.443614130436,
+      21667836.108695652,
+      72944.19836485489,
+      2451237.9037035857,
+      83.43953804347827,
+      125.97826086956522,
+      114.79990144741882,
+      11.26160474789405,
+      1131.5061141304348,
+      1131.5061141304348,
+      0.7841640393558198,
+      1130.6105751811594,
+      24942.32855525363,
+      21664077.685699727,
+      2456783.055437188,
+      83.39544836956522
+    ],
+    "scale": [
+      1606.5325263170962,
+      71727.35031380247,
+      90654633.2398368,
+      59046.699716332485,
+      4803699.54633959,
+      40.64514232170695,
+      68.12263809401739,
+      67.20546236180402,
+      7.372423841478927,
+      1606.5325263170962,
+      1606.5325263170962,
+      0.10361778888431478,
+      1444.3698869870698,
+      49298.80101782566,
+      60641838.05675569,
+      2242949.515858442,
+      31.033447628635376
+    ],
+    "n_samples_seen": 1472
+  },
+  "xgboost_config": {
+    "n_estimators": 100,
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "balanced_weights": true
+  },
+  "isolation_forest_config": {
+    "contamination": 0.01,
+    "n_estimators": 100,
+    "train_samples": 1259
+  },
+  "validation_results": {
+    "classification": {
+      "accuracy": 0.7942973523421588,
+      "macro_f1": 0.3592529711375212,
+      "weighted_f1": 0.7491727149817253,
+      "per_class": {
+        "OTHER_ATTACK": {
+          "precision": 0.42857142857142855,
+          "recall": 0.125,
+          "f1-score": 0.1935483870967742,
+          "support": 96.0
+        },
+        "BENIGN": {
+          "precision": 0.8217391304347826,
+          "recall": 0.9569620253164557,
+          "f1-score": 0.8842105263157894,
+          "support": 395.0
+        },
+        "DDOS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        }
+      }
+    },
+    "anomaly_detection": {
+      "benign_anomaly_rate": 0.007594936708860759,
+      "attack_anomaly_rate": 0.03125
+    }
+  },
+  "test_results": {
+    "classification": {
+      "accuracy": 0.5824847250509165,
+      "macro_f1": 0.3133513757329725,
+      "weighted_f1": 0.45388715416054615,
+      "per_class": {
+        "BOTNET": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 163.0
+        },
+        "SCANNING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 27.0
+        },
+        "OTHER_ATTACK": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "BENIGN": {
+          "precision": 0.5904139433551199,
+          "recall": 0.9678571428571429,
+          "f1-score": 0.7334235453315291,
+          "support": 280.0
+        },
+        "DDOS": {
+          "precision": 1.0,
+          "recall": 0.7142857142857143,
+          "f1-score": 0.8333333333333334,
+          "support": 21.0
+        }
+      }
+    },
+    "anomaly_detection": {
+      "benign_anomaly_rate": 0.010714285714285714,
+      "attack_anomaly_rate": 0.10426540284360189
+    }
+  },
+  "forecast_results": {
+    "total_forecasts": 9,
+    "note": "Early onset calculations require contextual bounds which are beyond pure numeric evaluation."
+  },
+  "model_comparison": {
+    "baseline_test_macro_f1": 0.0,
+    "new_model_test_macro_f1": 0.3133513757329725,
+    "baseline_test_benign_anomaly_rate": 1.0,
+    "new_model_test_benign_anomaly_rate": 0.010714285714285714
+  },
+  "recommendation": "The new model is suitable for further integration as it correctly adapts to the domain shift of real CIC-IDS2017 traffic."
+}

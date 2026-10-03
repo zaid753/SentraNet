@@ -1,0 +1,41 @@
+{
+  "experiment_a_preserved": true,
+  "experiment_b_feasibility": {
+    "ranges": {
+      "BENIGN": {
+        "first_appearance": "2017-07-03 01:00:00",
+        "last_appearance": "2017-07-07 12:55:00",
+        "count": 1934
+      },
+      "OTHER_ATTACK": {
+        "first_appearance": "2017-07-04 02:09:00",
+        "last_appearance": "2017-07-06 10:42:00",
+        "count": 234
+      },
+      "DDOS": {
+        "first_appearance": "2017-07-05 02:24:00",
+        "last_appearance": "2017-07-07 04:16:00",
+        "count": 96
+      },
+      "SCANNING": {
+        "first_appearance": "2017-07-07 01:05:00",
+        "last_appearance": "2017-07-07 03:23:00",
+        "count": 27
+      },
+      "BOTNET": {
+        "first_appearance": "2017-07-07 09:34:00",
+        "last_appearance": "2017-07-07 12:59:00",
+        "count": 163
+      }
+    },
+    "latest_first_appearance_time": "2017-07-07 09:34:00",
+    "latest_first_appearance_class": "BOTNET",
+    "test_classes_remaining": {
+      "BOTNET": 162,
+      "BENIGN": 43
+    },
+    "is_impossible": true
+  },
+  "conclusion": "STOPPED. A fully chronological all-class training split is mathematically impossible without data leakage.",
+  "model_promotion_status": "EXPERIMENTAL MODEL \u2014 NOT YET DEFAULT"
+}

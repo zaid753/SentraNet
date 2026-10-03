@@ -4,7 +4,7 @@
   "category": "Category A \u2014 Real Benchmark Capture",
   "status": "NOT_AVAILABLE",
   "evaluation_type": "FROZEN_MODEL",
-  "evaluated_at": "2026-10-02T14:27:38.070370+00:00",
+  "evaluated_at": "2026-10-03T10:58:02.901261+00:00",
   "message": "Dataset 'unsw_nb15' is not available locally. Raw benchmark files are missing from 'data/raw/unsw_nb15'.",
   "expected_path": "data/raw/unsw_nb15",
   "missing_files": [

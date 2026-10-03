@@ -1,0 +1,287 @@
+{
+  "known_class_evaluation": {
+    "sample_count": 301,
+    "accuracy": 0.9501661129568106,
+    "macro_f1": 0.6021344504288849,
+    "weighted_f1": 0.9633209469333222,
+    "per_class": {
+      "BENIGN": {
+        "precision": 0.9783393501805054,
+        "recall": 0.9678571428571429,
+        "f1-score": 0.9730700179533214,
+        "support": 280.0
+      },
+      "DDOS": {
+        "precision": 1.0,
+        "recall": 0.7142857142857143,
+        "f1-score": 0.8333333333333334,
+        "support": 21.0
+      },
+      "OTHER_ATTACK": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0.0
+      }
+    }
+  },
+  "novel_class_evaluation": {
+    "botnet": {
+      "sample_count": 163,
+      "predicted_classes": {
+        "BENIGN": 155,
+        "OTHER_ATTACK": 8
+      },
+      "anomaly_rate": 0.0,
+      "risk_states": {
+        "LOW": 143,
+        "GUARDED": 16,
+        "ELEVATED": 4
+      }
+    },
+    "scanning": {
+      "sample_count": 27,
+      "predicted_classes": {
+        "BENIGN": 27
+      },
+      "anomaly_rate": 0.1111111111111111,
+      "risk_states": {
+        "LOW": 24,
+        "GUARDED": 3
+      }
+    }
+  },
+  "isolation_forest_behavior": {
+    "test_benign_anomaly_rate": 0.010714285714285714,
+    "test_attack_anomaly_rate": 0.10426540284360189
+  },
+  "attack_episodes": [
+    {
+      "id": "EP_1",
+      "class": "SCANNING",
+      "start": "2017-07-07 01:05:00",
+      "end": "2017-07-07 01:06:00",
+      "windows": 2,
+      "duration_seconds": 60.0
+    },
+    {
+      "id": "EP_2",
+      "class": "SCANNING",
+      "start": "2017-07-07 01:52:00",
+      "end": "2017-07-07 01:52:00",
+      "windows": 1,
+      "duration_seconds": 0.0
+    },
+    {
+      "id": "EP_3",
+      "class": "SCANNING",
+      "start": "2017-07-07 01:55:00",
+      "end": "2017-07-07 02:00:00",
+      "windows": 6,
+      "duration_seconds": 300.0
+    },
+    {
+      "id": "EP_4",
+      "class": "SCANNING",
+      "start": "2017-07-07 02:14:00",
+      "end": "2017-07-07 02:16:00",
+      "windows": 3,
+      "duration_seconds": 120.0
+    },
+    {
+      "id": "EP_5",
+      "class": "SCANNING",
+      "start": "2017-07-07 02:51:00",
+      "end": "2017-07-07 02:56:00",
+      "windows": 6,
+      "duration_seconds": 300.0
+    },
+    {
+      "id": "EP_6",
+      "class": "SCANNING",
+      "start": "2017-07-07 03:03:00",
+      "end": "2017-07-07 03:03:00",
+      "windows": 1,
+      "duration_seconds": 0.0
+    },
+    {
+      "id": "EP_7",
+      "class": "SCANNING",
+      "start": "2017-07-07 03:08:00",
+      "end": "2017-07-07 03:10:00",
+      "windows": 3,
+      "duration_seconds": 120.0
+    },
+    {
+      "id": "EP_8",
+      "class": "SCANNING",
+      "start": "2017-07-07 03:12:00",
+      "end": "2017-07-07 03:13:00",
+      "windows": 2,
+      "duration_seconds": 60.0
+    },
+    {
+      "id": "EP_9",
+      "class": "SCANNING",
+      "start": "2017-07-07 03:21:00",
+      "end": "2017-07-07 03:23:00",
+      "windows": 3,
+      "duration_seconds": 120.0
+    },
+    {
+      "id": "EP_10",
+      "class": "DDOS",
+      "start": "2017-07-07 03:56:00",
+      "end": "2017-07-07 04:16:00",
+      "windows": 21,
+      "duration_seconds": 1200.0
+    },
+    {
+      "id": "EP_11",
+      "class": "BOTNET",
+      "start": "2017-07-07 09:34:00",
+      "end": "2017-07-07 09:35:00",
+      "windows": 2,
+      "duration_seconds": 60.0
+    },
+    {
+      "id": "EP_12",
+      "class": "BOTNET",
+      "start": "2017-07-07 10:04:00",
+      "end": "2017-07-07 11:13:00",
+      "windows": 70,
+      "duration_seconds": 4140.0
+    },
+    {
+      "id": "EP_13",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:15:00",
+      "end": "2017-07-07 11:18:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_14",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:20:00",
+      "end": "2017-07-07 11:23:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_15",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:25:00",
+      "end": "2017-07-07 11:28:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_16",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:30:00",
+      "end": "2017-07-07 11:45:00",
+      "windows": 16,
+      "duration_seconds": 900.0
+    },
+    {
+      "id": "EP_17",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:47:00",
+      "end": "2017-07-07 11:50:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_18",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:52:00",
+      "end": "2017-07-07 11:55:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_19",
+      "class": "BOTNET",
+      "start": "2017-07-07 11:57:00",
+      "end": "2017-07-07 12:00:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_20",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:02:00",
+      "end": "2017-07-07 12:17:00",
+      "windows": 16,
+      "duration_seconds": 900.0
+    },
+    {
+      "id": "EP_21",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:19:00",
+      "end": "2017-07-07 12:22:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_22",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:24:00",
+      "end": "2017-07-07 12:27:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_23",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:29:00",
+      "end": "2017-07-07 12:32:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_24",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:34:00",
+      "end": "2017-07-07 12:37:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_25",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:39:00",
+      "end": "2017-07-07 12:49:00",
+      "windows": 11,
+      "duration_seconds": 600.0
+    },
+    {
+      "id": "EP_26",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:51:00",
+      "end": "2017-07-07 12:54:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    },
+    {
+      "id": "EP_27",
+      "class": "BOTNET",
+      "start": "2017-07-07 12:56:00",
+      "end": "2017-07-07 12:59:00",
+      "windows": 4,
+      "duration_seconds": 180.0
+    }
+  ],
+  "forecast_metrics": {
+    "total_forecasts": 9,
+    "EARLY": 2,
+    "ONSET": 0,
+    "POST_ONSET": 7,
+    "FALSE": 0,
+    "mean_early_lead": 1590.0,
+    "median_early_lead": 1590.0,
+    "max_early_lead": 1620.0,
+    "min_early_lead": 1560.0
+  }
+}
