@@ -51,3 +51,9 @@
   background-image: radial-gradient(rgba(30, 41, 59, 0.4) 1px, transparent 0);
   background-size: 24px 24px;
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

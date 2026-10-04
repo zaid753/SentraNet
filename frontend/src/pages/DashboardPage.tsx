@@ -33,6 +33,24 @@ export const DashboardPage: React.FC<{ section?: string }> = ({ section }) => {
   // Data source mode
   const [activeDataSource, setActiveDataSource] = useState<TelemetrySource>('historical');
 
+  // Integrations state
+  const [slackStatus, setSlackStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
+  const [jiraStatus, setJiraStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
+
+  const handleConnectIntegration = (type: 'slack' | 'jira') => {
+    if (type === 'slack') {
+      setSlackStatus(slackStatus === 'connected' ? 'disconnected' : 'connecting');
+      if (slackStatus !== 'connected') {
+        setTimeout(() => setSlackStatus('connected'), 1500);
+      }
+    } else {
+      setJiraStatus(jiraStatus === 'connected' ? 'disconnected' : 'connecting');
+      if (jiraStatus !== 'connected') {
+        setTimeout(() => setJiraStatus('connected'), 1500);
+      }
+    }
+  };
+
   // Global hooks
   const { connectionState, refresh: refreshSystem } = useSystemStatus();
   const replay = useReplay();
@@ -275,40 +293,74 @@ export const DashboardPage: React.FC<{ section?: string }> = ({ section }) => {
           <div className="text-sm font-mono text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-800 pb-2">Third-Party Integrations</div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-xl border border-slate-800 bg-slate-900/50 flex flex-col">
+            {/* Slack Integration */}
+            <div className={`p-5 rounded-xl border flex flex-col transition-all duration-300 ${
+              slackStatus === 'connected' 
+                ? 'border-blue-500/30 bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
+                : 'border-slate-800 bg-slate-900/50 opacity-60 hover:opacity-100'
+            }`}>
               <div className="flex justify-between items-start mb-4">
                 <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center">
-                  <div className="w-5 h-5 rounded bg-blue-500" />
+                  <div className={`w-5 h-5 rounded ${slackStatus === 'connected' ? 'bg-blue-500' : 'bg-slate-600'}`} />
                 </div>
-                <span className="px-2 py-1 rounded text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800">CONNECTED</span>
+                <span className={`px-2 py-1 rounded text-[10px] font-mono border ${
+                  slackStatus === 'connected' 
+                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800' 
+                    : slackStatus === 'connecting'
+                    ? 'bg-amber-950 text-amber-400 border-amber-800'
+                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}>
+                  {slackStatus === 'connected' ? 'CONNECTED' : slackStatus === 'connecting' ? 'CONNECTING...' : 'DISCONNECTED'}
+                </span>
               </div>
-              <h3 className="text-base font-bold text-slate-200">Webhook Forwarder</h3>
-              <p className="text-sm text-slate-400 mt-1 flex-1">Forward high-severity incidents to external HTTP endpoints.</p>
-              <button className="mt-4 px-3 py-1.5 text-sm font-medium text-slate-300 bg-slate-800 hover:bg-slate-700 rounded transition-colors self-start cursor-pointer">Configure</button>
-            </div>
-
-            <div className="p-5 rounded-xl border border-slate-800 bg-slate-900/50 flex flex-col opacity-60">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center">
-                  <div className="w-5 h-5 rounded bg-rose-500" />
-                </div>
-                <span className="px-2 py-1 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700">DISCONNECTED</span>
-              </div>
-              <h3 className="text-base font-bold text-slate-200">Slack Notifications</h3>
+              <h3 className="text-base font-bold text-slate-200">Slack</h3>
               <p className="text-sm text-slate-400 mt-1 flex-1">Send alerts and daily summaries directly to a Slack channel.</p>
-              <button className="mt-4 px-3 py-1.5 text-sm font-medium text-blue-400 border border-blue-900 hover:bg-blue-950/30 rounded transition-colors self-start cursor-pointer">Connect</button>
+              <button 
+                onClick={() => handleConnectIntegration('slack')}
+                disabled={slackStatus === 'connecting'}
+                className={`mt-4 px-3 py-1.5 text-sm font-medium rounded transition-colors self-start cursor-pointer ${
+                  slackStatus === 'connected'
+                    ? 'text-rose-400 border border-rose-900 hover:bg-rose-950/30'
+                    : 'text-blue-400 border border-blue-900 hover:bg-blue-950/30'
+                } ${slackStatus === 'connecting' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {slackStatus === 'connected' ? 'Disconnect' : slackStatus === 'connecting' ? 'Connecting...' : 'Connect'}
+              </button>
             </div>
             
-            <div className="p-5 rounded-xl border border-slate-800 bg-slate-900/50 flex flex-col opacity-60">
+            {/* Jira Integration */}
+            <div className={`p-5 rounded-xl border flex flex-col transition-all duration-300 ${
+              jiraStatus === 'connected' 
+                ? 'border-blue-500/30 bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
+                : 'border-slate-800 bg-slate-900/50 opacity-60 hover:opacity-100'
+            }`}>
               <div className="flex justify-between items-start mb-4">
                 <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center">
-                  <div className="w-5 h-5 rounded bg-emerald-500" />
+                  <div className={`w-5 h-5 rounded ${jiraStatus === 'connected' ? 'bg-blue-600' : 'bg-slate-600'}`} />
                 </div>
-                <span className="px-2 py-1 rounded text-[10px] font-mono bg-slate-800 text-slate-400 border border-slate-700">DISCONNECTED</span>
+                <span className={`px-2 py-1 rounded text-[10px] font-mono border ${
+                  jiraStatus === 'connected' 
+                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800' 
+                    : jiraStatus === 'connecting'
+                    ? 'bg-amber-950 text-amber-400 border-amber-800'
+                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                }`}>
+                  {jiraStatus === 'connected' ? 'CONNECTED' : jiraStatus === 'connecting' ? 'CONNECTING...' : 'DISCONNECTED'}
+                </span>
               </div>
-              <h3 className="text-base font-bold text-slate-200">PagerDuty</h3>
-              <p className="text-sm text-slate-400 mt-1 flex-1">Trigger incident response workflows automatically.</p>
-              <button className="mt-4 px-3 py-1.5 text-sm font-medium text-blue-400 border border-blue-900 hover:bg-blue-950/30 rounded transition-colors self-start cursor-pointer">Connect</button>
+              <h3 className="text-base font-bold text-slate-200">Jira Software</h3>
+              <p className="text-sm text-slate-400 mt-1 flex-1">Automatically create Jira tickets for high-severity alerts.</p>
+              <button 
+                onClick={() => handleConnectIntegration('jira')}
+                disabled={jiraStatus === 'connecting'}
+                className={`mt-4 px-3 py-1.5 text-sm font-medium rounded transition-colors self-start cursor-pointer ${
+                  jiraStatus === 'connected'
+                    ? 'text-rose-400 border border-rose-900 hover:bg-rose-950/30'
+                    : 'text-blue-400 border border-blue-900 hover:bg-blue-950/30'
+                } ${jiraStatus === 'connecting' ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {jiraStatus === 'connected' ? 'Disconnect' : jiraStatus === 'connecting' ? 'Connecting...' : 'Connect'}
+              </button>
             </div>
           </div>
         </div>
