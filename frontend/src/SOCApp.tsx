@@ -8,6 +8,7 @@ import { RealtimeProvider } from './context/RealtimeContext';
 import { InvestigationPage } from './pages/InvestigationPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { SystemHealthPage } from './pages/SystemHealthPage';
+import { SectionWrapper } from './pages/SectionWrapper';
 
 export const SOCApp: React.FC = () => {
   const location = useLocation();
@@ -19,6 +20,14 @@ export const SOCApp: React.FC = () => {
   if (location.pathname.includes('/incidents')) activeView = 'incidents';
   if (location.pathname.includes('/analytics')) activeView = 'analytics';
   if (location.pathname.includes('/system')) activeView = 'health';
+  
+  // Extract section from /soc/:section if it doesn't match above
+  if (activeView === 'dashboard' && location.pathname !== '/soc' && location.pathname !== '/soc/') {
+    const parts = location.pathname.split('/');
+    if (parts.length > 2 && parts[1] === 'soc') {
+       activeView = parts[2];
+    }
+  }
 
   return (
     <RealtimeProvider>
@@ -27,10 +36,10 @@ export const SOCApp: React.FC = () => {
         onViewChange={(v) => {
           if (v === 'evaluation') navigate('/soc/evaluation');
           else if (v === 'architecture' || v === 'foundation') navigate('/soc/foundation');
-          else if (v === 'incidents') navigate('/soc'); // We don't have a standalone incidents list yet, use dashboard
           else if (v === 'analytics') navigate('/soc/analytics');
           else if (v === 'health') navigate('/soc/system');
-          else navigate('/soc');
+          else if (v === 'dashboard') navigate('/soc');
+          else navigate(`/soc/${v}`);
         }}
       >
         <Routes>
@@ -40,6 +49,7 @@ export const SOCApp: React.FC = () => {
           <Route path="/incidents/:incidentId" element={<InvestigationPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/system" element={<SystemHealthPage />} />
+          <Route path="/:section" element={<SectionWrapper />} />
           <Route path="*" element={<Navigate to="/soc" replace />} />
         </Routes>
       </SOCLayout>

@@ -36,7 +36,7 @@ export const LandingPage: React.FC = () => {
             className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-mono text-sm tracking-widest uppercase transition-all overflow-hidden border border-cyan-400/50 shadow-[0_0_20px_rgba(8,145,178,0.4)]"
           >
             <span className="relative z-10 flex items-center gap-2">
-              OPEN SOC DEMO
+              OPEN SOC
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </button>

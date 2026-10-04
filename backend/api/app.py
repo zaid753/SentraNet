@@ -11,7 +11,8 @@ import yaml
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 import time
@@ -195,6 +196,17 @@ def create_app() -> FastAPI:
 
     # Mount WebSocket router
     app.include_router(realtime_router, prefix="/ws", tags=["realtime"])
+
+    # Serve React Frontend (Single Page Application)
+    frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist")
+    if os.path.exists(frontend_dist):
+        app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="assets")
+        
+        @app.get("/{full_path:path}")
+        async def serve_frontend(full_path: str):
+            if full_path.startswith("api/") or full_path.startswith("ws/") or full_path.startswith("docs") or full_path.startswith("redoc") or full_path.startswith("openapi.json"):
+                raise StarletteHTTPException(status_code=404, detail="Not found")
+            return FileResponse(os.path.join(frontend_dist, "index.html"))
 
     return app
 

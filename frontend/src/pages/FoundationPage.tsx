@@ -74,7 +74,7 @@ export const FoundationPage: React.FC<FoundationPageProps> = ({ showHeader = fal
         <section className="flex flex-col gap-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-300 text-xs font-mono self-start">
             <Activity className="w-3.5 h-3.5 text-cyan-400" />
-            <span>PHASE 1: SYSTEM FOUNDATION & ENGINEERING ARCHITECTURE</span>
+            <span>SYSTEM FOUNDATION & ENGINEERING ARCHITECTURE</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
@@ -83,7 +83,7 @@ export const FoundationPage: React.FC<FoundationPageProps> = ({ showHeader = fal
 
           <p className="text-slate-400 text-sm sm:text-base max-w-3xl leading-relaxed">
             SENTRANET transforms cybersecurity from reactive intrusion detection to predictive network defence. 
-            Phases 1–7 established the verified software architecture, dual ML engine (XGBoost + Isolation Forest),
+            SENTRANET established the verified software architecture, dual ML engine (XGBoost + Isolation Forest),
             risk trajectory fusion, chronological replay engine, and REST API contracts.
           </p>
         </section>
@@ -131,11 +131,11 @@ export const FoundationPage: React.FC<FoundationPageProps> = ({ showHeader = fal
                 </div>
                 <div className="flex items-center justify-between py-1.5 border-b border-slate-900">
                   <span className="text-slate-400">Replay & Alert State Machine</span>
-                  <span className="text-emerald-400 font-mono font-medium">VERIFIED (Phases 6–7)</span>
+                  <span className="text-emerald-400 font-mono font-medium">VERIFIED</span>
                 </div>
                 <div className="flex items-center justify-between py-1.5">
                   <span className="text-slate-400">SOC Frontend Dashboard</span>
-                  <span className="text-cyan-400 font-mono font-medium">ACTIVE (Phase 8)</span>
+                  <span className="text-cyan-400 font-mono font-medium">ACTIVE</span>
                 </div>
               </div>
             </div>
@@ -194,7 +194,7 @@ export const FoundationPage: React.FC<FoundationPageProps> = ({ showHeader = fal
             <div className="mt-6 pt-4 border-t border-slate-900 flex items-center justify-between text-xs text-slate-500 font-mono">
               <span>Environment: Strict Python & Node.js</span>
               <span className="text-cyan-400 flex items-center gap-1">
-                <span>Phase 8 Ready</span>
+                <span>System Ready</span>
                 <ArrowRight className="w-3 h-3" />
               </span>
             </div>

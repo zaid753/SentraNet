@@ -43,7 +43,7 @@ export const SyntheticStreamControls: React.FC<SyntheticStreamControlsProps> = (
     });
   };
 
-  const handleQuickDemo = () => {
+  const handleQuickForward = () => {
     setProfile('scenario_1');
     setSpeed(10.0);
     setSeed(42);
@@ -122,7 +122,7 @@ export const SyntheticStreamControls: React.FC<SyntheticStreamControlsProps> = (
             <option value={1.0}>1x (Realtime Telemetry)</option>
             <option value={5.0}>5x Accelerated</option>
             <option value={10.0}>10x Accelerated (Default)</option>
-            <option value={25.0}>25x Fast Demo</option>
+            <option value={25.0}>25x Fast Forward</option>
             <option value={50.0}>50x High-Throughput</option>
           </select>
         </div>
@@ -144,10 +144,10 @@ export const SyntheticStreamControls: React.FC<SyntheticStreamControlsProps> = (
 
       {/* Control Buttons */}
       <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80">
-        {/* Quick Demo 10x */}
+        {/* Quick Forward 10x */}
         {canStart && (
           <button
-            onClick={handleQuickDemo}
+            onClick={handleQuickForward}
             disabled={isLoading}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs font-mono transition-colors shadow-sm disabled:opacity-50 cursor-pointer"
             title="Start Scenario 1 at 10x with seed 42"

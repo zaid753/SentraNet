@@ -42,14 +42,7 @@ if ! ps -p $BACKEND_PID > /dev/null; then
     exit 1
 fi
 
-echo "[3/4] Starting React Frontend (Port 5173)..."
-cd frontend
-npm run dev > /dev/null 2>&1 &
-FRONTEND_PID=$!
-cd ..
-echo "Frontend running with PID: $FRONTEND_PID"
-
-echo "[4/4] Starting Synthetic Deterministic Stream..."
+echo "[3/4] Skipping separate frontend launch (now served by backend directly on Port 8000)"
 # Wait a moment for frontend to bind
 sleep 2
 
@@ -67,7 +60,7 @@ echo ""
 echo "=========================================================="
 echo "    DEMO IS LIVE!                                         "
 echo "                                                          "
-echo "    Access the SOC Dashboard at: http://localhost:5173    "
+echo "    Access the SOC Dashboard at: http://localhost:8000    "
 echo "    API Documentation at:        http://127.0.0.1:8000/docs"
 echo "                                                          "
 echo "    Press Ctrl+C to stop all services.                    "
@@ -77,7 +70,6 @@ echo "=========================================================="
 function cleanup() {
     echo ""
     echo "Stopping services..."
-    kill $FRONTEND_PID 2>/dev/null || true
     kill $BACKEND_PID 2>/dev/null || true
     echo "Services stopped."
     exit 0

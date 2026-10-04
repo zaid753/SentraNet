@@ -39,7 +39,7 @@ export const ReplayControls: React.FC<ReplayControlsProps> = ({
     onStart({ mode, speed, dataset });
   };
 
-  const handleDemoReplay = () => {
+  const handleFastReplay = () => {
     setMode('realtime');
     setSpeed(10.0);
     setDataset('validation');
@@ -165,8 +165,8 @@ export const ReplayControls: React.FC<ReplayControlsProps> = ({
         
         <div className="flex items-center gap-2">
           {!isRunning && !isPaused && (
-            <button onClick={handleDemoReplay} disabled={isLoading} className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-cyan-800 text-cyan-400 hover:bg-cyan-950 font-mono text-[10px] font-bold cursor-pointer transition-all">
-              <FastForward className="w-3.5 h-3.5" /> DEMO (10x)
+            <button onClick={handleFastReplay} disabled={isLoading} className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-cyan-800 text-cyan-400 hover:bg-cyan-950 font-mono text-[10px] font-bold cursor-pointer transition-all">
+              <FastForward className="w-3.5 h-3.5" /> FAST FORWARD (10x)
             </button>
           )}
           <button onClick={onReset} disabled={isRunning || isLoading} className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-mono text-[10px] font-bold transition-all disabled:opacity-40 cursor-pointer">

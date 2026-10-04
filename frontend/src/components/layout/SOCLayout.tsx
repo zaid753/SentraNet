@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
-  Activity, Shield, Target, AlertTriangle, Clock, 
-  BarChart2, FileSearch, Database, Cpu, Settings, 
+import {
+  Activity, Shield, Target, AlertTriangle,
+  BarChart2, FileSearch, Database, Cpu, Settings,
   Menu, X, ChevronLeft, ChevronRight, Server
 } from 'lucide-react';
 import { cn } from '../../utils/formatters';
@@ -16,14 +16,13 @@ interface SOCLayoutProps {
 
 const navItems = [
   { id: 'dashboard', label: 'Overview', icon: Activity, group: 'OVERVIEW' },
-  
+
   { id: 'telemetry', label: 'Live Telemetry', icon: Database, group: 'MONITOR' },
   { id: 'traffic', label: 'Traffic Analysis', icon: Activity, group: 'MONITOR' },
   { id: 'threats', label: 'Threats', icon: Shield, group: 'MONITOR' },
 
   { id: 'incidents', label: 'Incidents', icon: Shield, group: 'INVESTIGATE' },
   { id: 'alerts', label: 'Alerts', icon: AlertTriangle, group: 'INVESTIGATE' },
-  { id: 'timeline', label: 'Attack Timeline', icon: Clock, group: 'INVESTIGATE' },
   { id: 'explainability', label: 'Evidence', icon: FileSearch, group: 'INVESTIGATE' },
 
   { id: 'forecast', label: 'Forecasting', icon: Target, group: 'INTELLIGENCE' },
@@ -51,17 +50,17 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
 
   return (
     <div className="flex h-screen bg-[var(--color-bg)] text-[var(--color-text-primary)] font-sans overflow-hidden selection:bg-blue-500/30 selection:text-blue-200">
-      
+
       {/* Mobile Sidebar Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Left Sidebar */}
-      <aside 
+      <aside
         className={cn(
           "fixed lg:static inset-y-0 left-0 z-50 flex flex-col bg-[var(--color-surface)] border-r border-[var(--color-border)] transition-all duration-300 ease-in-out",
           isSidebarOpen ? "w-64" : "w-20",
@@ -71,8 +70,8 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
         {/* Sidebar Header */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-[var(--color-border)]">
           <div className={cn("flex items-center gap-3 overflow-hidden", !isSidebarOpen && "justify-center w-full")}>
-            <div className="w-8 h-8 rounded bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0">
-              <Shield className="w-4 h-4 text-blue-400" />
+            <div className="w-8 h-8 rounded flex items-center justify-center shrink-0">
+              <img src="/logo.png" alt="SentraNet Logo" className="w-7 h-7 object-contain" />
             </div>
             {isSidebarOpen && (
               <div className="flex flex-col whitespace-nowrap">
@@ -82,7 +81,7 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
             )}
           </div>
           {isSidebarOpen && (
-            <button 
+            <button
               className="lg:hidden p-1 text-[var(--color-text-secondary)] hover:text-white"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -117,8 +116,8 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
                         }}
                         className={cn(
                           "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors group relative",
-                          isActive 
-                            ? "bg-blue-500/10 text-blue-400" 
+                          isActive
+                            ? "bg-blue-500/10 text-blue-400"
                             : "text-[var(--color-text-secondary)] hover:bg-[var(--color-elevated)] hover:text-[var(--color-text-primary)]",
                           !isSidebarOpen && "justify-center"
                         )}
@@ -128,7 +127,7 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
                         {isSidebarOpen && (
                           <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
                         )}
-                        
+
                         {isActive && isSidebarOpen && (
                           <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-500" />
                         )}
@@ -148,7 +147,7 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
               SIH26153
             </div>
           )}
-          <button 
+          <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="hidden lg:flex p-1.5 rounded bg-[var(--color-elevated)] hover:bg-slate-800 text-[var(--color-text-secondary)] hover:text-white border border-[var(--color-border)]"
           >
@@ -162,14 +161,14 @@ export const SOCLayout: React.FC<SOCLayoutProps> = ({ children, activeView, onVi
         {/* Mobile Header (Only visible on small screens) */}
         <header className="lg:hidden h-16 flex items-center justify-between px-4 bg-[var(--color-surface)] border-b border-[var(--color-border)] shrink-0">
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="p-1.5 -ml-1.5 text-[var(--color-text-secondary)] hover:text-white"
             >
               <Menu className="w-6 h-6" />
             </button>
             <div className="font-bold tracking-wider text-sm flex items-center gap-2">
-              <Shield className="w-4 h-4 text-blue-400" />
+              <img src="/logo.png" alt="SentraNet Logo" className="w-5 h-5 object-contain" />
               SENTRANET
             </div>
           </div>

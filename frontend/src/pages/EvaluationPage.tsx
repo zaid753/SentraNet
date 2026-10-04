@@ -330,7 +330,7 @@ export function EvaluationPage() {
               BENCHMARK EVALUATION — Frozen Models
             </h2>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-700/40 text-amber-400 uppercase">
-              Phase 10
+              V1.0
             </span>
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700/40 text-slate-400 uppercase">
               Zero Retraining

@@ -1,4 +1,4 @@
-import { ShieldAlert, RefreshCw, LayoutDashboard, Layers, FlaskConical } from 'lucide-react';
+import { RefreshCw, LayoutDashboard, Layers, FlaskConical } from 'lucide-react';
 import type { ConnectionState, ReplayStatusResponse } from '../../types';
 
 interface HeaderProps {
@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Left: Brand & Tagline */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-cyan-950/60 border border-cyan-800/60 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)] shrink-0">
-            <ShieldAlert className="w-5 h-5 text-cyan-400" />
+            <img src="/logo.png" alt="SentraNet Logo" className="w-6 h-6 object-contain" />
           </div>
           <div>
             <div className="flex items-center gap-2.5">
@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
                 SIH26153
               </span>
               <span className="hidden sm:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700/60 text-slate-400">
-                Phase 10
+                V1.0
               </span>
             </div>
             <p className="text-xs text-slate-400 tracking-wide mt-0.5 font-sans">
