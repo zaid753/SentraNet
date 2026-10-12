@@ -23,10 +23,10 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
       <div className="flex items-center gap-2.5">
         <Database className="w-4 h-4 text-cyan-400 shrink-0" />
         <div>
-          <div className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--color-text-primary)]">
             Telemetry Data Source
           </div>
-          <div className="text-[11px] text-slate-400 font-sans">
+          <div className="text-[11px] text-[var(--color-text-secondary)] font-sans">
             Select the active network telemetry stream feeding the SENTRANET AI Core
           </div>
         </div>
@@ -39,8 +39,8 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           onClick={() => onSelectSource('historical')}
           className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
             currentSource === 'historical'
-              ? 'bg-cyan-500/20 border-cyan-500/60 text-cyan-200 font-bold shadow-sm'
-              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+              ? 'bg-cyan-500/20 border-cyan-500/60 text-cyan-700 dark:text-cyan-200 font-bold shadow-sm'
+              : 'bg-[var(--color-surface)] dark:bg-slate-900 border-[var(--color-border)] dark:border-slate-800 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-slate-400 dark:hover:border-slate-700'
           }`}
         >
           <Database className="w-3.5 h-3.5 text-cyan-400" />
@@ -48,7 +48,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           {isHistoricalRunning && (
             <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
           )}
-          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800/40">
+          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-100 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-400 border border-cyan-300 dark:border-cyan-800/40">
             AVAILABLE
           </span>
         </button>
@@ -58,8 +58,8 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           onClick={() => onSelectSource('synthetic')}
           className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
             currentSource === 'synthetic'
-              ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-200 font-bold shadow-sm'
-              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+              ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-700 dark:text-emerald-200 font-bold shadow-sm'
+              : 'bg-[var(--color-surface)] dark:bg-slate-900 border-[var(--color-border)] dark:border-slate-800 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-slate-400 dark:hover:border-slate-700'
           }`}
         >
           <Activity className="w-3.5 h-3.5 text-emerald-400" />
@@ -67,7 +67,7 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           {isSyntheticRunning && (
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           )}
-          <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
+          <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800/40">
             AVAILABLE
           </span>
         </button>
@@ -77,8 +77,8 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           onClick={() => onSelectSource('live')}
           className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
             currentSource === 'live'
-              ? 'bg-red-500/20 border-red-500/60 text-red-200 font-bold shadow-sm'
-              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+              ? 'bg-red-500/20 border-red-500/60 text-red-700 dark:text-red-200 font-bold shadow-sm'
+              : 'bg-[var(--color-surface)] dark:bg-slate-900 border-[var(--color-border)] dark:border-slate-800 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-slate-400 dark:hover:border-slate-700'
           }`}
         >
           <Radio className="w-3.5 h-3.5 text-red-400" />
@@ -88,8 +88,8 @@ export const DataSourceSelector: React.FC<DataSourceSelectorProps> = ({
           )}
           <span className={`text-[9px] px-1.5 py-0.2 rounded border ${
             currentSource === 'live' 
-            ? 'bg-red-950/80 text-red-400 border-red-800/40' 
-            : 'bg-slate-900 text-slate-500 border-slate-800'
+            ? 'bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-400 border-red-300 dark:border-red-800/40' 
+            : 'bg-[var(--color-surface)] dark:bg-slate-900 text-[var(--color-text-secondary)] border-[var(--color-border)] dark:border-slate-800'
           }`}>
             EXPERIMENTAL
           </span>

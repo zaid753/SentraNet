@@ -290,38 +290,38 @@ export const DashboardPage: React.FC<{ section?: string }> = ({ section }) => {
 
       {section === 'integrations' && (
         <div className="space-y-6 max-w-4xl">
-          <div className="text-sm font-mono text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-800 pb-2">Third-Party Integrations</div>
+          <div className="text-sm font-mono text-[var(--color-text-secondary)] uppercase tracking-widest mb-4 border-b border-[var(--color-border)] pb-2">Third-Party Integrations</div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Slack Integration */}
             <div className={`p-5 rounded-xl border flex flex-col transition-all duration-300 ${
               slackStatus === 'connected' 
-                ? 'border-blue-500/30 bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
-                : 'border-slate-800 bg-slate-900/50 opacity-60 hover:opacity-100'
+                ? 'border-blue-500/50 bg-blue-50 dark:bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                : 'border-[var(--color-border)] bg-[var(--color-surface)] dark:bg-slate-900/50 opacity-60 hover:opacity-100'
             }`}>
               <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center">
-                  <div className={`w-5 h-5 rounded ${slackStatus === 'connected' ? 'bg-blue-500' : 'bg-slate-600'}`} />
+                <div className="w-10 h-10 rounded bg-[var(--color-elevated)] dark:bg-slate-800 flex items-center justify-center">
+                  <div className={`w-5 h-5 rounded ${slackStatus === 'connected' ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
                 </div>
                 <span className={`px-2 py-1 rounded text-[10px] font-mono border ${
                   slackStatus === 'connected' 
-                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800' 
+                    ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800' 
                     : slackStatus === 'connecting'
-                    ? 'bg-amber-950 text-amber-400 border-amber-800'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                    ? 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800'
+                    : 'bg-[var(--color-elevated)] dark:bg-slate-800 text-[var(--color-text-secondary)] border-[var(--color-border)] dark:border-slate-700'
                 }`}>
                   {slackStatus === 'connected' ? 'CONNECTED' : slackStatus === 'connecting' ? 'CONNECTING...' : 'DISCONNECTED'}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-slate-200">Slack</h3>
-              <p className="text-sm text-slate-400 mt-1 flex-1">Send alerts and daily summaries directly to a Slack channel.</p>
+              <h3 className="text-base font-bold text-[var(--color-text-primary)]">Slack</h3>
+              <p className="text-sm text-[var(--color-text-secondary)] mt-1 flex-1">Send alerts and daily summaries directly to a Slack channel.</p>
               <button 
                 onClick={() => handleConnectIntegration('slack')}
                 disabled={slackStatus === 'connecting'}
                 className={`mt-4 px-3 py-1.5 text-sm font-medium rounded transition-colors self-start cursor-pointer ${
                   slackStatus === 'connected'
-                    ? 'text-rose-400 border border-rose-900 hover:bg-rose-950/30'
-                    : 'text-blue-400 border border-blue-900 hover:bg-blue-950/30'
+                    ? 'text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-900 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                    : 'text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950/30'
                 } ${slackStatus === 'connecting' ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {slackStatus === 'connected' ? 'Disconnect' : slackStatus === 'connecting' ? 'Connecting...' : 'Connect'}
@@ -331,32 +331,32 @@ export const DashboardPage: React.FC<{ section?: string }> = ({ section }) => {
             {/* Jira Integration */}
             <div className={`p-5 rounded-xl border flex flex-col transition-all duration-300 ${
               jiraStatus === 'connected' 
-                ? 'border-blue-500/30 bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
-                : 'border-slate-800 bg-slate-900/50 opacity-60 hover:opacity-100'
+                ? 'border-blue-500/50 bg-blue-50 dark:bg-blue-900/10 opacity-100 shadow-[0_0_15px_rgba(59,130,246,0.15)]' 
+                : 'border-[var(--color-border)] bg-[var(--color-surface)] dark:bg-slate-900/50 opacity-60 hover:opacity-100'
             }`}>
               <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 rounded bg-slate-800 flex items-center justify-center">
-                  <div className={`w-5 h-5 rounded ${jiraStatus === 'connected' ? 'bg-blue-600' : 'bg-slate-600'}`} />
+                <div className="w-10 h-10 rounded bg-[var(--color-elevated)] dark:bg-slate-800 flex items-center justify-center">
+                  <div className={`w-5 h-5 rounded ${jiraStatus === 'connected' ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-600'}`} />
                 </div>
                 <span className={`px-2 py-1 rounded text-[10px] font-mono border ${
                   jiraStatus === 'connected' 
-                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800' 
+                    ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-800' 
                     : jiraStatus === 'connecting'
-                    ? 'bg-amber-950 text-amber-400 border-amber-800'
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
+                    ? 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-800'
+                    : 'bg-[var(--color-elevated)] dark:bg-slate-800 text-[var(--color-text-secondary)] border-[var(--color-border)] dark:border-slate-700'
                 }`}>
                   {jiraStatus === 'connected' ? 'CONNECTED' : jiraStatus === 'connecting' ? 'CONNECTING...' : 'DISCONNECTED'}
                 </span>
               </div>
-              <h3 className="text-base font-bold text-slate-200">Jira Software</h3>
-              <p className="text-sm text-slate-400 mt-1 flex-1">Automatically create Jira tickets for high-severity alerts.</p>
+              <h3 className="text-base font-bold text-[var(--color-text-primary)]">Jira Software</h3>
+              <p className="text-sm text-[var(--color-text-secondary)] mt-1 flex-1">Automatically create Jira tickets for high-severity alerts.</p>
               <button 
                 onClick={() => handleConnectIntegration('jira')}
                 disabled={jiraStatus === 'connecting'}
                 className={`mt-4 px-3 py-1.5 text-sm font-medium rounded transition-colors self-start cursor-pointer ${
                   jiraStatus === 'connected'
-                    ? 'text-rose-400 border border-rose-900 hover:bg-rose-950/30'
-                    : 'text-blue-400 border border-blue-900 hover:bg-blue-950/30'
+                    ? 'text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-900 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                    : 'text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-900 hover:bg-blue-50 dark:hover:bg-blue-950/30'
                 } ${jiraStatus === 'connecting' ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {jiraStatus === 'connected' ? 'Disconnect' : jiraStatus === 'connecting' ? 'Connecting...' : 'Connect'}

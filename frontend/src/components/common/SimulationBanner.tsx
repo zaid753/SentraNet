@@ -21,16 +21,16 @@ export const SimulationBanner: React.FC<SimulationBannerProps> = ({
       aria-label="Simulation Environment Disclosure"
       className={`rounded-lg px-4 py-2.5 ${
         isSynthetic
-          ? 'bg-emerald-950/30 border border-emerald-800/40 text-emerald-200'
-          : 'bg-amber-950/30 border border-amber-800/40 text-amber-200'
+          ? 'bg-emerald-100 dark:bg-emerald-950/30 border border-emerald-300 dark:border-emerald-800/40 text-emerald-800 dark:text-emerald-200'
+          : 'bg-amber-100 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/40 text-amber-800 dark:text-amber-200'
       } flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-mono ${className}`}
     >
       <div className="flex items-center gap-2.5">
         <div
           className={`p-1 rounded border shrink-0 ${
             isSynthetic
-              ? 'bg-emerald-900/50 border-emerald-700/50 text-emerald-400'
-              : 'bg-amber-900/50 border-amber-700/50 text-amber-400'
+              ? 'bg-emerald-200 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-700/50 text-emerald-700 dark:text-emerald-400'
+              : 'bg-amber-200 dark:bg-amber-900/50 border-amber-400 dark:border-amber-700/50 text-amber-700 dark:text-amber-400'
           }`}
         >
           {isSynthetic ? (
@@ -42,14 +42,14 @@ export const SimulationBanner: React.FC<SimulationBannerProps> = ({
         <div>
           <span
             className={`font-semibold tracking-wider mr-2 ${
-              isSynthetic ? 'text-emerald-300' : 'text-amber-300'
+              isSynthetic ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'
             }`}
           >
             {isSynthetic
               ? 'SYNTHETIC STREAM // SIMULATION'
               : 'REAL DATASET EXPERIMENT'}
           </span>
-          <span className={isSynthetic ? 'text-emerald-200/80' : 'text-amber-200/80'}>
+          <span className={isSynthetic ? 'text-emerald-700 dark:text-emerald-200/80' : 'text-amber-700 dark:text-amber-200/80'}>
             {isSynthetic
               ? 'Network telemetry is dynamically generated metadata feeding 60s feature aggregation. No packet payloads are captured.'
               : `CIC-IDS2017 HISTORICAL REPLAY - NOT LIVE NETWORK TRAFFIC`}
@@ -61,8 +61,8 @@ export const SimulationBanner: React.FC<SimulationBannerProps> = ({
         <span
           className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded border text-[11px] ${
             isSynthetic
-              ? 'bg-emerald-900/40 border-emerald-700/40 text-emerald-300'
-              : 'bg-amber-900/40 border-amber-700/40 text-amber-300'
+              ? 'bg-emerald-200 dark:bg-emerald-900/40 border-emerald-400 dark:border-emerald-700/40 text-emerald-700 dark:text-emerald-300'
+              : 'bg-amber-200 dark:bg-amber-900/40 border-amber-400 dark:border-amber-700/40 text-amber-700 dark:text-amber-300'
           }`}
         >
           {isRunning ? (

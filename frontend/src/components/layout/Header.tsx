@@ -1,5 +1,6 @@
 import { RefreshCw, LayoutDashboard, Layers, FlaskConical } from 'lucide-react';
 import type { ConnectionState, ReplayStatusResponse } from '../../types';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface HeaderProps {
   connectionState: ConnectionState;
@@ -121,13 +122,16 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
-              className="p-1.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-all cursor-pointer disabled:opacity-50"
+              className="p-1.5 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)] text-slate-400 hover:text-[var(--color-text-primary)] hover:border-slate-500 transition-all cursor-pointer disabled:opacity-50"
               title="Refresh all metrics"
               aria-label="Refresh telemetry"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-cyan-400' : ''}`} />
             </button>
           )}
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
         </div>
       </div>
     </header>

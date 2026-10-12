@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Server, Activity, Clock, Wifi, WifiOff, RefreshCw } from 'lucide-react';
+import { Server, Activity, Clock, Wifi, WifiOff, RefreshCw, Home } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { SystemStatus } from '../../types';
 import { useRealtime } from '../../context/RealtimeContext';
 import { useModelRegistry } from '../../hooks/useModelRegistry';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface TopCommandHeaderProps {
   status: SystemStatus | null;
@@ -11,6 +13,7 @@ interface TopCommandHeaderProps {
 
 export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLoading = false }) => {
   const isReady = status?.status === 'ready' || status?.status === 'ok';
+  const navigate = useNavigate();
   
   const [currentTime, setCurrentTime] = useState(new Date());
   const { status: wsStatus } = useRealtime();
@@ -27,7 +30,7 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
       {/* Left: Branding & Status */}
       <div className="flex items-center gap-6">
         <div className="flex flex-col">
-          <h1 className="text-lg font-bold tracking-tight text-white leading-none">SENTRANET</h1>
+          <h1 className="text-lg font-bold tracking-tight text-[var(--color-text-primary)] leading-none">SENTRANET</h1>
           <span className="text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)] mt-0.5">
             Security Intelligence Platform
           </span>
@@ -123,6 +126,16 @@ export const TopCommandHeader: React.FC<TopCommandHeaderProps> = ({ status, isLo
             {currentTime.toLocaleTimeString('en-US', { hour12: false, timeZoneName: 'short' })}
           </span>
         </div>
+        
+        {/* Back to Home & Theme Toggle */}
+        <button
+          onClick={() => navigate('/')}
+          className="p-1.5 rounded-md bg-[var(--color-surface)] border border-[var(--color-border)] text-slate-400 hover:text-[var(--color-text-primary)] hover:border-slate-500 transition-all cursor-pointer"
+          title="Back to Landing Page"
+        >
+          <Home className="w-4 h-4" />
+        </button>
+        <ThemeToggle />
       </div>
       
     </header>

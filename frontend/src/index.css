@@ -5,16 +5,21 @@
   --color-surface: #0C1220;
   --color-elevated: #111827;
   --color-border: #1E293B;
-  
+
   --color-text-primary: #F1F5F9;
   --color-text-secondary: #94A3B8;
 
-  --color-status-low: #10b981; /* muted green */
-  --color-status-guarded: #3b82f6; /* blue */
-  --color-status-elevated: #f59e0b; /* amber */
-  --color-status-high: #ef4444; /* red */
-  --color-status-forecast: #8b5cf6; /* violet accent */
-  
+  --color-status-low: #10b981;
+  /* muted green */
+  --color-status-guarded: #3b82f6;
+  /* blue */
+  --color-status-elevated: #f59e0b;
+  /* amber */
+  --color-status-high: #ef4444;
+  /* red */
+  --color-status-forecast: #8b5cf6;
+  /* violet accent */
+
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
@@ -31,7 +36,9 @@
     font-family: var(--font-sans);
   }
 
-  code, pre, .font-mono {
+  code,
+  pre,
+  .font-mono {
     font-family: var(--font-mono);
   }
 }
